@@ -212,7 +212,7 @@ doh.mullvad.net
 #Ads-Blocking: 
 adblock.doh.mullvad.net
 
-41.Arapurayil DNS: 
+41. Arapurayil DNS: 
 dns.arapurayil.com 
 
 42. Dandelion Sprout's Official DNS Server:
