@@ -1,0 +1,40 @@
+! Title: ShortsGuard — DNS Hard Block (AdGuard Home)
+! DNS filtering only: AdGuard Home cannot hide page elements.
+! Blocks whole apps (TikTok / Likee / Kwai / SnackVideo).
+! Facebook, Messenger, Instagram and YouTube are NOT touched.
+! Add a blocklist URL in AdGuard Home -> Filters -> DNS blocklists,
+! or paste these rules into Filters -> Custom filtering rules.
+
+! ===== TikTok =====
+||tiktok.com^
+||tiktokv.com^
+||tiktokv.us^
+||tiktokcdn.com^
+||tiktokcdn-us.com^
+||tiktokcdn-eu.com^
+||musical.ly^
+||byteoversea.com^
+||ibytedtos.com^
+||ibytedapm.com^
+
+! ===== Likee =====
+||likee.video^
+||likee.com^
+||bigo.tv^
+||bigo.sg^
+
+! ===== Kwai =====
+||kwai.com^
+||kwai.net^
+||kuaishou.com^
+||gifshow.com^
+
+! ===== SnackVideo =====
+||snackvideo.com^
+||snackvideo.mobi^
+
+! ===== Allowlist (safety net) =====
+@@||messenger.com^
+@@||facebook.com^
+@@||instagram.com^
+@@||youtube.com^

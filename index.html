@@ -3,78 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Private DNS Server List — Encrypted DNS for Android, Windows, macOS &amp; Linux</title>
-<meta name="description" content="A curated, searchable list of 85+ public DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) endpoints: ad-blocking, family-safe, malware-filtering and privacy-first resolvers. Works with Android Private DNS and all major OSes.">
+<title>Private DNS Server List — live-verified DoT &amp; DoH + ShortsGuard</title>
+<meta name="description" content="Live-verified free DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) resolvers for Android, Windows, macOS, iOS, Linux and routers — plus ShortsGuard: block Facebook Reels, Instagram Reels and YouTube Shorts while keeping Messenger, feeds and normal videos.">
 <meta name="theme-color" content="#0d1117">
-<meta property="og:title" content="Private DNS Server List">
-<meta property="og:description" content="Searchable, copy-paste-ready list of public encrypted DNS endpoints (DoT/DoH) with filters for ads, malware, adult content and social media.">
+<meta property="og:title" content="Private DNS Server List + ShortsGuard">
+<meta property="og:description" content="Every endpoint live-checked. Filter ads, malware and adult content — and hide Reels/Shorts without losing Facebook, Instagram, YouTube or Messenger.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 <style>
 :root{
   --bg:#0d1117; --bg-soft:#161b22; --card:#161b22; --card-hover:#1c2330;
   --border:#2d333b; --text:#e6edf3; --text-dim:#9da7b3; --accent:#58a6ff;
-  --accent-2:#3fb950; --chip:#21262d; --shadow:0 8px 24px rgba(0,0,0,.35);
+  --accent-2:#3fb950; --warn:#d29922; --bad:#f85149; --chip:#21262d;
+  --shadow:0 8px 24px rgba(0,0,0,.35);
   --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
 }
 [data-theme="light"]{
   --bg:#f6f8fa; --bg-soft:#ffffff; --card:#ffffff; --card-hover:#f0f3f6;
   --border:#d0d7de; --text:#1f2328; --text-dim:#57606a; --accent:#0969da;
-  --accent-2:#1a7f37; --chip:#eaeef2; --shadow:0 8px 24px rgba(140,149,159,.3);
+  --accent-2:#1a7f37; --warn:#9a6700; --bad:#cf222e; --chip:#eaeef2;
+  --shadow:0 8px 24px rgba(140,149,159,.3);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;transition:background .25s,color .25s}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
+code,kbd,pre{font-family:var(--mono)}
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+.bn{color:var(--text-dim);font-size:.86rem;border-left:3px solid var(--border);padding-left:10px;margin-top:8px}
 
-/* ---------- header ---------- */
+/* header + tabs */
 header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--bg-soft),transparent)}
 .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
 .brand .logo{font-size:1.5rem}
 .topbar-actions{display:flex;align-items:center;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--chip);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.85rem;cursor:pointer;font-weight:600;transition:transform .12s,border-color .2s}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--chip);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.85rem;cursor:pointer;font-weight:600;transition:transform .12s,border-color .2s;font-family:inherit}
 .btn:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-1px)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#0d1117}
+.btn.small{padding:5px 10px;font-size:.78rem}
 .icon-btn{width:38px;height:38px;justify-content:center;padding:0;font-size:1.05rem}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:1px solid transparent;background:transparent;color:var(--text-dim);padding:8px 14px;border-radius:8px;font-size:.9rem;font-weight:650;cursor:pointer;white-space:nowrap;font-family:inherit}
+.tab:hover{color:var(--text);background:var(--chip)}
+.tab[aria-selected="true"]{color:var(--text);background:var(--chip);border-color:var(--border)}
 
-.hero{text-align:center;padding:56px 0 34px}
-.hero h1{font-size:clamp(1.8rem,4.5vw,3rem);letter-spacing:-.03em;line-height:1.15;background:linear-gradient(120deg,#58a6ff 0%,#3fb950 55%,#d2a8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{color:var(--text-dim);max-width:640px;margin:16px auto 0;font-size:1.02rem}
+/* hero */
+.hero{text-align:center;padding:44px 0 26px}
+.hero h1{font-size:clamp(1.8rem,4.5vw,2.9rem);letter-spacing:-.03em;line-height:1.15;background:linear-gradient(120deg,#58a6ff 0%,#3fb950 55%,#d2a8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--text-dim);max-width:720px;margin:16px auto 0;font-size:1.01rem}
 .stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
 .stat{background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:6px 16px;font-size:.83rem;color:var(--text-dim)}
 .stat b{color:var(--text)}
+.stat.good b{color:var(--accent-2)}
 
-/* ---------- toolbar ---------- */
-.toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 0;border-bottom:1px solid var(--border)}
+/* toolbar */
+.toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 0;border-bottom:1px solid var(--border)}
 .search-row{display:flex;gap:10px;align-items:center}
 .search{flex:1;display:flex;align-items:center;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:0 14px;height:46px;transition:border-color .2s}
 .search:focus-within{border-color:var(--accent)}
-.search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:1rem;height:100%}
+.search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:1rem;height:100%;font-family:inherit}
 .search input::placeholder{color:var(--text-dim)}
 .search kbd{border:1px solid var(--border);border-radius:5px;padding:1px 7px;font-size:.75rem;color:var(--text-dim);background:var(--chip)}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.chip{border:1px solid var(--border);background:var(--chip);color:var(--text-dim);border-radius:999px;padding:5px 14px;font-size:.8rem;cursor:pointer;transition:all .15s;font-weight:600}
+.chip{border:1px solid var(--border);background:var(--chip);color:var(--text-dim);border-radius:999px;padding:5px 14px;font-size:.8rem;cursor:pointer;transition:all .15s;font-weight:600;font-family:inherit}
 .chip:hover{color:var(--text);border-color:var(--accent)}
 .chip.active{background:var(--accent);border-color:var(--accent);color:#0d1117}
-.result-count{color:var(--text-dim);font-size:.83rem;margin-top:10px;min-height:1.2em}
+.result-count{color:var(--text-dim);font-size:.83rem;margin-top:10px;min-height:1.2em;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.check{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;color:var(--text-dim);cursor:pointer;user-select:none}
+.check input{accent-color:var(--accent)}
 
-/* ---------- cards ---------- */
-main{padding:28px 0 60px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+/* cards */
+main{padding:26px 0 60px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px}
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.card-head h2{font-size:1.05rem;letter-spacing:-.01em}
+.card-head h2{font-size:1.05rem;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .card-head a.site{font-size:.72rem;color:var(--text-dim);white-space:nowrap}
-.card-notes{color:var(--text-dim);font-size:.8rem;margin-top:2px}
+.card-notes{color:var(--text-dim);font-size:.8rem;margin-top:3px}
+.privacy{font-size:.65rem;font-weight:800;border-radius:5px;padding:2px 7px;border:1px solid var(--border);color:var(--text-dim);text-transform:uppercase;letter-spacing:.03em}
+.privacy.no-log{color:#7ee787;border-color:#17492c;background:#0d2818}
+.privacy.minimal-log{color:#f0a35e;border-color:#6e3a0a;background:#3b2304}
+.privacy.unknown{color:#9da7b3}
 .endpoint{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--bg-soft)}
 .endpoint + .endpoint{margin-top:8px}
-.ep-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.host{font-family:var(--mono);font-size:.83rem;word-break:break-all;color:var(--text)}
-.copy-btn{flex-shrink:0;border:1px solid var(--border);background:transparent;color:var(--text-dim);border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:.85rem;transition:all .15s}
-.copy-btn:hover{color:#3fb950;border-color:#3fb950}
+.ep-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.host{font-family:var(--mono);font-size:.84rem;word-break:break-all;color:var(--text)}
+.copy-btn{flex-shrink:0;border:1px solid var(--border);background:transparent;color:var(--text-dim);border-radius:6px;min-width:30px;height:30px;padding:0 7px;cursor:pointer;font-size:.85rem;transition:all .15s}
+.copy-btn:hover{color:var(--accent-2);border-color:var(--accent-2)}
 .ep-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}
 .tag{font-size:.68rem;border-radius:5px;padding:2px 8px;font-weight:700;letter-spacing:.02em;border:1px solid transparent}
 .tag-none{background:#21262d;color:#9da7b3;border-color:#30363d}
@@ -92,16 +111,107 @@ main{padding:28px 0 60px}
 [data-theme="light"] .tag-proto{background:#dafbe1;color:#1a7f37;border-color:#aceebb}
 .ep-label{font-size:.75rem;color:var(--text-dim);margin-top:6px}
 .ep-note{font-size:.72rem;color:var(--text-dim);opacity:.85;margin-top:4px;font-style:italic}
+.ep-extra{display:flex;gap:8px;flex-wrap:wrap;margin-top:7px;font-size:.72rem;color:var(--text-dim);align-items:center}
+.ep-extra code{background:var(--chip);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:.7rem;word-break:break-all}
+.health{font-size:.68rem;font-weight:800;border-radius:999px;padding:2px 9px;border:1px solid;white-space:nowrap}
+.health-live{color:#7ee787;border-color:#17492c;background:#0d2818}
+.health-partial{color:#f0a35e;border-color:#6e3a0a;background:#3b2304}
+.health-dead{color:#ff7b72;border-color:#6e2428;background:#3d1214}
+[data-theme="light"] .health-live{background:#dafbe1;color:#1a7f37;border-color:#aceebb}
+[data-theme="light"] .health-partial{background:#fff1e5;color:#bc4c00;border-color:#ffd8b5}
+[data-theme="light"] .health-dead{background:#ffebe9;color:#cf222e;border-color:#ffb3ad}
 .empty{text-align:center;color:var(--text-dim);padding:60px 20px;display:none}
 .empty.show{display:block}
 
-/* ---------- footer ---------- */
+/* shared section blocks */
+.section{padding:8px 0 30px}
+.section h2{font-size:1.45rem;letter-spacing:-.02em;margin-bottom:6px}
+.section .lead{color:var(--text-dim);max-width:820px;margin-bottom:18px}
+.notice{border:1px solid var(--border);border-left:4px solid var(--warn);background:var(--bg-soft);border-radius:10px;padding:16px 18px;margin:14px 0}
+.notice h3{font-size:1rem;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.notice p{color:var(--text-dim);font-size:.9rem}
+.notice.good{border-left-color:var(--accent-2)}
+.notice.bad{border-left-color:var(--bad)}
+
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:8px}
+.profile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow)}
+.profile.recommended{border-color:var(--accent-2)}
+.profile h3{font-size:1.05rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{font-size:.63rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 9px;background:var(--chip);border:1px solid var(--border);color:var(--text-dim)}
+.badge.rec{background:#0d2818;color:#7ee787;border-color:#17492c}
+.profile p{font-size:.86rem;color:var(--text-dim)}
+.profile ul{list-style:none;display:flex;flex-direction:column;gap:5px;font-size:.82rem;color:var(--text-dim)}
+.profile li::before{content:"›";color:var(--accent);margin-right:7px;font-weight:800}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag-block{background:#3d1214;color:#ff7b72;border-color:#6e2428}
+.tag-keep{background:#0d2818;color:#7ee787;border-color:#17492c}
+.profile .install{font-size:.76rem;color:var(--text-dim);border-top:1px solid var(--border);padding-top:9px;margin-top:auto}
+
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:.84rem;min-width:720px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--bg-soft);font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim)}
+tr:last-child td{border-bottom:none}
+td.ok{color:var(--accent-2);font-weight:700}
+td.no{color:var(--bad);font-weight:700}
+td.meh{color:var(--warn);font-weight:700}
+
+.segmented{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 10px}
+.seg{border:1px solid var(--border);background:var(--chip);color:var(--text-dim);border-radius:8px;padding:6px 12px;font-size:.8rem;font-weight:650;cursor:pointer;font-family:inherit}
+.seg[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#0d1117}
+.codebox{position:relative;border:1px solid var(--border);border-radius:12px;background:#0b0f14;overflow:hidden}
+[data-theme="light"] .codebox{background:#f6f8fa}
+.codebox .code-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--bg-soft)}
+.codebox .code-head span{font-size:.75rem;color:var(--text-dim);font-weight:700}
+.codebox pre{padding:14px;overflow:auto;max-height:360px;font-size:.76rem;line-height:1.5;color:var(--text);white-space:pre}
+.code-actions{display:flex;gap:6px;flex-wrap:wrap}
+
+.guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:8px}
+.guide{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.guide h3{font-size:.95rem;margin-bottom:8px}
+.guide ol{padding-left:18px;font-size:.84rem;color:var(--text-dim);display:flex;flex-direction:column;gap:5px}
+
+/* advisor */
+.advisor{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:18px;align-items:start}
+@media (max-width:860px){.advisor{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.8rem;font-weight:700;margin-bottom:5px;color:var(--text-dim)}
+.field select,.field input[type=text]{width:100%;background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:9px 11px;font-size:.9rem;font-family:inherit}
+.field select:focus,.field input:focus{outline:none;border-color:var(--accent)}
+.goals{display:flex;flex-wrap:wrap;gap:8px}
+.goal{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--bg-soft);border-radius:999px;padding:5px 11px;font-size:.78rem;color:var(--text-dim);cursor:pointer}
+.goal input{accent-color:var(--accent)}
+.results{display:flex;flex-direction:column;gap:14px}
+.result{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.result.top{border-color:var(--accent-2)}
+.result-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.result h3{font-size:1rem}
+.score{font-family:var(--mono);font-size:.75rem;color:var(--accent-2);border:1px solid #17492c;background:#0d2818;border-radius:999px;padding:2px 9px}
+.result .hostline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.result .why{list-style:none;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.result .why li{font-size:.72rem;color:var(--text-dim);background:var(--chip);border:1px solid var(--border);border-radius:5px;padding:2px 7px}
+.steps{margin-top:10px;font-size:.84rem;color:var(--text-dim)}
+.steps ol{padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.steps code{background:var(--chip);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:.78rem;word-break:break-all}
+
+/* guide */
+details{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:0;margin-bottom:10px;overflow:hidden}
+details summary{cursor:pointer;padding:14px 16px;font-weight:700;font-size:.94rem;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";color:var(--text-dim);font-weight:400;font-size:1.1rem}
+details[open] summary::after{content:"–"}
+details .body{padding:0 16px 16px;color:var(--text-dim);font-size:.86rem}
+details .body ol,details .body ul{padding-left:18px;display:flex;flex-direction:column;gap:6px}
+details .body pre{background:#0b0f14;border:1px solid var(--border);border-radius:8px;padding:12px;overflow:auto;font-size:.76rem;margin-top:8px;color:var(--text)}
+[data-theme="light"] details .body pre{background:#f6f8fa}
+
 footer{border-top:1px solid var(--border);padding:26px 0 40px;color:var(--text-dim);font-size:.83rem;text-align:center}
 footer p{margin:4px 0}
-
-/* ---------- toast ---------- */
-#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--accent-2);color:#08130c;font-weight:700;padding:10px 22px;border-radius:10px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;font-size:.9rem}
+#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--accent-2);color:#08130c;font-weight:700;padding:10px 22px;border-radius:10px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;font-size:.9rem;max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
+.hidden{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 @media (max-width:560px){
   .grid{grid-template-columns:1fr}
@@ -122,37 +232,297 @@ footer p{margin:4px 0}
         <button class="btn icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌓</button>
       </div>
     </div>
-    <div class="hero">
-      <h1>Encrypted DNS,<br>one tap away.</h1>
-      <p>A curated, searchable list of public DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) endpoints — ad-blocking, family-safe, malware-filtering and privacy-first. Paste one hostname into Android <b>Private DNS</b> and you&apos;re done.</p>
-      <div class="stats">
-        <span class="stat"><b id="statProviders">–</b> providers</span>
-        <span class="stat"><b id="statEndpoints">–</b> endpoints</span>
-        <span class="stat"><b>100% free</b> &amp; open</span>
-        <span class="stat">No account needed</span>
-      </div>
-    </div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tabbtn-resolvers" aria-controls="tab-resolvers" aria-selected="true" data-tab="resolvers">Resolvers</button>
+      <button class="tab" role="tab" id="tabbtn-guard" aria-controls="tab-guard" aria-selected="false" data-tab="guard">🚫 ShortsGuard</button>
+      <button class="tab" role="tab" id="tabbtn-advisor" aria-controls="tab-advisor" aria-selected="false" data-tab="advisor">🤖 Smart Advisor</button>
+      <button class="tab" role="tab" id="tabbtn-guide" aria-controls="tab-guide" aria-selected="false" data-tab="guide">Setup Guide</button>
+    </nav>
   </div>
 </header>
 
-<div class="toolbar">
+<!-- ============================== RESOLVERS ============================== -->
+<section id="tab-resolvers" role="tabpanel" aria-labelledby="tabbtn-resolvers">
   <div class="container">
-    <div class="search-row">
-      <label class="search" for="q">
-        <span style="margin-right:10px">🔍</span>
-        <input id="q" type="text" placeholder="Search by name, host, region or filter… ( / )" autocomplete="off" spellcheck="false" aria-label="Search DNS servers">
-        <kbd>/</kbd>
-      </label>
+    <div class="hero">
+      <h1>Encrypted DNS,<br>live-checked.</h1>
+      <p>Free public DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) endpoints, each one verified with a real DNS query. Paste a single hostname into Android <b>Private DNS</b> — or use the <b>Smart Advisor</b> if you are not sure which one.</p>
+      <div class="stats">
+        <span class="stat"><b id="statProviders">–</b> providers</span>
+        <span class="stat"><b id="statEndpoints">–</b> endpoints</span>
+        <span class="stat good"><b id="statLive">–</b> live now</span>
+        <span class="stat" id="statChecked">checked –</span>
+      </div>
     </div>
-    <div class="chips" id="chips" role="group" aria-label="Filter by capability"></div>
-    <div class="result-count" id="resultCount" aria-live="polite"></div>
   </div>
-</div>
 
-<main class="container">
-  <div class="grid" id="grid"></div>
-  <div class="empty" id="empty">No DNS servers match “<span id="emptyQuery"></span>”.<br>Try a different search or clear the filters.</div>
-</main>
+  <div class="toolbar">
+    <div class="container">
+      <div class="search-row">
+        <label class="search" for="q">
+          <span style="margin-right:10px">🔍</span>
+          <input id="q" type="text" placeholder="Search by name, host, region or filter… ( / )" autocomplete="off" spellcheck="false" aria-label="Search DNS servers">
+          <kbd>/</kbd>
+        </label>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Filter by capability"></div>
+      <div class="result-count">
+        <span id="resultCount" aria-live="polite"></span>
+        <label class="check"><input type="checkbox" id="hideDead" checked> hide dead endpoints</label>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">No DNS servers match “<span id="emptyQuery"></span>”.<br>Try a different search or clear the filters.</div>
+  </main>
+</section>
+
+<!-- ============================== SHORTSGUARD ============================== -->
+<section id="tab-guard" class="hidden" role="tabpanel" aria-labelledby="tabbtn-guard">
+  <div class="container section">
+    <h2>🚫 ShortsGuard — Facebook, YouTube, Instagram &amp; Messenger stay; Reels &amp; Shorts go</h2>
+    <p class="lead">A four-layer setup for the exact request: <b>Facebook works, Reels blocked · YouTube works, Shorts blocked · Instagram works, Reels blocked · TikTok works · Messenger works.</b></p>
+
+    <div class="notice bad">
+      <h3>⚠️ Read this first: DNS cannot block a path</h3>
+      <p id="limitEn"></p>
+      <p class="bn" id="limitBn"></p>
+    </div>
+
+    <div class="profile-grid" id="profiles"></div>
+
+    <h2 style="margin-top:30px">What actually happens to each app</h2>
+    <p class="lead">“DNS” = blockable with a resolver/blocklist. “Focus Mode” = the userscript / uBlock / extension.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>App</th><th>Surface</th><th>DNS</th><th>Focus Mode</th><th>DNS hard block</th><th>Note</th></tr></thead>
+        <tbody id="matrix"></tbody>
+      </table>
+    </div>
+
+    <h2 style="margin-top:30px">Copy-paste rules</h2>
+    <p class="lead">Same rules as the userscript, packaged for the blocker you already use. Cosmetic rules hide the Reels/Shorts surfaces; the DNS lists block whole apps only.</p>
+    <div class="segmented" id="ruleTabs" role="group" aria-label="Rule format"></div>
+    <div class="codebox">
+      <div class="code-head">
+        <span id="ruleTitle">uBlock Origin — cosmetic filters</span>
+        <div class="code-actions">
+          <button class="btn small" id="copyRules">📋 Copy rules</button>
+          <a class="btn small" id="downloadRules" href="#" download>⬇ Download</a>
+        </div>
+      </div>
+      <pre id="rulesPre"></pre>
+    </div>
+
+    <h2 style="margin-top:30px">Install in 2 minutes</h2>
+    <div class="guides" id="installGuides"></div>
+
+    <div class="notice good" style="margin-top:18px">
+      <h3>✅ Safety net</h3>
+      <p>ShortsGuard never touches <code>messenger.com</code>, <code>facebook.com/messages</code>, <code>instagram.com/direct</code> or any media CDN (<code>fbcdn.net</code>, <code>cdninstagram.com</code>, <code>googlevideo.com</code>). Those are the three domains people accidentally block and then wonder why photos, stories and chat attachments are broken.</p>
+      <p class="bn">ShortsGuard কখনোই Messenger, চ্যাট, ছবি/ভিডিও CDN ব্লক করে না — তাই Facebook/Instagram/YouTube-এর সাধারণ ব্যবহার অক্ষত থাকে।</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== ADVISOR ============================== -->
+<section id="tab-advisor" class="hidden" role="tabpanel" aria-labelledby="tabbtn-advisor">
+  <div class="container section">
+    <h2>🤖 Smart Advisor</h2>
+    <p class="lead">Answer seven questions and get a ranked resolver plus exact setup steps. The engine is a deterministic rules model that runs entirely in your browser — no account, no upload, no tracking. It also tells you when your goal is impossible at the DNS layer (Reels/Shorts) and hands you the working alternative.</p>
+    <p class="bn">সাতটি প্রশ্নের উত্তর দিন — আপনার ডিভাইস ও চাহিদা অনুযায়ী সেরা DNS এবং সেটআপ ধাপ দেখাবে। সবকিছু ব্রাউজারেই চলে, কোনো ডেটা কোথাও যায় না।</p>
+
+    <div class="advisor" style="margin-top:18px">
+      <form class="panel" id="advisorForm">
+        <div class="field">
+          <label for="advDevice">Where will you use it?</label>
+          <select id="advDevice">
+            <option value="android">Android (Private DNS / DoT)</option>
+            <option value="ios">iPhone / iPad (DNS profile / DoH app)</option>
+            <option value="windows">Windows 11 (DoH)</option>
+            <option value="macos">macOS</option>
+            <option value="linux">Linux (systemd-resolved / stubby)</option>
+            <option value="browser">Browser only (Chrome / Edge / Firefox)</option>
+            <option value="router">Router / whole network (AdGuard Home, OpenWrt)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="advRegion">Your region</label>
+          <select id="advRegion">
+            <option value="global">Global / anywhere</option>
+            <option value="bangladesh">Bangladesh / South Asia</option>
+            <option value="india">India</option>
+            <option value="singapore">Singapore / Southeast Asia</option>
+            <option value="indonesia">Indonesia</option>
+            <option value="japan">Japan / East Asia</option>
+            <option value="taiwan">Taiwan</option>
+            <option value="china">China</option>
+            <option value="hong-kong">Hong Kong</option>
+            <option value="russia">Russia / Central Asia</option>
+            <option value="europe">Europe</option>
+            <option value="switzerland">Switzerland</option>
+            <option value="germany">Germany</option>
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>What should it block?</label>
+          <div class="goals">
+            <label class="goal"><input type="checkbox" id="goalAds"> Ads &amp; trackers</label>
+            <label class="goal"><input type="checkbox" id="goalMalware" checked> Malware</label>
+            <label class="goal"><input type="checkbox" id="goalAdult"> Adult content</label>
+            <label class="goal"><input type="checkbox" id="goalSocial"> Social media (kills the apps)</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Apps that must keep working</label>
+          <div class="goals">
+            <label class="goal"><input type="checkbox" id="keepFacebook" checked> Facebook</label>
+            <label class="goal"><input type="checkbox" id="keepMessenger" checked> Messenger</label>
+            <label class="goal"><input type="checkbox" id="keepYoutube" checked> YouTube</label>
+            <label class="goal"><input type="checkbox" id="keepInstagram" checked> Instagram</label>
+            <label class="goal"><input type="checkbox" id="keepTiktok" checked> TikTok</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Extra preferences</label>
+          <div class="goals">
+            <label class="goal"><input type="checkbox" id="prefPrivacy"> No-log provider</label>
+            <label class="goal"><input type="checkbox" id="prefFocus" checked> Block Reels &amp; Shorts</label>
+          </div>
+        </div>
+        <button class="btn primary" type="submit" style="width:100%;justify-content:center">Find my setup →</button>
+      </form>
+
+      <div class="results" id="advisorResults" aria-live="polite">
+        <div class="panel"><p style="color:var(--text-dim);font-size:.9rem">Your recommendations will appear here.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== GUIDE ============================== -->
+<section id="tab-guide" class="hidden" role="tabpanel" aria-labelledby="tabbtn-guide">
+  <div class="container section">
+    <h2>Setup Guide</h2>
+    <p class="lead">Pick ONE hostname. Never paste the whole list. Hostnames marked <b>DoH only</b> do not work in Android Private DNS.</p>
+
+    <details open>
+      <summary>🇧🇩 বাংলা — ৬০ সেকেন্ডে সেটআপ</summary>
+      <div class="body">
+        <ol>
+          <li><b>শুধু একটি hostname</b> কপি করুন — পুরো লিস্ট নয়।</li>
+          <li>Android: <b>Settings → Network &amp; internet → Private DNS → Private DNS provider hostname</b> → পেস্ট → Save.</li>
+          <li>অ্যাড ব্লক করতে: <code>dns.adguard-dns.com</code></li>
+          <li>ফ্যামিলি-সেফ: <code>family.cloudflare-dns.com</code></li>
+          <li>ম্যালওয়্যার ব্লক: <code>security.cloudflare-dns.com</code></li>
+          <li>ফিল্টার ছাড়া: <code>1dot1dot1dot1.cloudflare-dns.com</code></li>
+          <li>Reels/Shorts বন্ধ করতে: উপরের <b>ShortsGuard</b> ট্যাব থেকে userscript ইনস্টল করুন। DNS দিয়ে Reels/Shorts ব্লক করা সম্ভব নয় — কারণ সেগুলো একই ডোমেইনের ভেতরের path।</li>
+        </ol>
+        <p style="margin-top:10px"><b>যাচাই:</b> <a href="https://1.1.1.1/help" target="_blank" rel="noopener">1.1.1.1/help</a> খুলে দেখুন “Using DNS over TLS (DoT)” লেখা আছে কি না।</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>📱 Android — Private DNS (DoT)</summary>
+      <div class="body">
+        <ol>
+          <li>Settings → Network &amp; internet → Private DNS.</li>
+          <li>Some phones: Settings → Connections → More connection settings → Private DNS.</li>
+          <li>Choose <b>Private DNS provider hostname</b>.</li>
+          <li>Paste one DoT hostname, e.g. <code>dns.adguard-dns.com</code>, and tap Save.</li>
+        </ol>
+        <p style="margin-top:8px">DoH-only hostnames (the ones tagged <b>DoH</b>) will show “can't be resolved” here — that is expected.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🍎 iPhone / iPad — DNS profile (DoH)</summary>
+      <div class="body">
+        <p>iOS has no Private DNS field. Use a DoH/DoT profile app such as <b>DNSecure</b> (free, open source) or install a <code>.mobileconfig</code> profile. Paste the endpoint's <b>DoH URL</b>, for example <code>https://dns.adguard-dns.com/dns-query</code>.</p>
+        <p style="margin-top:8px">ShortsGuard works in Safari through the userscript manager <b>Userscripts</b> (App Store) — install <code>guard/shorts-guard.user.js</code>.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🪟 Windows 11 — DNS over HTTPS</summary>
+      <div class="body">
+        <ol>
+          <li>Settings → Network &amp; internet → your connection → <b>DNS server assignment</b> → Edit.</li>
+          <li>Manual → enable IPv4 → Preferred DNS <code>1.1.1.1</code>, Alternate <code>1.0.0.1</code>.</li>
+          <li>Set <b>Preferred DNS encryption</b> to <b>Encrypted only (DNS over HTTPS)</b>.</li>
+          <li>Paste the DoH URL in the box that appears, e.g. <code>https://dns.google/dns-query</code>.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🍏 macOS — system DNS or DoH app</summary>
+      <div class="body">
+        <ol>
+          <li>System Settings → Network → your interface → Details… → DNS.</li>
+          <li>Add <code>1.1.1.1</code> and <code>1.0.0.1</code> (or the provider's IPv4 pair).</li>
+          <li>For encrypted DNS, install a DoH profile (DNSecure / Cloudflare 1.1.1.1 app) and paste the DoH URL.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>🐧 Linux — systemd-resolved or stubby</summary>
+      <div class="body">
+        <p>systemd-resolved drop-in (<code>/etc/systemd/resolved.conf.d/dns.conf</code>):</p>
+        <pre>[Resolve]
+DNS=9.9.9.9#dns.quad9.net 149.112.112.112#dns.quad9.net
+DNSOverTLS=yes
+DNSSEC=allow-downgrade</pre>
+        <p style="margin-top:8px">Then <code>sudo systemctl restart systemd-resolved</code> and check with <code>resolvectl status</code>.</p>
+        <p style="margin-top:8px">For DoH only, run <b>dnscrypt-proxy</b> or <b>cloudflared</b> and point <code>/etc/resolv.conf</code> at it.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🌐 Chrome / Edge / Brave / Firefox — Secure DNS</summary>
+      <div class="body">
+        <ol>
+          <li>Chrome/Edge/Brave: Settings → Privacy and security → Security → <b>Use secure DNS</b> → Custom.</li>
+          <li>Paste a DoH URL, e.g. <code>https://dns.google/dns-query</code> or <code>https://dns.adguard-dns.com/dns-query</code>.</li>
+          <li>Firefox: Settings → Privacy &amp; Security → DNS over HTTPS → Increased Protection → Custom.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>📶 Router / whole home network</summary>
+      <div class="body">
+        <ol>
+          <li><b>AdGuard Home</b> (recommended): set Upstream DNS to <code>https://dns.adguard-dns.com/dns-query</code> or <code>tls://dns.quad9.net</code>.</li>
+          <li><b>OpenWrt</b>: install <code>stubby</code>, set the upstream to a DoT hostname, point DHCP DNS at the router.</li>
+          <li><b>Stock router</b>: set DNS to the provider's IPv4 pair (e.g. <code>94.140.14.14</code> / <code>94.140.15.15</code>). Encryption is router→upstream only.</li>
+          <li>For Reels/Shorts on the whole network, use AdGuard Home's <b>DNS rewrites</b> only for whole apps — paths cannot be blocked. Add the ShortsGuard blocklists for app-level blocks.</li>
+        </ol>
+      </div>
+    </details>
+
+    <details>
+      <summary>❓ Why is there no DNS that blocks Reels/Shorts but keeps the app?</summary>
+      <div class="body">
+        <p>Because DNS answers “which IP serves <code>facebook.com</code>?” — it never sees the path. <code>facebook.com/reel/123</code>, <code>youtube.com/shorts/abc</code> and <code>instagram.com/reels/xyz</code> resolve to the exact same servers as the normal feed. Blocking <code>fbcdn.net</code>, <code>cdninstagram.com</code> or <code>googlevideo.com</code> would also break every photo, story, normal video and Messenger attachment.</p>
+        <p style="margin-top:8px">That is why ShortsGuard is a page-level guard (userscript / extension / cosmetic rules). It hides the surfaces and rewrites the URLs while the resolver keeps doing what DNS is good at: ads, malware, adult content, and whole-app blocks.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>🧪 How the live badges are produced</summary>
+      <div class="body">
+        <p><code>scripts/check_health.py</code> opens a TLS connection on port 853 and sends a real <code>example.com/A</code> query to every DoT endpoint, and POSTs an RFC 8484 query to every DoH URL. Results go to <code>data/health.json</code> and the site reads that snapshot.</p>
+        <p style="margin-top:8px">A red <b>dead</b> badge means the endpoint did not answer when the snapshot was taken — it may come back. A <b>partial</b> badge usually means DoT works but DoH needs HTTP/2.</p>
+      </div>
+    </details>
+  </div>
+</section>
 
 <footer>
   <div class="container">
@@ -164,133 +534,31 @@ footer p{margin:4px 0}
 
 <div id="toast" role="status">Copied to clipboard!</div>
 
-<script id="dns-data" type="application/json">{"schema":"dns-server-list/v1","title":"Private DNS Server List","updated":"2026-11-10","description":"A curated list of public DNS-over-TLS (DoT) / DNS-over-HTTPS (DoH) endpoints, mainly for Android Private DNS and other encrypted-DNS setups.","filters":{"none":"No filtering — pure resolver","ads":"Blocks advertising & trackers","malware":"Blocks malware / phishing domains","adult":"Blocks adult content","social":"Blocks social-media / distraction domains"},"protocols":{"dot":"DNS over TLS (port 853) — works with Android Private DNS","doh":"DNS over HTTPS (port 443) — works in browsers & OS DoH settings","dot+doh":"Supports both DoT and DoH on the same hostname"},"providers":[{"id":"cloudflare","name":"Cloudflare","website":"https://1.1.1.1/dns","notes":"Anycast, one of the fastest public resolvers.","hosts":[{"host":"1dot1dot1dot1.cloudflare-dns.com","label":"Standard (unfiltered)","protocol":"dot+doh","filters":["none"],"region":"global","notes":""},{"host":"family.cloudflare-dns.com","label":"Malware + Adult blocking","protocol":"dot+doh","filters":["malware","adult"],"region":"global","notes":"1.1.1.3 / 1.0.0.3"},{"host":"security.cloudflare-dns.com","label":"Malware blocking only","protocol":"dot+doh","filters":["malware"],"region":"global","notes":"1.1.1.2 / 1.0.0.2"}]},{"id":"google","name":"Google Public DNS","website":"https://developers.google.com/speed/public-dns","notes":"Anycast; 8.8.8.8 / 8.8.4.4 equivalent.","hosts":[{"host":"dns.google","label":"Standard (unfiltered)","protocol":"dot+doh","filters":["none"],"region":"global","notes":""}]},{"id":"quad9","name":"Quad9","website":"https://www.quad9.net","notes":"Non-profit; blocks known-malicious domains by default.","hosts":[{"host":"dns.quad9.net","label":"Standard (blocks malware)","protocol":"dot+doh","filters":["malware"],"region":"global","notes":"9.9.9.9 / 149.112.112.112"},{"host":"dns10.quad9.net","label":"Unfiltered (no blocking)","protocol":"dot+doh","filters":["none"],"region":"global","notes":"9.9.9.10 / 149.112.112.10"},{"host":"dns11.quad9.net","label":"ECS support (blocks malware)","protocol":"dot+doh","filters":["malware"],"region":"global","notes":"Sends EDNS Client Subnet; better CDN routing"}]},{"id":"cleanbrowsing","name":"CleanBrowsing","website":"https://cleanbrowsing.org","notes":"US-based family/security focused filters.","hosts":[{"host":"doh.cleanbrowsing.org","label":"Default","protocol":"doh","filters":["none"],"region":"global","notes":"DoH endpoint; see site for the matching filter"},{"host":"family-filter-dns.cleanbrowsing.org","label":"Family Filter","protocol":"dot+doh","filters":["adult"],"region":"global","notes":"Blocks adult content, mixed-content sites and proxies"},{"host":"adult-filter-dns.cleanbrowsing.org","label":"Adult Filter","protocol":"dot+doh","filters":["adult"],"region":"global","notes":"Blocks adult content only"},{"host":"security-filter-dns.cleanbrowsing.org","label":"Security Filter","protocol":"dot+doh","filters":["malware"],"region":"global","notes":"Blocks phishing, malware and C2 domains"}]},{"id":"nextdns","name":"NextDNS","website":"https://nextdns.io","notes":"Freemium, configurable blocklists. These are the built-in public endpoints.","hosts":[{"host":"dns.nextdns.io","label":"Ultra-low latency","protocol":"dot+doh","filters":["none"],"region":"global","notes":"Create an account for custom blocklists (recommended)"},{"host":"anycast.dns.nextdns.io","label":"Anycast","protocol":"dot+doh","filters":["none"],"region":"global","notes":""}]},{"id":"adguard","name":"AdGuard DNS","website":"https://adguard-dns.com","notes":"Blocks ads and trackers at the DNS level.","hosts":[{"host":"dns.adguard-dns.com","label":"Default (ad-blocking)","protocol":"dot+doh","filters":["ads"],"region":"global","notes":"94.140.14.14 / 94.140.15.15"},{"host":"dns-family.adguard.com","label":"Family Protection","protocol":"dot+doh","filters":["ads","adult"],"region":"global","notes":"Ads + adult; safe search enforced"},{"host":"dns-unfiltered.adguard.com","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","notes":"No blocking, no logs sold"}]},{"id":"opendns","name":"OpenDNS (Cisco Umbrella)","website":"https://www.opendns.com","notes":"Cisco-owned. Free 208.67.222.222 service; blocks known-phishing domains.","hosts":[{"host":"dns.opendns.com","label":"Standard","protocol":"dot+doh","filters":["malware"],"region":"global","notes":"208.67.222.222 / 208.67.220.220"}]},{"id":"rubyfish","name":"Rubyfish DNS","website":"https://rubyfish.cn","notes":"China-based public resolver.","hosts":[{"host":"dns.rubyfish.cn","label":"Standard","protocol":"dot","filters":["none"],"region":"china","notes":""}]},{"id":"switch","name":"SWITCH DNS","website":"https://www.switch.ch","notes":"Operated by SWITCH (Swiss education/research network). DNSSEC-validating.","hosts":[{"host":"dns.switch.ch","label":"Standard","protocol":"dot","filters":["none"],"region":"switzerland","notes":""}]},{"id":"futuredns","name":"FutureDNS","website":"https://futuredns.me","notes":"Free resolver focused on blocking malicious domains.","hosts":[{"host":"dns.futuredns.me","label":"Standard (blocks malware)","protocol":"dot","filters":["malware"],"region":"global","notes":""}]},{"id":"comss","name":"Comss One DNS","website":"https://comss.one","notes":"Operated in Russia; nearest region gives best latency.","hosts":[{"host":"dns.comss.one","label":"West — main server","protocol":"dot","filters":["none"],"region":"russia","notes":""},{"host":"dns.east.comss.one","label":"East — Siberia & Far East","protocol":"dot","filters":["none"],"region":"russia","notes":"Use if you are east of the Urals"}]},{"id":"cira","name":"CIRA Canadian Shield","website":"https://cira.ca/cira-canadian-shield","notes":"Run by the Canadian Internet Registration Authority. Three tiers, no logging of personal data.","hosts":[{"host":"private.canadianshield.cira.ca","label":"Private (privacy-only, no blocking)","protocol":"dot","filters":["none"],"region":"canada","notes":""},{"host":"protected.canadianshield.cira.ca","label":"Protected (blocks malware & phishing)","protocol":"dot","filters":["malware"],"region":"canada","notes":""},{"host":"family.canadianshield.cira.ca","label":"Family (Protected + adult blocking)","protocol":"dot","filters":["malware","adult"],"region":"canada","notes":""}]},{"id":"blahdns","name":"BlahDNS","website":"https://blahdns.com","notes":"Community-run, privacy-focused DoT/DoH; check the site for its current filtering lists.","hosts":[{"host":"dot-fi.blahdns.com","label":"Finland","protocol":"dot","filters":["none"],"region":"finland","notes":"May filter ads — see blahdns.com"},{"host":"dot-jp.blahdns.com","label":"Japan","protocol":"dot","filters":["none"],"region":"japan","notes":"May filter ads — see blahdns.com"},{"host":"dot-de.blahdns.com","label":"Germany","protocol":"dot","filters":["none"],"region":"germany","notes":"May filter ads — see blahdns.com"}]},{"id":"snopyta","name":"Snopyta DNS","website":"https://snopyta.org","notes":"No-log, hosted in Finland (Hetzner).","hosts":[{"host":"fi.dot.dns.snopyta.org","label":"Finland","protocol":"dot","filters":["none"],"region":"finland","notes":""}]},{"id":"dnsforfamily","name":"DNS For Family","website":"https://dnsforfamily.com","notes":"Volunteer-run, family-safe resolver that filters adult content.","hosts":[{"host":"dns-dot.dnsforfamily.com","label":"Family Filter","protocol":"dot","filters":["adult"],"region":"global","notes":""}]},{"id":"nic-cz","name":"CZ.NIC ODVR","website":"https://odvr.nic.cz","notes":"Run by CZ.NIC (Czech top-level domain registry). ODVR = Open DNS-over-TLS Resolver.","hosts":[{"host":"odvr.nic.cz","label":"Standard","protocol":"dot","filters":["none"],"region":"czechia","notes":""}]},{"id":"alidns","name":"AliDNS (Alibaba)","website":"https://www.alidns.com","notes":"Alibaba Cloud public resolver; popular in China.","hosts":[{"host":"dns.alidns.com","label":"Standard","protocol":"dot","filters":["none"],"region":"china","notes":"223.5.5.5 / 223.6.6.6"}]},{"id":"cfiec","name":"CFIEC Public DNS","website":"https://www.cfiec.net","notes":"China public DNS service.","hosts":[{"host":"dns.cfiec.net","label":"Standard","protocol":"dot","filters":["none"],"region":"china","notes":""}]},{"id":"360","name":"360 Secure DNS","website":"https://www.360.cn","notes":"Qihoo 360 public resolver; security-focused (blocks known-bad domains).","hosts":[{"host":"dot.360.cn","label":"Standard (secure)","protocol":"dot","filters":["malware"],"region":"china","notes":""}]},{"id":"iij","name":"IIJ Public DNS","website":"https://public.dns.iij.jp","notes":"Internet Initiative Japan public resolver; DNSSEC-validating.","hosts":[{"host":"public.dns.iij.jp","label":"Standard","protocol":"dot","filters":["none"],"region":"japan","notes":""}]},{"id":"dnspod","name":"DNSPod Public DNS+","website":"https://www.dnspod.cn","notes":"Tencent-owned public resolver (dot.pub / 119.29.29.29).","hosts":[{"host":"dot.pub","label":"Standard","protocol":"dot","filters":["none"],"region":"china","notes":""}]},{"id":"tiar","name":"Privacy-First DNS (tiar.app)","website":"https://tiar.app","notes":"No logging, no filtering. Operated by tiar.app.","hosts":[{"host":"dot.tiarap.org","label":"Singapore","protocol":"dot","filters":["none"],"region":"singapore","notes":""},{"host":"jp.tiar.app","label":"Japan","protocol":"dot","filters":["none"],"region":"japan","notes":""}]},{"id":"oszx","name":"OSZX DNS","website":"https://oszx.co","notes":"Independent public resolver.","hosts":[{"host":"dns.oszx.co","label":"Standard","protocol":"dot","filters":["none"],"region":"global","notes":""}]},{"id":"pumplex","name":"PumpleX DNS","website":"https://pumplex.com","notes":"Independent public resolver.","hosts":[{"host":"dns.pumplex.com","label":"Standard","protocol":"dot","filters":["none"],"region":"global","notes":""}]},{"id":"applied-privacy","name":"Applied Privacy DNS","website":"https://applied-privacy.net","notes":"Run by Applied Privacy (Austria). Strict no-logging policy.","hosts":[{"host":"dot1.applied-privacy.net","label":"Standard","protocol":"dot","filters":["none"],"region":"austria","notes":""}]},{"id":"decloudus","name":"DeCloudUs DNS","website":"https://decloudus.com","notes":"US-based decentralized-cloud resolver.","hosts":[{"host":"dns.decloudus.com","label":"Standard","protocol":"dot","filters":["none"],"region":"usa","notes":""}]},{"id":"lelux","name":"Lelux DNS","website":"https://lelux.fi","notes":"Finland-based EU resolver.","hosts":[{"host":"resolver-eu.lelux.fi","label":"EU resolver","protocol":"dot","filters":["none"],"region":"finland","notes":""}]},{"id":"dnsforge","name":"DNS Forge","website":"https://dnsforge.de","notes":"Community-run German resolver; blocks advertising and malware.","hosts":[{"host":"dnsforge.de","label":"Standard (ad & malware blocking)","protocol":"dot","filters":["ads","malware"],"region":"germany","notes":""}]},{"id":"restena","name":"Fondation Restena DNS","website":"https://www.restena.lu","notes":"Research/education infrastructure of Luxembourg.","hosts":[{"host":"kaitain.restena.lu","label":"Standard","protocol":"dot","filters":["none"],"region":"luxembourg","notes":""}]},{"id":"ffmuc","name":"FFMUC DNS","website":"https://ffmuc.net","notes":"Freifunk München community network resolver.","hosts":[{"host":"dot.ffmuc.net","label":"Standard","protocol":"dot","filters":["none"],"region":"germany","notes":""}]},{"id":"digitale-gesellschaft","name":"Digitale Gesellschaft DNS","website":"https://digitale-gesellschaft.ch","notes":"Swiss digital-rights non-profit resolver.","hosts":[{"host":"dns.digitale-gesellschaft.ch","label":"Standard","protocol":"dot","filters":["none"],"region":"switzerland","notes":""}]},{"id":"libredns","name":"LibreDNS","website":"https://libredns.gr","notes":"Community-run resolver in Greece.","hosts":[{"host":"dot.libredns.gr","label":"Standard","protocol":"dot","filters":["none"],"region":"greece","notes":"See libredns.gr — some endpoints filter ads"}]},{"id":"ibksturm","name":"ibksturm DNS","website":"https://ibksturm.at","notes":"Self-hosted resolver running on a Synology NAS.","hosts":[{"host":"ibksturm.synology.me","label":"Standard","protocol":"dot","filters":["none"],"region":"germany","notes":"Personal/self-hosted — may go offline"}]},{"id":"dns-privacy","name":"DNS Privacy (Stubby / no-log projects)","website":"https://dnsprivacy.org","notes":"Hosts run by the Unbound/Stubby developers and other no-logging projects. The last two use minimal logging, self-signed certs or no strict-mode support.","hosts":[{"host":"getdnsapi.net","label":"Stubby developers — no logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"dnsovertls.sinodun.com","label":"Stubby developers — no logging","protocol":"dot","filters":["none"],"region":"uk","notes":""},{"host":"dnsovertls1.sinodun.com","label":"Stubby developers — no logging","protocol":"dot","filters":["none"],"region":"uk","notes":""},{"host":"unicast.censurfridns.dk","label":"No logging","protocol":"dot","filters":["none"],"region":"denmark","notes":""},{"host":"anycast.censurfridns.dk","label":"No logging (anycast)","protocol":"dot","filters":["none"],"region":"denmark","notes":""},{"host":"dns.cmrg.net","label":"No logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"dns.larsdebruin.net","label":"No logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"dns-tls.bitwiseshift.net","label":"No logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"ns1.dnsprivacy.at","label":"No logging","protocol":"dot","filters":["none"],"region":"austria","notes":""},{"host":"ns2.dnsprivacy.at","label":"No logging","protocol":"dot","filters":["none"],"region":"austria","notes":""},{"host":"dns.bitgeek.in","label":"No logging","protocol":"dot","filters":["none"],"region":"india","notes":""},{"host":"dns.neutopia.org","label":"No logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"privacydns.go6lab.si","label":"No logging","protocol":"dot","filters":["none"],"region":"slovenia","notes":""},{"host":"dot.securedns.eu","label":"No logging","protocol":"dot","filters":["none"],"region":"europe","notes":""},{"host":"dnsotls.lab.nic.cl","label":"Minimal logging / self-signed cert","protocol":"dot","filters":["none"],"region":"chile","notes":"No strict-mode support"},{"host":"tls-dns-u.odvr.dns-oarc.net","label":"Minimal logging / no strict mode","protocol":"dot","filters":["none"],"region":"global","notes":""}]},{"id":"ahadns","name":"AhaDNS","website":"https://ahadns.net","notes":"Anycast/CDN resolver with locations across NA, EU and India.","hosts":[{"host":"dot.nl.ahadns.net","label":"Netherlands","protocol":"dot","filters":["none"],"region":"netherlands","notes":""},{"host":"dot.in.ahadns.net","label":"India","protocol":"dot","filters":["none"],"region":"india","notes":""},{"host":"dot.la.ahadns.net","label":"Los Angeles, USA","protocol":"dot","filters":["none"],"region":"usa","notes":""},{"host":"dot.ny.ahadns.net","label":"New York, USA","protocol":"dot","filters":["none"],"region":"usa","notes":""},{"host":"dot.pl.ahadns.net","label":"Poland","protocol":"dot","filters":["none"],"region":"poland","notes":""},{"host":"dot.it.ahadns.net","label":"Italy","protocol":"dot","filters":["none"],"region":"italy","notes":""},{"host":"dot.es.ahadns.net","label":"Spain","protocol":"dot","filters":["none"],"region":"spain","notes":""},{"host":"dot.no.ahadns.net","label":"Norway","protocol":"dot","filters":["none"],"region":"norway","notes":""},{"host":"dot.chi.ahadns.net","label":"Chicago, USA","protocol":"dot","filters":["none"],"region":"usa","notes":""}]},{"id":"seby","name":"Seby DNS","website":"https://seby.io","notes":"Independent public resolver.","hosts":[{"host":"dot.seby.io","label":"Standard","protocol":"dot","filters":["none"],"region":"global","notes":""}]},{"id":"dnslify","name":"DNSlify","website":"https://dnslify.com","notes":"DoH service with analytics-free resolution.","hosts":[{"host":"doh.dnslify.com","label":"DoH endpoint","protocol":"doh","filters":["none"],"region":"global","notes":"DoH only — not usable as Android Private DNS (DoT)"}]},{"id":"rethinkdns","name":"Rethink DNS","website":"https://www.rethinkdns.com","notes":"Open-source firewall/DNS. This is the non-filtering public endpoint.","hosts":[{"host":"max.rethinkdns.com","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","notes":"Use the Rethink app for custom blocklists"}]},{"id":"controld","name":"ControlD (Free DNS)","website":"https://controld.com","notes":"Free managed DNS tiers from ControlD; no account required.","hosts":[{"host":"p0.freedns.controld.com","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","notes":""},{"host":"p1.freedns.controld.com","label":"Block malware","protocol":"dot+doh","filters":["malware"],"region":"global","notes":""},{"host":"p2.freedns.controld.com","label":"Block malware + ads","protocol":"dot+doh","filters":["malware","ads"],"region":"global","notes":""},{"host":"p3.freedns.controld.com","label":"Block malware + ads + social","protocol":"dot+doh","filters":["malware","ads","social"],"region":"global","notes":""}]},{"id":"mullvad","name":"Mullvad DNS","website":"https://mullvad.net/en/help/dns","notes":"From the Mullvad VPN team. No-log, no account required.","hosts":[{"host":"doh.mullvad.net","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","notes":"Also answers DoT on port 853"},{"host":"adblock.doh.mullvad.net","label":"Ad-blocking","protocol":"dot+doh","filters":["ads"],"region":"global","notes":"Blocks ads & trackers; also answers DoT"}]},{"id":"arapurayil","name":"Arapurayil DNS","website":"https://arapurayil.com","notes":"Independent public resolver.","hosts":[{"host":"dns.arapurayil.com","label":"Standard","protocol":"dot","filters":["none"],"region":"india","notes":""}]},{"id":"dandelionsprout","name":"Dandelion Sprout DNS","website":"https://dandelionsprout.blogspot.com","notes":"Personal resolver on ASUScomm DDNS; treat as best-effort uptime.","hosts":[{"host":"dandelionsprout.asuscomm.com","label":"Standard","protocol":"dot","filters":["none"],"region":"global","notes":"Personal/self-hosted — may go offline"}]}]}</script>
+<script id="dns-data" type="application/json">{"schema":"dns-server-list/v2","title":"Private DNS Server List","updated":"2026-11-10","verified":"2026-11-10","description":"A curated, live-verified list of free public DNS-over-TLS (DoT) / DNS-over-HTTPS (DoH) endpoints for Android Private DNS and every other encrypted-DNS setup. Every endpoint in this file answered a real DNS query when it was added; dead services are removed instead of being left to fail silently.","filters":{"none":"No filtering — pure resolver","ads":"Blocks advertising & trackers","malware":"Blocks malware / phishing domains","adult":"Blocks adult content","social":"Blocks social-media / short-video domains"},"protocols":{"dot":"DNS over TLS (port 853) — works with Android Private DNS","doh":"DNS over HTTPS (port 443) — works in browsers & OS DoH settings","dot+doh":"Supports both DoT and DoH"},"privacy":{"no-log":"Operator states it does not keep query logs","minimal-log":"Limited/anonymised or short-retention logging","unknown":"Policy not clearly documented"},"providers":[{"id":"cloudflare","name":"Cloudflare","website":"https://1.1.1.1/dns","privacy":"minimal-log","notes":"Anycast, one of the fastest public resolvers. Logs are anonymised and kept for 24h.","hosts":[{"host":"1dot1dot1dot1.cloudflare-dns.com","label":"Standard (unfiltered)","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://1dot1dot1dot1.cloudflare-dns.com/dns-query","ipv4":["1.1.1.1","1.0.0.1"],"notes":"Android Private DNS favourite"},{"host":"one.one.one.one","label":"1.1.1.1 alias","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://one.one.one.one/dns-query","ipv4":["1.1.1.1","1.0.0.1"],"notes":"Same service as 1dot1dot1dot1"},{"host":"family.cloudflare-dns.com","label":"Malware + Adult blocking","protocol":"dot+doh","filters":["malware","adult"],"region":"global","doh":"https://family.cloudflare-dns.com/dns-query","ipv4":["1.1.1.3","1.0.0.3"],"notes":"Blocks malware + adult content"},{"host":"security.cloudflare-dns.com","label":"Malware blocking only","protocol":"dot+doh","filters":["malware"],"region":"global","doh":"https://security.cloudflare-dns.com/dns-query","ipv4":["1.1.1.2","1.0.0.2"],"notes":"Blocks malware + phishing"}]},{"id":"google","name":"Google Public DNS","website":"https://developers.google.com/speed/public-dns","privacy":"minimal-log","notes":"Anycast; the 8.8.8.8 / 8.8.4.4 service. Logs are temporary and anonymised.","hosts":[{"host":"dns.google","label":"Standard (unfiltered)","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://dns.google/dns-query","ipv4":["8.8.8.8","8.8.4.4"],"notes":""}]},{"id":"quad9","name":"Quad9","website":"https://www.quad9.net","privacy":"no-log","notes":"Swiss non-profit; blocks known-malicious domains by default. No personal data logged.","hosts":[{"host":"dns.quad9.net","label":"Standard (blocks malware)","protocol":"dot+doh","filters":["malware"],"region":"global","doh":"https://dns.quad9.net/dns-query","ipv4":["9.9.9.9","149.112.112.112"],"notes":"DoH needs HTTP/2 — fine in browsers"},{"host":"dns9.quad9.net","label":"Unfiltered + ECS","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://dns9.quad9.net/dns-query","ipv4":["9.9.9.9","149.112.112.9"],"notes":"No blocking; sends EDNS Client Subnet for better CDN routing"},{"host":"dns10.quad9.net","label":"Unfiltered (no blocking)","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://dns10.quad9.net/dns-query","ipv4":["9.9.9.10","149.112.112.10"],"notes":""},{"host":"dns11.quad9.net","label":"Blocks malware + ECS","protocol":"dot+doh","filters":["malware"],"region":"global","doh":"https://dns11.quad9.net/dns-query","ipv4":["9.9.9.11","149.112.112.11"],"notes":""}]},{"id":"adguard","name":"AdGuard DNS","website":"https://adguard-dns.com","privacy":"no-log","notes":"Blocks ads and trackers at the DNS level. Free, no account.","hosts":[{"host":"dns.adguard-dns.com","label":"Default (ad-blocking)","protocol":"dot+doh","filters":["ads"],"region":"global","doh":"https://dns.adguard-dns.com/dns-query","ipv4":["94.140.14.14","94.140.15.15"],"notes":"Most popular ad-blocking resolver"},{"host":"dns-family.adguard.com","label":"Family Protection","protocol":"dot+doh","filters":["ads","adult"],"region":"global","doh":"https://dns-family.adguard.com/dns-query","ipv4":["94.140.14.15","94.140.15.16"],"notes":"Ads + adult; SafeSearch enforced"},{"host":"dns-unfiltered.adguard.com","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://dns-unfiltered.adguard.com/dns-query","ipv4":["94.140.14.140","94.140.14.141"],"notes":"No blocking"},{"host":"dns.adguard.com","label":"Legacy hostname (ad-blocking)","protocol":"dot+doh","filters":["ads"],"region":"global","doh":"https://dns.adguard.com/dns-query","ipv4":["94.140.14.14","94.140.15.15"],"notes":"Old alias — still works"}]},{"id":"controld","name":"ControlD (Free DNS)","website":"https://controld.com","privacy":"minimal-log","notes":"Free managed DNS tiers; no account required. p3 is the only free resolver that also blocks social media.","hosts":[{"host":"p0.freedns.controld.com","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://p0.freedns.controld.com/dns-query","ipv4":["76.76.2.0","76.76.10.0"],"notes":""},{"host":"p1.freedns.controld.com","label":"Block malware","protocol":"dot+doh","filters":["malware"],"region":"global","doh":"https://p1.freedns.controld.com/dns-query","ipv4":["76.76.2.1","76.76.10.1"],"notes":""},{"host":"p2.freedns.controld.com","label":"Block malware + ads","protocol":"dot+doh","filters":["malware","ads"],"region":"global","doh":"https://p2.freedns.controld.com/dns-query","ipv4":["76.76.2.2","76.76.10.2"],"notes":""},{"host":"p3.freedns.controld.com","label":"Block malware + ads + social","protocol":"dot+doh","filters":["malware","ads","social"],"region":"global","doh":"https://p3.freedns.controld.com/dns-query","ipv4":["76.76.2.3","76.76.10.3"],"notes":"Also blocks TikTok/Instagram/Facebook entirely — use ShortsGuard if you need those apps"}]},{"id":"mullvad","name":"Mullvad DNS","website":"https://mullvad.net/en/help/dns","privacy":"no-log","notes":"From the Mullvad VPN team. No-log, no account required.","hosts":[{"host":"doh.mullvad.net","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://doh.mullvad.net/dns-query","ipv4":["194.242.2.2","194.242.2.3"],"notes":"Also answers DoT on port 853"},{"host":"adblock.doh.mullvad.net","label":"Ad-blocking","protocol":"dot+doh","filters":["ads"],"region":"global","doh":"https://adblock.doh.mullvad.net/dns-query","ipv4":["194.242.2.4","194.242.2.5"],"notes":"Blocks ads & trackers"}]},{"id":"nextdns","name":"NextDNS","website":"https://nextdns.io","privacy":"minimal-log","notes":"Freemium, configurable blocklists. Public endpoints work without an account; create one for custom filters.","hosts":[{"host":"dns.nextdns.io","label":"Ultra-low latency","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://dns.nextdns.io","notes":"Add your profile ID: https://dns.nextdns.io/<id>"},{"host":"anycast.dns.nextdns.io","label":"Anycast","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://anycast.dns.nextdns.io","notes":""}]},{"id":"cleanbrowsing","name":"CleanBrowsing","website":"https://cleanbrowsing.org","privacy":"minimal-log","notes":"US-based family/security filters. The DoH endpoint needs its filter path — the bare doh.cleanbrowsing.org host does not work.","hosts":[{"host":"family-filter-dns.cleanbrowsing.org","label":"Family Filter","protocol":"dot+doh","filters":["adult","malware"],"region":"global","doh":"https://doh.cleanbrowsing.org/doh/family-filter/","ipv4":["185.228.168.168","185.228.169.168"],"notes":"Blocks adult content, mixed-content sites and proxies"},{"host":"adult-filter-dns.cleanbrowsing.org","label":"Adult Filter","protocol":"dot+doh","filters":["adult"],"region":"global","doh":"https://doh.cleanbrowsing.org/doh/adult-filter/","ipv4":["185.228.168.10","185.228.169.11"],"notes":"Blocks adult content only"},{"host":"security-filter-dns.cleanbrowsing.org","label":"Security Filter","protocol":"dot+doh","filters":["malware"],"region":"global","doh":"https://doh.cleanbrowsing.org/doh/security-filter/","ipv4":["185.228.168.9","185.228.169.9"],"notes":"Blocks phishing, malware and C2 domains"}]},{"id":"opendns","name":"OpenDNS (Cisco Umbrella)","website":"https://www.opendns.com","privacy":"minimal-log","notes":"Cisco-owned free service. Standard tier blocks known phishing/malware domains.","hosts":[{"host":"dns.opendns.com","label":"Standard","protocol":"dot+doh","filters":["malware"],"region":"global","doh":"https://doh.opendns.com/dns-query","ipv4":["208.67.222.222","208.67.220.220"],"notes":""},{"host":"familyshield.opendns.com","label":"FamilyShield (adult blocking)","protocol":"dot+doh","filters":["malware","adult"],"region":"global","doh":"https://doh.familyshield.opendns.com/dns-query","ipv4":["208.67.222.123","208.67.220.123"],"notes":"Family-safe OpenDNS tier"}]},{"id":"dnssb","name":"DNS.SB","website":"https://dns.sb","privacy":"no-log","notes":"Privacy-first anycast resolver from Hong Kong. No logging, no filtering.","hosts":[{"host":"dot.sb","label":"DoT","protocol":"dot","filters":["none"],"region":"hong-kong","ipv4":["185.222.222.222","45.11.45.11"],"notes":"Also answers DoH at https://doh.sb/dns-query"},{"host":"doh.sb","label":"DoH","protocol":"doh","filters":["none"],"region":"hong-kong","doh":"https://doh.sb/dns-query","ipv4":["185.222.222.222","45.11.45.11"],"notes":""}]},{"id":"wikimedia","name":"Wikimedia DNS","website":"https://wikimedia-dns.org","privacy":"no-log","notes":"Run by the Wikimedia Foundation. No logging, DNSSEC-validating, anycast.","hosts":[{"host":"wikimedia-dns.org","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://wikimedia-dns.org/dns-query","ipv4":["185.71.138.138"],"notes":"Non-profit infrastructure"}]},{"id":"he","name":"Hurricane Electric","website":"https://dns.he.net","privacy":"minimal-log","notes":"Long-running free anycast resolver from Hurricane Electric (AS6939).","hosts":[{"host":"ordns.he.net","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://ordns.he.net/dns-query","ipv4":["74.82.42.42"],"notes":"DoH needs HTTP/2"}]},{"id":"yandex","name":"Yandex DNS","website":"https://dns.yandex.com","privacy":"minimal-log","notes":"Yandex public resolver; popular in Russia and Central Asia.","hosts":[{"host":"common.dot.dns.yandex.net","label":"Standard","protocol":"dot","filters":["none"],"region":"russia","ipv4":["77.88.8.8","77.88.8.1"],"notes":""}]},{"id":"twnic","name":"TWNIC Public DNS","website":"https://www.twnic.tw","privacy":"unknown","notes":"Taiwan Network Information Center public resolver (101.101.101.101).","hosts":[{"host":"dns.twnic.tw","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"taiwan","doh":"https://dns.twnic.tw/dns-query","ipv4":["101.101.101.101"],"notes":"Best latency in Taiwan / East Asia"}]},{"id":"bebasid","name":"BebasDNS (BebasID)","website":"https://bebasid.com","privacy":"unknown","notes":"Indonesian community resolver. Unfiltered, useful for regional latency.","hosts":[{"host":"dns.bebasid.com","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"indonesia","doh":"https://dns.bebasid.com/dns-query","ipv4":["103.155.191.184","51.79.168.220"],"notes":""}]},{"id":"dismail","name":"dismail.de DNS","website":"https://dismail.de","privacy":"no-log","notes":"German privacy mail provider's no-log resolver. Two independent servers.","hosts":[{"host":"fdns1.dismail.de","label":"Server 1","protocol":"dot+doh","filters":["none"],"region":"germany","doh":"https://fdns1.dismail.de/dns-query","ipv4":["116.203.32.217"],"notes":""},{"host":"fdns2.dismail.de","label":"Server 2","protocol":"dot+doh","filters":["none"],"region":"germany","doh":"https://fdns2.dismail.de/dns-query","ipv4":["159.69.114.157"],"notes":""}]},{"id":"cira","name":"CIRA Canadian Shield","website":"https://cira.ca/cira-canadian-shield","privacy":"no-log","notes":"Run by the Canadian Internet Registration Authority. Three tiers, no logging of personal data.","hosts":[{"host":"private.canadianshield.cira.ca","label":"Private (privacy-only, no blocking)","protocol":"dot","filters":["none"],"region":"canada","ipv4":["149.112.121.10","149.112.122.10"],"notes":""},{"host":"protected.canadianshield.cira.ca","label":"Protected (blocks malware & phishing)","protocol":"dot","filters":["malware"],"region":"canada","ipv4":["149.112.121.20","149.112.122.20"],"notes":""},{"host":"family.canadianshield.cira.ca","label":"Family (Protected + adult blocking)","protocol":"dot","filters":["malware","adult"],"region":"canada","ipv4":["149.112.121.30","149.112.122.30"],"notes":""}]},{"id":"switch","name":"SWITCH DNS","website":"https://www.switch.ch","privacy":"minimal-log","notes":"Operated by SWITCH (Swiss education/research network). DNSSEC-validating.","hosts":[{"host":"dns.switch.ch","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"switzerland","doh":"https://dns.switch.ch/dns-query","ipv4":["130.59.31.248","130.59.31.251"],"notes":""}]},{"id":"nic-cz","name":"CZ.NIC ODVR","website":"https://odvr.nic.cz","privacy":"no-log","notes":"Run by CZ.NIC (Czech top-level domain registry). ODVR = Open DNS-over-TLS Resolver.","hosts":[{"host":"odvr.nic.cz","label":"Standard","protocol":"dot","filters":["none"],"region":"czechia","ipv4":["193.17.47.1","185.43.135.1"],"notes":""}]},{"id":"iij","name":"IIJ Public DNS","website":"https://public.dns.iij.jp","privacy":"unknown","notes":"Internet Initiative Japan public resolver; DNSSEC-validating. Low latency in Japan.","hosts":[{"host":"public.dns.iij.jp","label":"Standard","protocol":"dot","filters":["none"],"region":"japan","ipv4":["103.2.57.5","103.2.57.6"],"notes":""}]},{"id":"alidns","name":"AliDNS (Alibaba)","website":"https://www.alidns.com","privacy":"minimal-log","notes":"Alibaba Cloud public resolver; popular in China.","hosts":[{"host":"dns.alidns.com","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"china","doh":"https://dns.alidns.com/dns-query","ipv4":["223.5.5.5","223.6.6.6"],"notes":"Subject to Chinese law"}]},{"id":"dnspod","name":"DNSPod Public DNS+","website":"https://www.dnspod.cn","privacy":"minimal-log","notes":"Tencent-owned public resolver (dot.pub / 119.29.29.29).","hosts":[{"host":"dot.pub","label":"DoT","protocol":"dot","filters":["none"],"region":"china","ipv4":["119.29.29.29","182.254.116.116"],"notes":""},{"host":"doh.pub","label":"DoH","protocol":"doh","filters":["none"],"region":"china","doh":"https://doh.pub/dns-query","ipv4":["119.29.29.29","182.254.116.116"],"notes":""}]},{"id":"360","name":"360 Secure DNS","website":"https://www.360.cn","privacy":"minimal-log","notes":"Qihoo 360 public resolver; security-focused (blocks known-bad domains).","hosts":[{"host":"dot.360.cn","label":"DoT","protocol":"dot","filters":["malware"],"region":"china","ipv4":["180.76.76.76"],"notes":""},{"host":"doh.360.cn","label":"DoH","protocol":"doh","filters":["malware"],"region":"china","doh":"https://doh.360.cn/dns-query","ipv4":["180.76.76.76"],"notes":""}]},{"id":"comss","name":"Comss One DNS","website":"https://comss.one","privacy":"unknown","notes":"Operated in Russia; nearest region gives best latency.","hosts":[{"host":"dns.comss.one","label":"Main server (west)","protocol":"dot+doh","filters":["none"],"region":"russia","doh":"https://dns.comss.one/dns-query","notes":""}]},{"id":"dnsforfamily","name":"DNS For Family","website":"https://dnsforfamily.com","privacy":"unknown","notes":"Volunteer-run, family-safe resolver that filters adult content.","hosts":[{"host":"dns-dot.dnsforfamily.com","label":"Family Filter","protocol":"dot","filters":["adult"],"region":"global","notes":""}]},{"id":"blahdns","name":"BlahDNS","website":"https://blahdns.com","privacy":"no-log","notes":"Community-run, privacy-focused DoT/DoH. Germany node is live; the old FI/JP nodes are gone.","hosts":[{"host":"dot-de.blahdns.com","label":"Germany — DoT","protocol":"dot","filters":["none"],"region":"germany","notes":""},{"host":"doh-de.blahdns.com","label":"Germany — DoH","protocol":"doh","filters":["none"],"region":"germany","doh":"https://doh-de.blahdns.com/dns-query","notes":""}]},{"id":"dnsforge","name":"DNS Forge","website":"https://dnsforge.de","privacy":"no-log","notes":"Community-run German resolver; blocks advertising and malware.","hosts":[{"host":"dnsforge.de","label":"Standard (ad & malware blocking)","protocol":"dot+doh","filters":["ads","malware"],"region":"germany","doh":"https://dnsforge.de/dns-query","notes":""}]},{"id":"ffmuc","name":"FFMUC DNS","website":"https://ffmuc.net","privacy":"no-log","notes":"Freifunk München community network resolver. No logging.","hosts":[{"host":"dot.ffmuc.net","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"germany","doh":"https://doh.ffmuc.net/dns-query","notes":""}]},{"id":"digitale-gesellschaft","name":"Digitale Gesellschaft DNS","website":"https://digitale-gesellschaft.ch","privacy":"no-log","notes":"Swiss digital-rights non-profit resolver. No logging.","hosts":[{"host":"dns.digitale-gesellschaft.ch","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"switzerland","doh":"https://dns.digitale-gesellschaft.ch/dns-query","notes":""}]},{"id":"libredns","name":"LibreDNS","website":"https://libredns.gr","privacy":"no-log","notes":"Community-run resolver in Greece. No logs, no filtering.","hosts":[{"host":"dot.libredns.gr","label":"DoT","protocol":"dot","filters":["none"],"region":"greece","notes":""},{"host":"doh.libredns.gr","label":"DoH","protocol":"doh","filters":["none"],"region":"greece","doh":"https://doh.libredns.gr/dns-query","notes":""}]},{"id":"decloudus","name":"DeCloudUs DNS","website":"https://decloudus.com","privacy":"no-log","notes":"US-based decentralized-cloud resolver.","hosts":[{"host":"dns.decloudus.com","label":"Standard","protocol":"dot","filters":["none"],"region":"usa","notes":""}]},{"id":"ibksturm","name":"ibksturm DNS","website":"https://ibksturm.at","privacy":"unknown","notes":"Self-hosted resolver running on a Synology NAS in Germany.","hosts":[{"host":"ibksturm.synology.me","label":"Standard","protocol":"dot","filters":["none"],"region":"germany","notes":"Personal/self-hosted — may go offline"}]},{"id":"dns-privacy","name":"DNS Privacy (Stubby / no-log projects)","website":"https://dnsprivacy.org","privacy":"no-log","notes":"Hosts run by the Unbound/Stubby developers and other no-logging projects. Dead hosts from older versions of this list were removed.","hosts":[{"host":"getdnsapi.net","label":"Stubby developers — no logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"dns.cmrg.net","label":"No logging","protocol":"dot","filters":["none"],"region":"global","notes":""},{"host":"unicast.censurfridns.dk","label":"No logging","protocol":"dot","filters":["none"],"region":"denmark","notes":""},{"host":"anycast.censurfridns.dk","label":"No logging (anycast)","protocol":"dot","filters":["none"],"region":"denmark","notes":""}]},{"id":"seby","name":"Seby DNS","website":"https://seby.io","privacy":"unknown","notes":"Independent public resolver.","hosts":[{"host":"dot.seby.io","label":"Standard","protocol":"dot","filters":["none"],"region":"global","notes":""}]},{"id":"rethinkdns","name":"Rethink DNS","website":"https://www.rethinkdns.com","privacy":"no-log","notes":"Open-source firewall/DNS. This is the non-filtering public endpoint; the app adds custom blocklists.","hosts":[{"host":"max.rethinkdns.com","label":"Non-filtering","protocol":"dot+doh","filters":["none"],"region":"global","doh":"https://max.rethinkdns.com/dns-query","notes":""}]},{"id":"tiar","name":"Privacy-First DNS (tiar.app)","website":"https://tiar.app","privacy":"no-log","notes":"No logging, no filtering. Operated by tiar.app from Singapore.","hosts":[{"host":"dot.tiar.app","label":"Singapore — DoT","protocol":"dot","filters":["none"],"region":"singapore","notes":""},{"host":"doh.tiar.app","label":"Singapore — DoH","protocol":"doh","filters":["none"],"region":"singapore","doh":"https://doh.tiar.app/dns-query","notes":""}]},{"id":"njalla","name":"Njalla DNS","website":"https://njal.la","privacy":"no-log","notes":"Privacy-focused registrar's public resolver. No logging, no filtering.","hosts":[{"host":"dns.njal.la","label":"Standard","protocol":"dot+doh","filters":["none"],"region":"sweden","doh":"https://dns.njal.la/dns-query","notes":""}]}]}</script>
+<script id="guard-data" type="application/json">{"schema":"shortsguard/v1","version":"1.0.0","updated":"2026-11-10","title":"ShortsGuard — keep Facebook, YouTube, Instagram & Messenger, drop Reels/Shorts","honest_limit":{"en":"DNS resolves domain names, nothing else. facebook.com/reel/123, youtube.com/shorts/abc and instagram.com/reels/xyz all live on the SAME domains as the normal feed. No DNS resolver on earth can block a path — and blocking fbcdn.net / cdninstagram.com / googlevideo.com to kill short videos also kills every photo, video, story and Messenger attachment. So ShortsGuard blocks the short-video SURFACES inside the page (userscript, extension or content blocker) and uses DNS only for whole-app blocks and normal ad/malware/adult filtering.","bn":"DNS শুধু ডোমেইন নাম resolve করে। facebook.com/reel/123, youtube.com/shorts/abc, instagram.com/reels/xyz — সবই স্বাভাবিক ফিডের একই ডোমেইনে থাকে। কোনো DNS দিয়েই শুধু path ব্লক করা সম্ভব না। আর শর্ট ভিডিও আটকাতে fbcdn.net বা cdninstagram.com ব্লক করলে ফেসবুক/ইনস্টাগ্রামের সব ছবি, ভিডিও, স্টোরি আর Messenger-এর অ্যাটাচমেন্টও ভেঙে যাবে। তাই ShortsGuard পেজের ভেতরে Reels/Shorts লুকিয়ে/রিডাইরেক্ট করে (userscript / extension / content blocker), আর DNS শুধু পুরো অ্যাপ ব্লক ও অ্যাড/ম্যালওয়্যার/অ্যাডাল্ট ফিল্টারিং-এর জন্য ব্যবহার করে।"},"profiles":[{"id":"focus","name":"Focus Mode","badge":"recommended","layer":"browser","tagline":"Reels & Shorts surfaces gone. Feeds, DMs, Messenger and normal YouTube videos keep working.","tagline_bn":"Reels ও Shorts সেকশন বন্ধ; ফিড, DM, Messenger আর সাধারণ ইউটিউব ভিডিও সবই চলবে।","blocks":["youtube-shorts","facebook-reels","instagram-reels"],"keeps":["facebook","messenger","instagram-dm","youtube","tiktok","whatsapp"],"does":["Hides the Shorts shelf, Shorts tab, Shorts search results and Reels tabs/shelves.","Redirects /shorts/<id> to the normal watch page so a shared link still plays.","Redirects /reel/ and /reels/ URLs to the home feed.","Never touches /messages, messenger.com, /direct/ or any media CDN."],"install":["Install the userscript (Tampermonkey / Violentmonkey) — one file, no build step.","Or install the uBlock Origin / AdGuard cosmetic ruleset.","Or load the bundled MV3 extension in Chrome/Edge/Brave."],"dns":null},{"id":"focus-filtered","name":"Focus + Filtered DNS","badge":"best all-round","layer":"dns+browser","tagline":"Focus Mode plus a filtered resolver: ads, trackers and malware blocked for every app on the device.","tagline_bn":"Focus Mode + ফিল্টার করা DNS — ফোনের সব অ্যাপে অ্যাড, ট্র্যাকার ও ম্যালওয়্যার ব্লক।","blocks":["youtube-shorts","facebook-reels","instagram-reels","ads","malware"],"keeps":["facebook","messenger","instagram-dm","youtube","tiktok","whatsapp"],"does":["Everything Focus Mode does, in the browser.","Adds device-wide DNS filtering (ads, trackers, malware) at the resolver level."],"install":["Pick a filtered resolver from the Resolvers tab (e.g. dns.adguard-dns.com).","Then install the Focus Mode userscript or uBlock rules."],"dns":{"android":"dns.adguard-dns.com","browser":"https://dns.adguard-dns.com/dns-query","windows":"https://dns.adguard-dns.com/dns-query"}},{"id":"dns-hard","name":"DNS Hard Block (opt-in)","badge":"breaks apps","layer":"dns","tagline":"Blocks entire short-video apps at the DNS level — only for apps you are willing to lose.","tagline_bn":"পুরো শর্ট-ভিডিও অ্যাপ DNS লেভেলে ব্লক — যে অ্যাপ না থাকলেও চলে, শুধু সেগুলোর জন্য।","blocks":["tiktok","likee","kwai","snackvideo"],"keeps":["facebook","messenger","instagram-dm","youtube"],"does":["Blocks TikTok / Likee / Kwai / SnackVideo completely (app + website).","Does NOT block Facebook Reels, Instagram Reels or YouTube Shorts — impossible at DNS level.","Facebook, Messenger, Instagram and YouTube keep working."],"install":["Use the hosts / AdGuard Home / dnsmasq blocklist below on your router or Pi-hole.","Do not add fbcdn.net, cdninstagram.com or googlevideo.com — that breaks normal media."],"dns":null},{"id":"family","name":"Family Safe","badge":"kids","layer":"dns+browser","tagline":"Adult + malware DNS filter, plus Reels/Shorts hidden on every browser profile.","tagline_bn":"অ্যাডাল্ট ও ম্যালওয়্যার DNS ফিল্টার, সঙ্গে সব ব্রাউজারে Reels/Shorts বন্ধ।","blocks":["adult","malware","youtube-shorts","facebook-reels","instagram-reels"],"keeps":["facebook","messenger","instagram-dm","youtube"],"does":["Device-wide adult + malware blocking through the resolver.","Short-video surfaces hidden in the browser.","SafeSearch enforced by the resolver where the provider supports it."],"install":["Set family.cloudflare-dns.com or dns-family.adguard.com as Private DNS / DoH.","Install the Focus Mode userscript or uBlock rules on every browser profile."],"dns":{"android":"family.cloudflare-dns.com","browser":"https://dns.cloudflare.com/dns-query","windows":"https://family.cloudflare-dns.com/dns-query"}}],"targets":[{"id":"facebook","app":"Facebook","surface":"Feed, Marketplace, Groups, Pages","dns":"works","focus":"kept","hard":"kept","note":"Never blocked by any ShortsGuard profile."},{"id":"facebook-reels","app":"Facebook","surface":"Reels tab, Reels shelf, /reel/ links","dns":"impossible","focus":"hidden + redirected","hard":"impossible","note":"Same domain and same CDN (fbcdn.net) as the feed — only the page can hide it."},{"id":"messenger","app":"Messenger","surface":"Chats, calls, attachments","dns":"works","focus":"kept","hard":"kept","note":"messenger.com and /messages are explicitly allowlisted. Media CDNs are never blocked."},{"id":"youtube","app":"YouTube","surface":"Home, subscriptions, watch page","dns":"works","focus":"kept","hard":"kept","note":""},{"id":"youtube-shorts","app":"YouTube","surface":"Shorts shelf, Shorts tab, /shorts/ links","dns":"impossible","focus":"hidden + redirected to /watch","hard":"impossible","note":"youtube.com/shorts is a path on the main domain; googlevideo.com serves normal videos too."},{"id":"instagram","app":"Instagram","surface":"Feed, Stories, DMs","dns":"works","focus":"kept","hard":"kept","note":""},{"id":"instagram-reels","app":"Instagram","surface":"Reels tab, Reels shelf, /reels/ links","dns":"impossible","focus":"hidden + redirected","hard":"impossible","note":"cdninstagram.com serves every photo and story too."},{"id":"tiktok","app":"TikTok","surface":"Whole app","dns":"whole app only","focus":"kept","hard":"blocked (opt-in)","note":"TikTok is 100% short video — there is no non-Reels part to keep."}],"domain_groups":[{"id":"tiktok","label":"TikTok","breaks":"TikTok app and tiktok.com stop working. CapCut login may also fail (ByteDance shared domains).","domains":["tiktok.com","www.tiktok.com","m.tiktok.com","tiktokv.com","tiktokv.us","tiktokcdn.com","tiktokcdn-us.com","tiktokcdn-eu.com","musical.ly","byteoversea.com","ibytedtos.com","ibytedapm.com"]},{"id":"likee","label":"Likee","breaks":"Likee app and likee.video stop working.","domains":["likee.video","likee.com","bigo.tv","bigo.sg"]},{"id":"kwai","label":"Kwai","breaks":"Kwai app and kwai.com stop working.","domains":["kwai.com","kwai.net","kuaishou.com","gifshow.com"]},{"id":"snackvideo","label":"SnackVideo","breaks":"SnackVideo app and snackvideo.com stop working.","domains":["snackvideo.com","snackvideo.mobi"]},{"id":"nuclear","label":"Whole-platform block (NOT recommended)","breaks":"Kills the entire platform: feed, photos, stories, Messenger attachments and normal videos.","domains":["facebook.com","fb.com","fbcdn.net","fbsbx.com","messenger.com","instagram.com","cdninstagram.com","instagr.am","youtube.com","youtu.be","googlevideo.com","ytimg.com"]}],"allowlist":["messenger.com","www.messenger.com","facebook.com/messages","instagram.com/direct","web.whatsapp.com"],"rules":{"ublock":"! Title: ShortsGuard — Focus Mode (YouTube Shorts · Facebook Reels · Instagram Reels)\n! Description: Hides short-form video surfaces; feeds, DMs and Messenger keep working.\n! Version: 1.0.0\n! Expires: 7 days\n! Homepage: https://github.com/iamtanzir/DNS-Server-List\n\n! ===== YouTube Shorts =====\nyoutube.com##ytd-reel-shelf-renderer\nyoutube.com##ytm-reel-shelf-renderer\nyoutube.com##ytd-rich-shelf-renderer[is-shorts]\nyoutube.com##ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts])\nyoutube.com##ytd-reel-video-renderer\nyoutube.com##ytd-shorts\nyoutube.com##ytm-shorts-lockup-view-model\nyoutube.com##ytd-guide-entry-renderer:has(a[title=\"Shorts\"])\nyoutube.com##ytd-mini-guide-entry-renderer[aria-label=\"Shorts\"]\nyoutube.com##yt-tab-shape[tab-title=\"Shorts\"]\nyoutube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string[title=\"Shorts\"])\nyoutube.com##ytd-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##ytd-grid-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##yt-lockup-view-model:has(a[href^=\"/shorts/\"])\nyoutube.com##grid-shelf-view-model:has(a[href^=\"/shorts/\"])\nyoutube.com##ytd-comment-thread-renderer:has(a[href^=\"/shorts/\"])\n\n! ===== Facebook Reels =====\nfacebook.com##a[href*=\"/reel/\"]\nfacebook.com##a[href*=\"sk=reels_tab\"]\nfacebook.com##div[aria-label=\"Reels\"]\nfacebook.com##div[aria-label=\"Reels and short videos\"]\nfacebook.com##div[data-pagelet^=\"Reels\"]\nfacebook.com##div[data-pagelet*=\"Reel\"]\nfacebook.com##div[role=\"navigation\"] a[href*=\"/reel/\"]\nfacebook.com##div[role=\"feed\"] div:has(> div a[href*=\"/reel/\"])\n\n! ===== Instagram Reels =====\ninstagram.com##a[href=\"/reels/\"]\ninstagram.com##a[href^=\"/reels/\"]\ninstagram.com##a[href*=\"/reel/\"]\ninstagram.com##a:has(svg[aria-label=\"Reels\"])\ninstagram.com##div[aria-label=\"Reels\"]\ninstagram.com##div[role=\"tablist\"] a[href=\"/reels/\"]\ninstagram.com##article:has(a[href*=\"/reel/\"])\n","adguard":"! Title: ShortsGuard — Focus Mode (AdGuard / AdGuard Browser Extension)\n! Description: Hides YouTube Shorts, Facebook Reels and Instagram Reels surfaces.\n! Version: 1.0.0\n\n! ===== YouTube Shorts =====\nyoutube.com##ytd-reel-shelf-renderer\nyoutube.com##ytm-reel-shelf-renderer\nyoutube.com##ytd-rich-shelf-renderer[is-shorts]\nyoutube.com##ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts])\nyoutube.com##ytd-reel-video-renderer\nyoutube.com##ytd-shorts\nyoutube.com##ytm-shorts-lockup-view-model\nyoutube.com##ytd-guide-entry-renderer:has(a[title=\"Shorts\"])\nyoutube.com##ytd-mini-guide-entry-renderer[aria-label=\"Shorts\"]\nyoutube.com##yt-tab-shape[tab-title=\"Shorts\"]\nyoutube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string[title=\"Shorts\"])\nyoutube.com##ytd-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##ytd-grid-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##yt-lockup-view-model:has(a[href^=\"/shorts/\"])\nyoutube.com##grid-shelf-view-model:has(a[href^=\"/shorts/\"])\n\n! ===== Facebook Reels =====\nfacebook.com##a[href*=\"/reel/\"]\nfacebook.com##a[href*=\"sk=reels_tab\"]\nfacebook.com##div[aria-label=\"Reels\"]\nfacebook.com##div[aria-label=\"Reels and short videos\"]\nfacebook.com##div[data-pagelet^=\"Reels\"]\nfacebook.com##div[role=\"navigation\"] a[href*=\"/reel/\"]\n\n! ===== Instagram Reels =====\ninstagram.com##a[href=\"/reels/\"]\ninstagram.com##a[href^=\"/reels/\"]\ninstagram.com##a[href*=\"/reel/\"]\ninstagram.com##a:has(svg[aria-label=\"Reels\"])\ninstagram.com##div[aria-label=\"Reels\"]\ninstagram.com##div[role=\"tablist\"] a[href=\"/reels/\"]\n","adguardhome":"! Title: ShortsGuard — DNS Hard Block (AdGuard Home)\n! DNS filtering only: AdGuard Home cannot hide page elements.\n! Blocks whole apps (TikTok / Likee / Kwai / SnackVideo).\n! Facebook, Messenger, Instagram and YouTube are NOT touched.\n! Add a blocklist URL in AdGuard Home -> Filters -> DNS blocklists,\n! or paste these rules into Filters -> Custom filtering rules.\n\n! ===== TikTok =====\n||tiktok.com^\n||tiktokv.com^\n||tiktokv.us^\n||tiktokcdn.com^\n||tiktokcdn-us.com^\n||tiktokcdn-eu.com^\n||musical.ly^\n||byteoversea.com^\n||ibytedtos.com^\n||ibytedapm.com^\n\n! ===== Likee =====\n||likee.video^\n||likee.com^\n||bigo.tv^\n||bigo.sg^\n\n! ===== Kwai =====\n||kwai.com^\n||kwai.net^\n||kuaishou.com^\n||gifshow.com^\n\n! ===== SnackVideo =====\n||snackvideo.com^\n||snackvideo.mobi^\n\n! ===== Allowlist (safety net) =====\n@@||messenger.com^\n@@||facebook.com^\n@@||instagram.com^\n@@||youtube.com^\n","hosts":"# ShortsGuard — hosts file (Pi-hole, AdGuard Home import, dnsmasq, Windows hosts)\n# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.\n# Generated from data/guard-profiles.json\n\n# TikTok\n0.0.0.0 tiktok.com\n0.0.0.0 www.tiktok.com\n0.0.0.0 m.tiktok.com\n0.0.0.0 tiktokv.com\n0.0.0.0 tiktokv.us\n0.0.0.0 tiktokcdn.com\n0.0.0.0 tiktokcdn-us.com\n0.0.0.0 tiktokcdn-eu.com\n0.0.0.0 musical.ly\n0.0.0.0 byteoversea.com\n0.0.0.0 ibytedtos.com\n0.0.0.0 ibytedapm.com\n\n# Likee\n0.0.0.0 likee.video\n0.0.0.0 likee.com\n0.0.0.0 bigo.tv\n0.0.0.0 bigo.sg\n\n# Kwai\n0.0.0.0 kwai.com\n0.0.0.0 kwai.net\n0.0.0.0 kuaishou.com\n0.0.0.0 gifshow.com\n\n# SnackVideo\n0.0.0.0 snackvideo.com\n0.0.0.0 snackvideo.mobi\n","dnsmasq":"# ShortsGuard — dnsmasq / OpenWrt config\n# Drop this in /etc/dnsmasq.conf (or a conf-file) and restart dnsmasq.\n# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.\n\naddress=/tiktok.com/0.0.0.0\naddress=/tiktokv.com/0.0.0.0\naddress=/tiktokv.us/0.0.0.0\naddress=/tiktokcdn.com/0.0.0.0\naddress=/tiktokcdn-us.com/0.0.0.0\naddress=/tiktokcdn-eu.com/0.0.0.0\naddress=/musical.ly/0.0.0.0\naddress=/byteoversea.com/0.0.0.0\naddress=/ibytedtos.com/0.0.0.0\naddress=/ibytedapm.com/0.0.0.0\naddress=/likee.video/0.0.0.0\naddress=/likee.com/0.0.0.0\naddress=/bigo.tv/0.0.0.0\naddress=/bigo.sg/0.0.0.0\naddress=/kwai.com/0.0.0.0\naddress=/kwai.net/0.0.0.0\naddress=/kuaishou.com/0.0.0.0\naddress=/gifshow.com/0.0.0.0\naddress=/snackvideo.com/0.0.0.0\naddress=/snackvideo.mobi/0.0.0.0\n"},"redirects":[{"id":"youtube-shorts","pattern":"^https?://(www\\.|m\\.)?youtube\\.com/shorts/([A-Za-z0-9_-]{6,})","target":"https://www.youtube.com/watch?v=$2","note":"Keeps a shared Short playable as a normal video."},{"id":"facebook-reels","pattern":"^https?://(www\\.|web\\.|m\\.)?facebook\\.com/(reel|reels)/","target":"https://www.facebook.com/","note":"Reels have no non-Reels player; send the user back to the feed."},{"id":"instagram-reels","pattern":"^https?://(www\\.)?instagram\\.com/(reel|reels)/","target":"https://www.instagram.com/","note":"Same: hide the surface, keep the app."}],"install_guides":[{"id":"userscript","title":"Userscript (fastest, all browsers)","steps":["Install Tampermonkey (Chrome/Edge/Brave) or Violentmonkey (Firefox).","Open guard/shorts-guard.user.js and click Raw — the manager offers Install.","Open youtube.com, facebook.com and instagram.com once to confirm the badge appears.","Toggle any target from the script menu (ShortsGuard → settings)."]},{"id":"ublock","title":"uBlock Origin (no extra extension if you already use it)","steps":["Open the uBlock Origin dashboard → My filters.","Paste blocklists/shortsguard-ublock.txt and click Apply changes.","Reload the three sites. Reels/Shorts shelves disappear; URLs still work."]},{"id":"extension","title":"Bundled Chrome / Edge extension (MV3)","steps":["Open chrome://extensions and enable Developer mode.","Load unpacked → select the guard/extension folder.","Pin ShortsGuard and use the popup to toggle YouTube / Facebook / Instagram."]},{"id":"adguardhome","title":"AdGuard Home / Pi-hole (whole network, apps only)","steps":["AdGuard Home → Filters → DNS blocklists → Add blocklist → paste the raw URL of blocklists/shortsguard-adguardhome.txt.","Pi-hole → Adlists → paste the raw URL of blocklists/shortsguard-hosts.txt → Update gravity.","This blocks TikTok/Likee/Kwai/SnackVideo on every device. It cannot hide Reels/Shorts inside Facebook/Instagram/YouTube — use Focus Mode for that."]}]}</script>
+<script id="health-data" type="application/json">{"schema":"dns-health/v1","checked":"2026-11-10T16:16:41Z","query":"example.com/A","summary":{"checked":66,"healthy":63,"partial":3,"dead":0},"results":{"one.one.one.one":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":532,"ip":"1.1.1.1","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":238,"url":"https://one.one.one.one/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns9.quad9.net":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":558,"ip":"9.9.9.9","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":323,"url":"https://dns9.quad9.net/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"dns11.quad9.net":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":805,"ip":"149.112.112.11","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":246,"url":"https://dns11.quad9.net/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"1dot1dot1dot1.cloudflare-dns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":860,"ip":"1.0.0.1","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":236,"url":"https://1dot1dot1dot1.cloudflare-dns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.quad9.net":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":849,"ip":"149.112.112.112","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":286,"url":"https://dns.quad9.net/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"dns10.quad9.net":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":842,"ip":"9.9.9.10","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":351,"url":"https://dns10.quad9.net/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"dns-unfiltered.adguard.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":728,"ip":"2a10:50c0::1:ff","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":633,"url":"https://dns-unfiltered.adguard.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"p0.freedns.controld.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":884,"ip":"76.76.2.11","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":976,"url":"https://p0.freedns.controld.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"p1.freedns.controld.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":800,"ip":"76.76.2.11","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1063,"url":"https://p1.freedns.controld.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"p3.freedns.controld.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":809,"ip":"76.76.2.11","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1065,"url":"https://p3.freedns.controld.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"p2.freedns.controld.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":842,"ip":"76.76.2.11","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1147,"url":"https://p2.freedns.controld.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.adguard.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1698,"ip":"94.140.14.14","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":540,"url":"https://dns.adguard.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"security.cloudflare-dns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":790,"ip":"1.0.0.2","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1455,"url":"https://security.cloudflare-dns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"family.cloudflare-dns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":845,"ip":"1.0.0.3","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1427,"url":"https://family.cloudflare-dns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.opendns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":298,"ip":"208.67.220.220","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":867,"url":"https://doh.opendns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"familyshield.opendns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":311,"ip":"208.67.220.123","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":854,"url":"https://doh.familyshield.opendns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns-family.adguard.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1313,"ip":"94.140.14.15","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1269,"url":"https://dns-family.adguard.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"anycast.dns.nextdns.io":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1725,"ip":"45.90.30.0","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":218,"url":"https://anycast.dns.nextdns.io/","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dot.sb":{"protocol":"dot","dot":{"status":"cert","latency_ms":1522,"ip":"185.222.222.222","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"dns.adguard-dns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1406,"ip":"94.140.14.14","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1606,"url":"https://dns.adguard-dns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"common.dot.dns.yandex.net":{"protocol":"dot","dot":{"status":"ok","latency_ms":1121,"ip":"77.88.8.8","rcode":0,"answers":2},"overall":"ok"},"dns.nextdns.io":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1779,"ip":"199.119.65.94","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1422,"url":"https://dns.nextdns.io/","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.google":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":857,"ip":"8.8.4.4","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":2371,"url":"https://dns.google/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"doh.sb":{"protocol":"doh","doh":{"status":"ok","latency_ms":1492,"url":"https://doh.sb/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"family-filter-dns.cleanbrowsing.org":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1749,"ip":"185.228.168.168","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":837,"url":"https://doh.cleanbrowsing.org/doh/family-filter/","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"security-filter-dns.cleanbrowsing.org":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1363,"ip":"185.228.168.9","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1072,"url":"https://doh.cleanbrowsing.org/doh/security-filter/","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"adult-filter-dns.cleanbrowsing.org":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1217,"ip":"185.228.168.10","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1405,"url":"https://doh.cleanbrowsing.org/doh/adult-filter/","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"private.canadianshield.cira.ca":{"protocol":"dot","dot":{"status":"ok","latency_ms":1466,"ip":"149.112.122.10","rcode":0,"answers":2},"overall":"ok"},"ordns.he.net":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1407,"ip":"74.82.42.42","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":809,"url":"https://ordns.he.net/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"dns.alidns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":455,"ip":"223.6.6.6","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":527,"url":"https://dns.alidns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.twnic.tw":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1072,"ip":"101.101.101.101","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":885,"url":"https://dns.twnic.tw/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"protected.canadianshield.cira.ca":{"protocol":"dot","dot":{"status":"ok","latency_ms":1646,"ip":"149.112.122.20","rcode":0,"answers":2},"overall":"ok"},"wikimedia-dns.org":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1165,"ip":"185.71.138.138","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1278,"url":"https://wikimedia-dns.org/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"family.canadianshield.cira.ca":{"protocol":"dot","dot":{"status":"ok","latency_ms":1697,"ip":"149.112.121.30","rcode":0,"answers":2},"overall":"ok"},"dns.switch.ch":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":746,"ip":"130.59.31.248","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":833,"url":"https://dns.switch.ch/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"fdns2.dismail.de":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1323,"ip":"159.69.114.157","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":1001,"url":"https://fdns2.dismail.de/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"doh.360.cn":{"protocol":"doh","doh":{"status":"ok","latency_ms":1209,"url":"https://doh.360.cn/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"doh.pub":{"protocol":"doh","doh":{"status":"ok","latency_ms":1403,"url":"https://doh.pub/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"public.dns.iij.jp":{"protocol":"dot","dot":{"status":"cert","latency_ms":1944,"ip":"103.2.57.5","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"dns-dot.dnsforfamily.com":{"protocol":"dot","dot":{"status":"ok","latency_ms":1265,"ip":"167.235.236.107","rcode":0,"answers":2},"overall":"ok"},"odvr.nic.cz":{"protocol":"dot","dot":{"status":"cert","latency_ms":2275,"ip":"185.43.135.1","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"doh-de.blahdns.com":{"protocol":"doh","doh":{"status":"ok","latency_ms":1298,"url":"https://doh-de.blahdns.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.comss.one":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1281,"ip":"141.133.183.77","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":881,"url":"https://dns.comss.one/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"ibksturm.synology.me":{"protocol":"dot","dot":{"status":"ok","latency_ms":1313,"ip":"213.196.191.96","rcode":0,"answers":2},"overall":"ok"},"dot.libredns.gr":{"protocol":"dot","dot":{"status":"ok","latency_ms":1676,"ip":"116.202.176.26","rcode":0,"answers":2},"overall":"ok"},"doh.libredns.gr":{"protocol":"doh","doh":{"status":"ok","latency_ms":1633,"url":"https://doh.libredns.gr/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.cmrg.net":{"protocol":"dot","dot":{"status":"ok","latency_ms":1116,"ip":"199.58.83.33","rcode":0,"answers":2},"overall":"ok"},"unicast.censurfridns.dk":{"protocol":"dot","dot":{"status":"cert","latency_ms":1386,"ip":"89.233.43.71","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"getdnsapi.net":{"protocol":"dot","dot":{"status":"ok","latency_ms":1806,"ip":"185.49.141.38","rcode":0,"answers":2},"overall":"ok"},"dns.digitale-gesellschaft.ch":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1809,"ip":"185.95.218.43","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"http2","latency_ms":664,"url":"https://dns.digitale-gesellschaft.ch/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"ok"},"fdns1.dismail.de":{"protocol":"dot+doh","dot":{"status":"error","latency_ms":3666,"ip":"116.203.32.217","error":"ConnectionError: connection closed mid-response","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)"},"doh":{"status":"http2","latency_ms":988,"url":"https://fdns1.dismail.de/dns-query","error":"server requires HTTP/2 (works in browsers)"},"overall":"partial"},"dns.decloudus.com":{"protocol":"dot","dot":{"status":"cert","latency_ms":2349,"ip":"46.224.208.209","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"doh.tiar.app":{"protocol":"doh","doh":{"status":"ok","latency_ms":1051,"url":"https://doh.tiar.app/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dot.tiar.app":{"protocol":"dot","dot":{"status":"cert","latency_ms":1096,"ip":"174.138.29.175","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"anycast.censurfridns.dk":{"protocol":"dot","dot":{"status":"cert","latency_ms":1865,"ip":"91.239.100.100","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"dot.seby.io":{"protocol":"dot","dot":{"status":"cert","latency_ms":1705,"ip":"45.76.113.31","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"overall":"ok"},"dnsforge.de":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1764,"ip":"49.12.67.122","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1264,"url":"https://dnsforge.de/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"max.rethinkdns.com":{"protocol":"dot+doh","dot":{"status":"ok","latency_ms":1326,"ip":"137.66.7.89","rcode":0,"answers":1},"doh":{"status":"ok","latency_ms":1026,"url":"https://max.rethinkdns.com/dns-query","rcode":0,"answers":1,"method":"POST"},"overall":"ok"},"dot.ffmuc.net":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":2139,"ip":"185.150.99.255","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1838,"url":"https://doh.ffmuc.net/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"dns.njal.la":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1316,"ip":"95.215.19.53","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":1105,"url":"https://dns.njal.la/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"},"adblock.doh.mullvad.net":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1356,"ip":"194.242.2.3","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"error","error":"https://adblock.doh.mullvad.net/dns-query -> RemoteDisconnected: Remote end closed connection without response; https://adblock.doh.mullvad.net/ -> RemoteDisconnected: Remote end closed connection without response"},"overall":"partial"},"doh.mullvad.net":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":1374,"ip":"194.242.2.2","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"error","error":"https://doh.mullvad.net/dns-query -> RemoteDisconnected: Remote end closed connection without response; https://doh.mullvad.net/ -> RemoteDisconnected: Remote end closed connection without response"},"overall":"partial"},"dot.pub":{"protocol":"dot","dot":{"status":"ok","latency_ms":7703,"ip":"120.53.53.53","rcode":0,"answers":2},"overall":"ok"},"dot.360.cn":{"protocol":"dot","dot":{"status":"ok","latency_ms":9338,"ip":"101.198.193.29","rcode":0,"answers":2},"overall":"ok"},"dot-de.blahdns.com":{"protocol":"dot","dot":{"status":"ok","latency_ms":9981,"ip":"78.46.244.143","rcode":0,"answers":2},"overall":"ok"},"dns.bebasid.com":{"protocol":"dot+doh","dot":{"status":"cert","latency_ms":17169,"ip":"103.155.191.184","cert_error":"SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1147)","rcode":0,"answers":2},"doh":{"status":"ok","latency_ms":618,"url":"https://dns.bebasid.com/dns-query","rcode":0,"answers":2,"method":"POST"},"overall":"ok"}}}</script>
 <script>
 "use strict";
 const DATA = JSON.parse(document.getElementById("dns-data").textContent);
+const GUARD = JSON.parse(document.getElementById("guard-data").textContent);
+let HEALTH = {};
+try { HEALTH = JSON.parse(document.getElementById("health-data").textContent) || {}; } catch { HEALTH = {}; }
 
-/* ---------- stats ---------- */
+const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const allEndpoints = DATA.providers.flatMap(p => p.hosts.map(h => ({...h, provider: p})));
-document.getElementById("statProviders").textContent = DATA.providers.length;
-document.getElementById("statEndpoints").textContent = allEndpoints.length;
+const healthFor = host => (HEALTH.results && HEALTH.results[host]) || null;
 
-/* ---------- theme ---------- */
+/* ---------------------------------------------------------------- theme */
 const rootEl = document.documentElement;
-const saved = localStorage.getItem("theme");
-if (saved) rootEl.dataset.theme = saved;
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme) rootEl.dataset.theme = savedTheme;
 else if (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches) rootEl.dataset.theme = "light";
 document.getElementById("themeToggle").addEventListener("click", () => {
   rootEl.dataset.theme = rootEl.dataset.theme === "dark" ? "light" : "dark";
   localStorage.setItem("theme", rootEl.dataset.theme);
 });
 
-/* ---------- filter chips ---------- */
-const FILTER_DEFS = [
-  {id: "all",     label: "All"},
-  {id: "none",    label: "🚫 Unfiltered"},
-  {id: "ads",     label: "🎯 Ad-Blocking"},
-  {id: "malware", label: "🦠 Malware Shield"},
-  {id: "adult",   label: "🔞 Family-Safe"},
-  {id: "social",  label: "📵 Social Block"},
-  {id: "dot",     label: "🔒 DoT (Private DNS)"},
-  {id: "doh",     label: "🌐 DoH (Browsers)"}
-];
-let activeFilter = "all";
-const chipsEl = document.getElementById("chips");
-for (const f of FILTER_DEFS) {
-  const btn = document.createElement("button");
-  btn.className = "chip" + (f.id === activeFilter ? " active" : "");
-  btn.textContent = f.label;
-  btn.setAttribute("aria-pressed", f.id === activeFilter);
-  btn.addEventListener("click", () => {
-    activeFilter = f.id;
-    chipsEl.querySelectorAll(".chip").forEach(c => { c.classList.toggle("active", c === btn); c.setAttribute("aria-pressed", c === btn); });
-    render();
-  });
-  chipsEl.appendChild(btn);
-}
-
-/* ---------- search ---------- */
-const q = document.getElementById("q");
-q.addEventListener("input", render);
-document.addEventListener("keydown", e => {
-  if (e.key === "/" && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); q.focus(); }
-  if (e.key === "Escape" && e.target === q) { q.value = ""; render(); q.blur(); }
-});
-
-const matchesFilter = (h) => {
-  switch (activeFilter) {
-    case "all": return true;
-    case "dot": return h.protocol !== "doh";
-    case "doh": return h.protocol !== "dot";
-    default:    return h.filters.includes(activeFilter);
-  }
-};
-const matchesQuery = (p, h, needle) => {
-  if (!needle) return true;
-  const hay = [p.name, p.notes, h.host, h.label, h.region, h.notes, (h.filters || []).join(" "), h.protocol].join(" ").toLowerCase();
-  return needle.split(/\s+/).every(tok => hay.includes(tok));
-};
-
-const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const tagClass = f => "tag tag-" + (["none","ads","malware","adult","social"].includes(f) ? f : "none");
-const protoLabel = {dot:"DoT · :853", doh:"DoH · :443", "dot+doh":"DoT + DoH"};
-
-/* ---------- render ---------- */
-const grid = document.getElementById("grid");
-const resultCount = document.getElementById("resultCount");
-const empty = document.getElementById("empty");
-
-function render() {
-  const needle = q.value.trim().toLowerCase();
-  let shown = 0, shownProviders = 0;
-  const frag = document.createDocumentFragment();
-
-  for (const p of DATA.providers) {
-    const visibleHosts = p.hosts.filter(h => matchesFilter(h) && matchesQuery(p, h, needle));
-    if (!visibleHosts.length) continue;
-    shownProviders++;
-
-    const card = document.createElement("article");
-    card.className = "card";
-    card.innerHTML = `
-      <div class="card-head">
-        <div>
-          <h2>${escapeHtml(p.name)}</h2>
-          ${p.notes ? `<div class="card-notes">${escapeHtml(p.notes)}</div>` : ""}
-        </div>
-        ${p.website ? `<a class="site" href="${escapeHtml(p.website)}" target="_blank" rel="noopener">site ↗</a>` : ""}
-      </div>
-      <div class="endpoints">${visibleHosts.map(endpointHtml).join("")}</div>`;
-    frag.appendChild(card);
-    shown += visibleHosts.length;
-  }
-
-  grid.replaceChildren(frag);
-  empty.classList.toggle("show", shown === 0);
-  document.getElementById("emptyQuery").textContent = q.value.trim();
-  resultCount.textContent = shown === 0 ? "" : `Showing ${shown} endpoint${shown !== 1 ? "s" : ""} from ${shownProviders} provider${shownProviders !== 1 ? "s" : ""}`;
-}
-
-function endpointHtml(h) {
-  const tags = [
-    `<span class="tag tag-proto">${protoLabel[h.protocol] || escapeHtml(h.protocol)}</span>`,
-    ...h.filters.map(f => `<span class="${tagClass(f)}">${escapeHtml(f.toUpperCase())}</span>`),
-    `<span class="tag tag-region">📍 ${escapeHtml(h.region)}</span>`
-  ].join("");
-  return `
-    <div class="endpoint">
-      <div class="ep-top">
-        <code class="host">${escapeHtml(h.host)}</code>
-        <button class="copy-btn" data-host="${escapeHtml(h.host)}" title="Copy ${escapeHtml(h.host)}" aria-label="Copy ${escapeHtml(h.host)}">📋</button>
-      </div>
-      <div class="ep-meta">${tags}</div>
-      ${h.label ? `<div class="ep-label">${escapeHtml(h.label)}</div>` : ""}
-      ${h.notes ? `<div class="ep-note">${escapeHtml(h.notes)}</div>` : ""}
-    </div>`;
-}
-
-/* ---------- copy (event delegation) ---------- */
+/* ---------------------------------------------------------------- toast */
 const toast = document.getElementById("toast");
 let toastTimer;
 function showToast(msg) {
@@ -310,15 +578,471 @@ async function copyText(text) {
     } catch { return false; }
   }
 }
-grid.addEventListener("click", async e => {
-  const btn = e.target.closest(".copy-btn");
+document.addEventListener("click", async e => {
+  const btn = e.target.closest("[data-copy]");
   if (!btn) return;
-  const ok = await copyText(btn.dataset.host);
-  btn.textContent = ok ? "✅" : "❌";
-  showToast(ok ? `Copied “${btn.dataset.host}”` : "Copy failed — select the text manually");
-  setTimeout(() => { btn.textContent = "📋"; }, 1600);
+  const value = btn.dataset.copy;
+  const ok = await copyText(value);
+  if (btn.classList.contains("copy-btn")) {
+    const old = btn.textContent;
+    btn.textContent = ok ? "✅" : "❌";
+    setTimeout(() => { btn.textContent = old; }, 1400);
+  }
+  showToast(ok ? `Copied “${value.length > 60 ? value.slice(0, 57) + "…" : value}”` : "Copy failed — select the text manually");
 });
 
+/* ---------------------------------------------------------------- tabs */
+const TABS = ["resolvers", "guard", "advisor", "guide"];
+function showTab(name, updateHash = true) {
+  if (!TABS.includes(name)) name = "resolvers";
+  for (const t of TABS) {
+    const section = document.getElementById("tab-" + t);
+    const btn = document.getElementById("tabbtn-" + t);
+    const on = t === name;
+    section.classList.toggle("hidden", !on);
+    btn.setAttribute("aria-selected", String(on));
+  }
+  if (updateHash) history.replaceState(null, "", "#" + name);
+  window.scrollTo({ top: 0, behavior: "instant" });
+}
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => showTab(btn.dataset.tab));
+});
+window.addEventListener("hashchange", () => showTab(location.hash.slice(1), false));
+
+/* ---------------------------------------------------------------- health */
+function healthBadge(host) {
+  const h = healthFor(host);
+  if (!h) return "";
+  const parts = [];
+  for (const proto of ["dot", "doh"]) {
+    if (h[proto]) parts.push(`${proto.toUpperCase()} ${h[proto].status}${h[proto].latency_ms ? " " + h[proto].latency_ms + "ms" : ""}`);
+  }
+  const cls = h.overall === "ok" ? "live" : h.overall === "partial" ? "partial" : "dead";
+  const icon = cls === "live" ? "🟢" : cls === "partial" ? "🟠" : "🔴";
+  const label = cls === "live" ? "live" : cls === "partial" ? "partial" : "dead";
+  const ms = (h.dot && h.dot.latency_ms) || (h.doh && h.doh.latency_ms);
+  return `<span class="health health-${cls}" title="${escapeHtml(parts.join(" · ") || label)}">${icon} ${label}${ms ? " · " + ms + "ms" : ""}</span>`;
+}
+
+/* ---------------------------------------------------------------- resolvers */
+const FILTER_DEFS = [
+  { id: "all", label: "All" },
+  { id: "live", label: "🟢 Working now" },
+  { id: "none", label: "🚫 Unfiltered" },
+  { id: "ads", label: "🎯 Ad-Blocking" },
+  { id: "malware", label: "🦠 Malware Shield" },
+  { id: "adult", label: "🔞 Family-Safe" },
+  { id: "social", label: "📵 Social Block" },
+  { id: "dot", label: "🔒 DoT (Private DNS)" },
+  { id: "doh", label: "🌐 DoH (Browsers)" }
+];
+let activeFilter = "all";
+const chipsEl = document.getElementById("chips");
+for (const f of FILTER_DEFS) {
+  const btn = document.createElement("button");
+  btn.className = "chip" + (f.id === activeFilter ? " active" : "");
+  btn.textContent = f.label;
+  btn.type = "button";
+  btn.setAttribute("aria-pressed", f.id === activeFilter);
+  btn.addEventListener("click", () => {
+    activeFilter = f.id;
+    chipsEl.querySelectorAll(".chip").forEach(c => {
+      c.classList.toggle("active", c === btn);
+      c.setAttribute("aria-pressed", String(c === btn));
+    });
+    render();
+  });
+  chipsEl.appendChild(btn);
+}
+
+const q = document.getElementById("q");
+const hideDead = document.getElementById("hideDead");
+q.addEventListener("input", render);
+hideDead.addEventListener("change", render);
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/input|textarea|select/i.test(e.target.tagName)) {
+    if (document.getElementById("tab-resolvers").classList.contains("hidden")) return;
+    e.preventDefault(); q.focus();
+  }
+  if (e.key === "Escape" && e.target === q) { q.value = ""; render(); q.blur(); }
+});
+
+const isLive = h => { const s = healthFor(h.host); return !s || s.overall === "ok" || s.overall === "partial"; };
+const matchesFilter = h => {
+  switch (activeFilter) {
+    case "all": return true;
+    case "live": return isLive(h);
+    case "dot": return h.protocol !== "doh";
+    case "doh": return h.protocol !== "dot";
+    default: return h.filters.includes(activeFilter);
+  }
+};
+const matchesQuery = (p, h, needle) => {
+  if (!needle) return true;
+  const hay = [p.name, p.notes, p.privacy, h.host, h.label, h.region, h.notes, h.doh, (h.ipv4 || []).join(" "), (h.filters || []).join(" "), h.protocol].join(" ").toLowerCase();
+  return needle.split(/\s+/).every(tok => hay.includes(tok));
+};
+const tagClass = f => "tag tag-" + (["none", "ads", "malware", "adult", "social"].includes(f) ? f : "none");
+const protoLabel = { dot: "DoT · :853", doh: "DoH · :443", "dot+doh": "DoT + DoH" };
+
+const grid = document.getElementById("grid");
+const resultCount = document.getElementById("resultCount");
+const empty = document.getElementById("empty");
+
+function endpointHtml(h) {
+  const tags = [
+    `<span class="tag tag-proto">${protoLabel[h.protocol] || escapeHtml(h.protocol)}</span>`,
+    ...h.filters.map(f => `<span class="${tagClass(f)}">${escapeHtml(f.toUpperCase())}</span>`),
+    `<span class="tag tag-region">📍 ${escapeHtml(h.region)}</span>`
+  ].join("");
+  return `
+    <div class="endpoint">
+      <div class="ep-top">
+        <code class="host">${escapeHtml(h.host)}</code>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${healthBadge(h.host)}
+          <button class="copy-btn" data-copy="${escapeHtml(h.host)}" title="Copy ${escapeHtml(h.host)}" aria-label="Copy ${escapeHtml(h.host)}">📋</button>
+        </div>
+      </div>
+      <div class="ep-meta">${tags}</div>
+      ${h.label ? `<div class="ep-label">${escapeHtml(h.label)}</div>` : ""}
+      ${h.doh ? `<div class="ep-extra"><span>DoH</span><code>${escapeHtml(h.doh)}</code><button class="copy-btn" data-copy="${escapeHtml(h.doh)}" title="Copy DoH URL" aria-label="Copy DoH URL">📋</button></div>` : ""}
+      ${h.ipv4 && h.ipv4.length ? `<div class="ep-extra"><span>IPv4</span><code>${escapeHtml(h.ipv4.join("  ·  "))}</code><button class="copy-btn" data-copy="${escapeHtml(h.ipv4.join(", "))}" title="Copy IPv4 addresses" aria-label="Copy IPv4 addresses">📋</button></div>` : ""}
+      ${h.notes ? `<div class="ep-note">${escapeHtml(h.notes)}</div>` : ""}
+    </div>`;
+}
+
+function render() {
+  const needle = q.value.trim().toLowerCase();
+  let shown = 0, shownProviders = 0, hiddenDead = 0;
+  const frag = document.createDocumentFragment();
+
+  for (const p of DATA.providers) {
+    const visibleHosts = p.hosts.filter(h => {
+      if (!matchesFilter(h) || !matchesQuery(p, h, needle)) return false;
+      if (hideDead.checked && !isLive(h)) { hiddenDead++; return false; }
+      return true;
+    });
+    if (!visibleHosts.length) continue;
+    shownProviders++;
+
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-head">
+        <div>
+          <h2>${escapeHtml(p.name)} <span class="privacy ${escapeHtml(p.privacy || "unknown")}">${escapeHtml((p.privacy || "unknown").replace("-", " "))}</span></h2>
+          ${p.notes ? `<div class="card-notes">${escapeHtml(p.notes)}</div>` : ""}
+        </div>
+        ${p.website ? `<a class="site" href="${escapeHtml(p.website)}" target="_blank" rel="noopener">site ↗</a>` : ""}
+      </div>
+      <div class="endpoints">${visibleHosts.map(endpointHtml).join("")}</div>`;
+    frag.appendChild(card);
+    shown += visibleHosts.length;
+  }
+
+  grid.replaceChildren(frag);
+  empty.classList.toggle("show", shown === 0);
+  document.getElementById("emptyQuery").textContent = q.value.trim();
+  resultCount.textContent = shown === 0 ? "" :
+    `Showing ${shown} endpoint${shown !== 1 ? "s" : ""} from ${shownProviders} provider${shownProviders !== 1 ? "s" : ""}` +
+    (hiddenDead ? ` · ${hiddenDead} dead hidden` : "");
+}
+
+/* stats */
+document.getElementById("statProviders").textContent = DATA.providers.length;
+document.getElementById("statEndpoints").textContent = allEndpoints.length;
+const liveCount = allEndpoints.filter(isLive).length;
+document.getElementById("statLive").textContent = liveCount;
+if (HEALTH.checked) {
+  const when = new Date(HEALTH.checked);
+  document.getElementById("statChecked").textContent = "checked " + when.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
+
+/* ---------------------------------------------------------------- guard */
+document.getElementById("limitEn").textContent = GUARD.honest_limit.en;
+document.getElementById("limitBn").textContent = GUARD.honest_limit.bn;
+
+const profilesEl = document.getElementById("profiles");
+profilesEl.innerHTML = GUARD.profiles.map(p => `
+  <article class="profile ${p.badge === "recommended" ? "recommended" : ""}">
+    <h3>${escapeHtml(p.name)} <span class="badge ${p.badge === "recommended" ? "rec" : ""}">${escapeHtml(p.badge)}</span></h3>
+    <p>${escapeHtml(p.tagline)}</p>
+    <p class="bn">${escapeHtml(p.tagline_bn || "")}</p>
+    <div class="tags">
+      ${p.blocks.map(b => `<span class="tag tag-block">${escapeHtml(b)}</span>`).join("")}
+      ${p.keeps.map(k => `<span class="tag tag-keep">keep: ${escapeHtml(k)}</span>`).join("")}
+    </div>
+    <ul>${p.does.map(d => `<li>${escapeHtml(d)}</li>`).join("")}</ul>
+    <div class="install">${p.install.map(i => `<div>→ ${escapeHtml(i)}</div>`).join("")}</div>
+  </article>`).join("");
+
+document.getElementById("matrix").innerHTML = GUARD.targets.map(t => {
+  const cls = v => v === "impossible" ? "no" : v === "works" || v === "kept" ? "ok" : "meh";
+  return `<tr>
+    <td><b>${escapeHtml(t.app)}</b></td>
+    <td>${escapeHtml(t.surface)}</td>
+    <td class="${cls(t.dns)}">${escapeHtml(t.dns)}</td>
+    <td class="${cls(t.focus)}">${escapeHtml(t.focus)}</td>
+    <td class="${cls(t.hard)}">${escapeHtml(t.hard)}</td>
+    <td>${escapeHtml(t.note)}</td>
+  </tr>`;
+}).join("");
+
+const RULE_FORMATS = [
+  { id: "ublock", title: "uBlock Origin — cosmetic filters", file: "blocklists/shortsguard-ublock.txt" },
+  { id: "adguard", title: "AdGuard (browser extension / app)", file: "blocklists/shortsguard-adguard.txt" },
+  { id: "adguardhome", title: "AdGuard Home — DNS rules", file: "blocklists/shortsguard-adguardhome.txt" },
+  { id: "hosts", title: "hosts file — Pi-hole / Windows / macOS", file: "blocklists/shortsguard-hosts.txt" },
+  { id: "dnsmasq", title: "dnsmasq / OpenWrt", file: "blocklists/shortsguard-dnsmasq.txt" }
+];
+let activeRule = "ublock";
+const ruleTabs = document.getElementById("ruleTabs");
+const rulesPre = document.getElementById("rulesPre");
+const ruleTitle = document.getElementById("ruleTitle");
+const downloadRules = document.getElementById("downloadRules");
+function showRule(id) {
+  const def = RULE_FORMATS.find(r => r.id === id) || RULE_FORMATS[0];
+  activeRule = def.id;
+  ruleTabs.querySelectorAll(".seg").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.rule === def.id)));
+  rulesPre.textContent = GUARD.rules[def.id] || "";
+  ruleTitle.textContent = def.title;
+  downloadRules.href = def.file;
+}
+ruleTabs.innerHTML = RULE_FORMATS.map(r =>
+  `<button class="seg" type="button" data-rule="${r.id}" aria-pressed="false">${escapeHtml(r.title.split(" — ")[0])}</button>`
+).join("");
+ruleTabs.addEventListener("click", e => {
+  const btn = e.target.closest("[data-rule]");
+  if (btn) showRule(btn.dataset.rule);
+});
+document.getElementById("copyRules").addEventListener("click", async () => {
+  const ok = await copyText(GUARD.rules[activeRule] || "");
+  showToast(ok ? "Rules copied" : "Copy failed — select the text manually");
+});
+showRule("ublock");
+
+document.getElementById("installGuides").innerHTML = GUARD.install_guides.map(g => `
+  <article class="guide">
+    <h3>${escapeHtml(g.title)}</h3>
+    <ol>${g.steps.map(s => `<li>${escapeHtml(s)}</li>`).join("")}</ol>
+  </article>`).join("");
+
+/* ---------------------------------------------------------------- advisor */
+const REGION_LABEL = {
+  global: "Global", bangladesh: "Bangladesh", india: "India", singapore: "Singapore",
+  indonesia: "Indonesia", japan: "Japan", taiwan: "Taiwan", china: "China",
+  "hong-kong": "Hong Kong", russia: "Russia", europe: "Europe", switzerland: "Switzerland",
+  germany: "Germany", usa: "USA", canada: "Canada"
+};
+// Nearby regions get partial credit so a Bangladeshi user sees Singapore and
+// India above an arbitrary EU node. Keep this in sync with scripts/advisor.py.
+const REGION_GROUPS = {
+  bangladesh: ["bangladesh", "india", "singapore", "hong-kong"],
+  india: ["india", "singapore"],
+  singapore: ["singapore", "indonesia", "hong-kong", "india"],
+  indonesia: ["indonesia", "singapore"],
+  japan: ["japan", "taiwan", "hong-kong"],
+  taiwan: ["taiwan", "japan", "hong-kong"],
+  china: ["china", "hong-kong", "taiwan", "japan"],
+  "hong-kong": ["hong-kong", "taiwan", "singapore", "japan"],
+  russia: ["russia"],
+  europe: ["germany", "switzerland", "greece", "denmark", "czechia", "sweden"],
+  germany: ["germany", "switzerland", "czechia", "denmark"],
+  switzerland: ["switzerland", "germany"],
+  usa: ["usa", "canada"],
+  canada: ["canada", "usa"],
+  global: []
+};
+const SETUP = {
+  android: e => [
+    "Open Settings → Network &amp; internet → Private DNS.",
+    "Choose “Private DNS provider hostname”.",
+    `Paste <code>${escapeHtml(e.host)}</code> and tap Save.`,
+    "Verify at 1.1.1.1/help — it should say “Using DNS over TLS (DoT)”."
+  ],
+  ios: e => [
+    "Install a free DoH profile app (DNSecure) or a .mobileconfig profile.",
+    e.doh ? `Add the DoH URL <code>${escapeHtml(e.doh)}</code>.` : "iOS needs DoH; this endpoint is DoT-only — pick a DoH-capable one.",
+    "Enable the profile, then confirm in the app that queries are encrypted."
+  ],
+  windows: e => [
+    "Settings → Network &amp; internet → your connection → DNS server assignment → Edit.",
+    `Manual → IPv4 on → Preferred <code>${escapeHtml((e.ipv4 && e.ipv4[0]) || "1.1.1.1")}</code>, Alternate <code>${escapeHtml((e.ipv4 && e.ipv4[1]) || "1.0.0.1")}</code>.`,
+    "Set “Preferred DNS encryption” to “Encrypted only (DNS over HTTPS)”.",
+    e.doh ? `Paste <code>${escapeHtml(e.doh)}</code>.` : "This endpoint has no DoH URL — choose a DoT+DoH resolver."
+  ],
+  macos: e => [
+    "System Settings → Network → your interface → Details… → DNS.",
+    `Add <code>${escapeHtml((e.ipv4 || ["1.1.1.1", "1.0.0.1"]).join("</code> and <code>"))}</code>.`,
+    e.doh ? `For encrypted DNS, install a DoH profile and use <code>${escapeHtml(e.doh)}</code>.` : "For encrypted DNS, use a DoT client such as stubby."
+  ],
+  linux: e => {
+    const ip = (e.ipv4 && e.ipv4[0]) || "1.1.1.1";
+    return [
+      "Create /etc/systemd/resolved.conf.d/dns.conf:",
+      `DNS=${escapeHtml(ip)}#${escapeHtml(e.host)}`,
+      "DNSOverTLS=yes",
+      "Run: sudo systemctl restart systemd-resolved && resolvectl status"
+    ];
+  },
+  browser: e => [
+    "Chrome/Edge/Brave: Settings → Privacy and security → Security → Use secure DNS → Custom.",
+    e.doh ? `Paste <code>${escapeHtml(e.doh)}</code>.` : "This endpoint is DoT-only; browsers need a DoH URL.",
+    "Firefox: Privacy &amp; Security → DNS over HTTPS → Increased Protection → Custom."
+  ],
+  router: e => [
+    "AdGuard Home → Settings → DNS settings → Upstream DNS servers.",
+    `Add <code>tls://${escapeHtml(e.host)}</code> (DoT) or the provider's DoH URL.`,
+    "Test upstreams, then point your DHCP DNS at the router."
+  ]
+};
+
+function advise(state) {
+  const needDot = ["android", "linux"].includes(state.device);
+  const needDoh = ["ios", "windows", "browser"].includes(state.device);
+  const goals = [];
+  if (state.ads) goals.push("ads");
+  if (state.malware) goals.push("malware");
+  if (state.adult) goals.push("adult");
+  if (state.social) goals.push("social");
+
+  const scored = [];
+  for (const e of allEndpoints) {
+    const health = healthFor(e.host);
+    if (health && health.overall === "dead") continue;
+
+    const hasDot = e.protocol !== "doh";
+    const hasDoh = e.protocol !== "dot";
+    if (needDot && !hasDot) continue;
+    if (needDoh && !hasDoh) continue;
+
+    // DNS-level social blocking blocks Facebook/Instagram/TikTok/Messenger too.
+    if (state.social && !e.filters.includes("social")) continue;
+    if (!state.social && e.filters.includes("social") && state.keep.length) continue;
+
+    let score = 50;
+    const why = [];
+
+    for (const goal of goals) {
+      if (e.filters.includes(goal)) { score += 26; why.push("blocks " + goal); }
+      else { score -= 34; }
+    }
+    if (!goals.length) {
+      if (e.filters.length === 1 && e.filters[0] === "none") { score += 18; why.push("no filtering"); }
+      else { score -= 8; }
+    }
+    if (!state.ads && e.filters.includes("ads")) score -= 6;
+    if (!state.adult && e.filters.includes("adult")) score -= 4;
+
+    if (state.privacy) {
+      if (e.provider.privacy === "no-log") { score += 18; why.push("no-log"); }
+      else if (e.provider.privacy === "minimal-log") { score += 5; }
+      else score -= 8;
+    }
+    const nearby = REGION_GROUPS[state.region] || [];
+    if (e.region === state.region) { score += 26; why.push("your region"); }
+    else if (nearby.includes(e.region)) { score += 14; why.push("nearby region"); }
+    else if (e.region === "global") { score += 9; }
+    if (health && health.overall === "ok") { score += 16; why.push("live now"); }
+    else if (health && health.overall === "partial") { score += 4; }
+    if (e.doh) score += 2;
+
+    scored.push({ e, score, why });
+  }
+
+  scored.sort((a, b) => b.score - a.score || a.e.host.localeCompare(b.e.host));
+  return { scored: scored.slice(0, 3), goals, needDot, needDoh };
+}
+
+const form = document.getElementById("advisorForm");
+const resultsEl = document.getElementById("advisorResults");
+
+function advisorState() {
+  const keep = [];
+  if (document.getElementById("keepFacebook").checked) keep.push("facebook");
+  if (document.getElementById("keepMessenger").checked) keep.push("messenger");
+  if (document.getElementById("keepYoutube").checked) keep.push("youtube");
+  if (document.getElementById("keepInstagram").checked) keep.push("instagram");
+  if (document.getElementById("keepTiktok").checked) keep.push("tiktok");
+  return {
+    device: document.getElementById("advDevice").value,
+    region: document.getElementById("advRegion").value,
+    ads: document.getElementById("goalAds").checked,
+    malware: document.getElementById("goalMalware").checked,
+    adult: document.getElementById("goalAdult").checked,
+    social: document.getElementById("goalSocial").checked,
+    privacy: document.getElementById("prefPrivacy").checked,
+    focus: document.getElementById("prefFocus").checked,
+    keep
+  };
+}
+
+function runAdvisor(ev) {
+  if (ev) ev.preventDefault();
+  const state = advisorState();
+  const { scored, goals } = advise(state);
+  const out = [];
+
+  if (state.focus) {
+    out.push(`<div class="notice good">
+      <h3>✅ Reels &amp; Shorts: use ShortsGuard, not DNS</h3>
+      <p>Your DNS choice below handles ads / malware / adult content. The Reels/Shorts part is handled by the page-level guard: install the userscript or the uBlock rules from the <b>ShortsGuard</b> tab. Facebook, Messenger, Instagram, YouTube and TikTok keep working.</p>
+      <p class="bn">Reels/Shorts DNS দিয়ে ব্লক করা যায় না — ShortsGuard ট্যাব থেকে userscript বা uBlock rules ইনস্টল করুন।</p>
+    </div>`);
+  }
+  if (state.social && state.keep.length) {
+    out.push(`<div class="notice bad">
+      <h3>⚠️ “Block social” conflicts with the apps you kept</h3>
+      <p>The only free resolver that blocks social media (<code>p3.freedns.controld.com</code>) blocks Facebook, Instagram, TikTok and Messenger as whole domains. If those apps must work, uncheck “Social media” and use ShortsGuard for the Reels/Shorts surfaces instead.</p>
+    </div>`);
+  }
+  if (state.region === "bangladesh") {
+    out.push(`<div class="notice">
+      <h3>📍 Bangladesh note</h3>
+      <p>There is no Bangladesh-hosted public encrypted resolver in this list. Singapore, India and global anycast endpoints give the lowest latency from BD — the advisor ranks those first. Test two or three and keep the fastest.</p>
+    </div>`);
+  }
+
+  if (!scored.length) {
+    out.push(`<div class="panel"><p>No endpoint matches those constraints. Try unchecking “Social media”, choosing “Global”, or allowing DoH.</p></div>`);
+    resultsEl.innerHTML = out.join("");
+    return;
+  }
+
+  const deviceLabel = { android: "Android", ios: "iPhone / iPad", windows: "Windows 11", macos: "macOS", linux: "Linux", browser: "Browser", router: "Router" }[state.device];
+  out.push(`<div class="panel"><h3 style="font-size:1rem;margin-bottom:6px">Top ${scored.length} for ${escapeHtml(deviceLabel)} · ${escapeHtml(REGION_LABEL[state.region] || state.region)}</h3>
+    <p style="font-size:.83rem;color:var(--text-dim)">Ranked by filter match, region, live status and privacy. ${goals.length ? "Requested blocking: <b>" + goals.map(escapeHtml).join(", ") + "</b>." : "No blocking requested — unfiltered resolvers rank first."}</p></div>`);
+
+  scored.forEach(({ e, score, why }, i) => {
+    const steps = SETUP[state.device](e);
+    out.push(`<article class="result ${i === 0 ? "top" : ""}">
+      <div class="result-head">
+        <div>
+          <h3>${i + 1}. ${escapeHtml(e.provider.name)}</h3>
+          <div style="font-size:.78rem;color:var(--text-dim)">${escapeHtml(e.label)} · ${escapeHtml(protoLabel[e.protocol])} · 📍 ${escapeHtml(e.region)}</div>
+        </div>
+        <span class="score">score ${score}</span>
+      </div>
+      <div class="hostline">
+        <code class="host">${escapeHtml(e.host)}</code>
+        <button class="copy-btn" data-copy="${escapeHtml(e.host)}" aria-label="Copy hostname">📋</button>
+        ${healthBadge(e.host)}
+      </div>
+      ${e.doh ? `<div class="ep-extra"><span>DoH</span><code>${escapeHtml(e.doh)}</code><button class="copy-btn" data-copy="${escapeHtml(e.doh)}" aria-label="Copy DoH URL">📋</button></div>` : ""}
+      <ul class="why">${why.map(w => `<li>${escapeHtml(w)}</li>`).join("")}</ul>
+      <div class="steps"><b>Setup</b><ol>${steps.map(s => `<li>${s}</li>`).join("")}</ol></div>
+    </article>`);
+  });
+
+  resultsEl.innerHTML = out.join("");
+}
+form.addEventListener("submit", runAdvisor);
+runAdvisor();
+
+/* ---------------------------------------------------------------- boot */
+showTab((location.hash || "#resolvers").slice(1), false);
 render();
 </script>
 </body>

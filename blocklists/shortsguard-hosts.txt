@@ -1,0 +1,33 @@
+# ShortsGuard — hosts file (Pi-hole, AdGuard Home import, dnsmasq, Windows hosts)
+# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.
+# Generated from data/guard-profiles.json
+
+# TikTok
+0.0.0.0 tiktok.com
+0.0.0.0 www.tiktok.com
+0.0.0.0 m.tiktok.com
+0.0.0.0 tiktokv.com
+0.0.0.0 tiktokv.us
+0.0.0.0 tiktokcdn.com
+0.0.0.0 tiktokcdn-us.com
+0.0.0.0 tiktokcdn-eu.com
+0.0.0.0 musical.ly
+0.0.0.0 byteoversea.com
+0.0.0.0 ibytedtos.com
+0.0.0.0 ibytedapm.com
+
+# Likee
+0.0.0.0 likee.video
+0.0.0.0 likee.com
+0.0.0.0 bigo.tv
+0.0.0.0 bigo.sg
+
+# Kwai
+0.0.0.0 kwai.com
+0.0.0.0 kwai.net
+0.0.0.0 kuaishou.com
+0.0.0.0 gifshow.com
+
+# SnackVideo
+0.0.0.0 snackvideo.com
+0.0.0.0 snackvideo.mobi

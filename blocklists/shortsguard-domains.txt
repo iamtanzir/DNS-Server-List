@@ -1,0 +1,26 @@
+# ShortsGuard — generated from data/guard-profiles.json
+# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.
+# Reels and Shorts cannot be blocked at DNS level: they are paths on the same domains.
+
+tiktok.com
+www.tiktok.com
+m.tiktok.com
+tiktokv.com
+tiktokv.us
+tiktokcdn.com
+tiktokcdn-us.com
+tiktokcdn-eu.com
+musical.ly
+byteoversea.com
+ibytedtos.com
+ibytedapm.com
+likee.video
+likee.com
+bigo.tv
+bigo.sg
+kwai.com
+kwai.net
+kuaishou.com
+gifshow.com
+snackvideo.com
+snackvideo.mobi

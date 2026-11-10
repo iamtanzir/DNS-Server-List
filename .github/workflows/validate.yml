@@ -18,21 +18,32 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: Validate data/dns-servers.json
-        run: python scripts/validate.py
+      - name: Validate data files
+        run: python scripts/validate.py --strict
 
-      - name: Check hostnames.txt is up to date
+      - name: Rebuild generated artifacts
         run: |
+          python scripts/build_guard.py
           python scripts/export_hosts.py
-          git diff --exit-code hostnames.txt || {
-            echo "::error::hostnames.txt is out of date. Run 'python scripts/export_hosts.py' and commit."
+          python scripts/export_hosts.py --doh
+          python scripts/build_site.py
+
+      - name: Check generated artifacts are committed
+        run: |
+          git diff --exit-code -- \
+            blocklists/ \
+            guard/extension/shorts-guard.js \
+            hostnames.txt \
+            hostnames-doh.txt \
+            index.html || {
+            echo "::error::Generated files are out of date. Run 'python scripts/build_guard.py && python scripts/export_hosts.py && python scripts/export_hosts.py --doh && python scripts/build_site.py' and commit."
             exit 1
           }
 
-      - name: Check index.html is up to date
+      - name: Check for untracked generated files
         run: |
-          python scripts/build_site.py
-          git diff --exit-code index.html || {
-            echo "::error::index.html is out of date. Run 'python scripts/build_site.py' and commit."
+          git status --porcelain -- blocklists/ guard/ hostnames.txt hostnames-doh.txt index.html
+          test -z "$(git status --porcelain -- blocklists/ guard/ hostnames.txt hostnames-doh.txt index.html)" || {
+            echo "::error::Generated files exist but are not tracked. Commit them."
             exit 1
           }

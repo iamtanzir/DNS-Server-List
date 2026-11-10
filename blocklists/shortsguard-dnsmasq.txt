@@ -1,0 +1,24 @@
+# ShortsGuard — dnsmasq / OpenWrt config
+# Drop this in /etc/dnsmasq.conf (or a conf-file) and restart dnsmasq.
+# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.
+
+address=/tiktok.com/0.0.0.0
+address=/tiktokv.com/0.0.0.0
+address=/tiktokv.us/0.0.0.0
+address=/tiktokcdn.com/0.0.0.0
+address=/tiktokcdn-us.com/0.0.0.0
+address=/tiktokcdn-eu.com/0.0.0.0
+address=/musical.ly/0.0.0.0
+address=/byteoversea.com/0.0.0.0
+address=/ibytedtos.com/0.0.0.0
+address=/ibytedapm.com/0.0.0.0
+address=/likee.video/0.0.0.0
+address=/likee.com/0.0.0.0
+address=/bigo.tv/0.0.0.0
+address=/bigo.sg/0.0.0.0
+address=/kwai.com/0.0.0.0
+address=/kwai.net/0.0.0.0
+address=/kuaishou.com/0.0.0.0
+address=/gifshow.com/0.0.0.0
+address=/snackvideo.com/0.0.0.0
+address=/snackvideo.mobi/0.0.0.0

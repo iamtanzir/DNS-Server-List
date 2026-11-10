@@ -1,15 +1,27 @@
 #!/usr/bin/env python3
-"""Validate data/dns-servers.json and report a summary.
+"""Validate the repository's data files and generated artifacts.
 
-Checks:
-  * JSON parses and has the expected top-level shape
-  * required fields on providers and hosts
-  * hostnames look like valid DNS names
-  * hostnames are unique across the whole file
-  * filter / protocol vocabularies are respected
+Checks data/dns-servers.json:
+  * JSON shape, vocabulary (protocols / filters / privacy)
+  * required fields, unique provider ids and hostnames
+  * valid hostnames, valid IPv4 addresses, https DoH URLs
+  * DoH URL present whenever the protocol claims DoH
+  * warnings for suspicious combos (doh.* used as a DoT host, "none"+other)
 
-Exits non-zero if any error is found. Run:  python scripts/validate.py
+Checks data/guard-profiles.json:
+  * required fields on profiles / targets / domain groups / redirects
+  * every target referenced by a profile exists
+  * valid domains, compilable redirect regexes, all rule sets present
+
+Checks generated artifacts:
+  * blocklists/*.txt exist
+  * guard/extension/shorts-guard.js matches guard/shorts-guard.user.js
+
+Run:  python scripts/validate.py            # errors fail, warnings do not
+      python scripts/validate.py --strict   # warnings fail too (CI can use this)
 """
+
+from __future__ import annotations
 
 import json
 import re
@@ -17,13 +29,27 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data" / "dns-servers.json"
+DNS_DATA = ROOT / "data" / "dns-servers.json"
+GUARD_DATA = ROOT / "data" / "guard-profiles.json"
 
-HOST_RE = re.compile(
-    r"^(?=.{1,253}$)(?!-)[a-z0-9-]{1,63}(?<!-)(\.(?!-)[a-z0-9-]{1,63}(?<!-))*$"
-)
+HOST_RE = re.compile(r"^(?=.{1,253}$)(?!-)[a-z0-9-]{1,63}(?<!-)(\.(?!-)[a-z0-9-]{1,63}(?<!-))*$")
+SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
+IPV4_RE = re.compile(r"^(25[0-5]|2[0-4]\d|1?\d?\d)(\.(25[0-5]|2[0-4]\d|1?\d?\d)){3}$")
+URL_RE = re.compile(r"^https://[^\s/]+\.[^\s]+$")
+
 VALID_FILTERS = {"none", "ads", "malware", "adult", "social"}
 VALID_PROTOCOLS = {"dot", "doh", "dot+doh"}
+VALID_PRIVACY = {"no-log", "minimal-log", "unknown"}
+REQUIRED_RULES = ("ublock", "adguard", "adguardhome", "hosts", "dnsmasq")
+DOH_HOST_ALLOWLIST = {"doh.mullvad.net", "adblock.doh.mullvad.net"}  # serve DoT on :853 too
+EXPECTED_BLOCKLISTS = (
+    "shortsguard-ublock.txt",
+    "shortsguard-adguard.txt",
+    "shortsguard-adguardhome.txt",
+    "shortsguard-hosts.txt",
+    "shortsguard-dnsmasq.txt",
+    "shortsguard-domains.txt",
+)
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -37,23 +63,44 @@ def warn(msg: str) -> None:
     warnings.append(msg)
 
 
-def main() -> int:
+# --------------------------------------------------------------------------- #
+# DNS data
+# --------------------------------------------------------------------------- #
+def validate_dns() -> tuple[int, int]:
     try:
-        doc = json.loads(DATA.read_text(encoding="utf-8"))
+        doc = json.loads(DNS_DATA.read_text(encoding="utf-8"))
     except FileNotFoundError:
-        print(f"ERROR: {DATA} not found")
-        return 1
+        err(f"{DNS_DATA} not found")
+        return 0, 0
     except json.JSONDecodeError as exc:
-        print(f"ERROR: invalid JSON in {DATA}: {exc}")
-        return 1
+        err(f"invalid JSON in {DNS_DATA}: {exc}")
+        return 0, 0
+
+    for field in ("schema", "title", "updated", "filters", "protocols", "providers"):
+        if not doc.get(field):
+            err(f"dns: missing top-level field '{field}'")
+    if doc.get("schema") != "dns-server-list/v2":
+        warn(f"dns: unexpected schema {doc.get('schema')!r} (expected 'dns-server-list/v2')")
+
+    filters_vocab = doc.get("filters") or {}
+    protocols_vocab = doc.get("protocols") or {}
+    privacy_vocab = doc.get("privacy") or {}
+    if set(filters_vocab) != VALID_FILTERS:
+        err(f"dns: 'filters' keys must be {sorted(VALID_FILTERS)}, got {sorted(filters_vocab)}")
+    if set(protocols_vocab) != VALID_PROTOCOLS:
+        err(f"dns: 'protocols' keys must be {sorted(VALID_PROTOCOLS)}, got {sorted(protocols_vocab)}")
+    if set(privacy_vocab) != VALID_PRIVACY:
+        err(f"dns: 'privacy' keys must be {sorted(VALID_PRIVACY)}, got {sorted(privacy_vocab)}")
 
     providers = doc.get("providers")
     if not isinstance(providers, list) or not providers:
-        err("'providers' must be a non-empty list")
-        providers = []
+        err("dns: 'providers' must be a non-empty list")
+        return 0, 0
 
+    seen_providers: dict[str, int] = {}
     seen_hosts: dict[str, str] = {}
     host_count = 0
+    filter_counts = {f: 0 for f in VALID_FILTERS}
 
     for i, provider in enumerate(providers):
         where = provider.get("name") or provider.get("id") or f"providers[{i}]"
@@ -61,19 +108,34 @@ def main() -> int:
             if not provider.get(field):
                 err(f"{where}: missing required field '{field}'")
 
+        pid = str(provider.get("id", ""))
+        if pid and not SLUG_RE.match(pid):
+            err(f"{where}: id '{pid}' is not a lowercase slug")
+        if pid in seen_providers:
+            err(f"{where}: duplicate provider id '{pid}'")
+        seen_providers[pid] = i
+
+        website = provider.get("website")
+        if website and not str(website).startswith(("https://", "http://")):
+            err(f"{where}: website must start with http(s)://")
+        privacy = provider.get("privacy")
+        if privacy is None:
+            warn(f"{where}: missing 'privacy' policy")
+        elif privacy not in VALID_PRIVACY:
+            err(f"{where}: privacy '{privacy}' not in {sorted(VALID_PRIVACY)}")
+
         hosts = provider.get("hosts") or []
         if not isinstance(hosts, list) or not hosts:
             err(f"{where}: 'hosts' must be a non-empty list")
             continue
 
         for j, entry in enumerate(hosts):
-            host = (entry or {}).get("host", "")
+            host = str((entry or {}).get("host", "")).strip().lower()
             tag = f"{where} -> hosts[{j}] ({host or 'no host'})"
 
             if not host:
                 err(f"{tag}: missing 'host'")
                 continue
-            host = host.strip().lower()
             if not HOST_RE.match(host):
                 err(f"{tag}: '{host}' is not a valid DNS hostname")
             if host in seen_hosts:
@@ -92,15 +154,159 @@ def main() -> int:
                 bad = [f for f in filters if f not in VALID_FILTERS]
                 if bad:
                     err(f"{tag}: unknown filters {bad}")
+                for f in filters:
+                    if f in filter_counts:
+                        filter_counts[f] += 1
                 if "none" in filters and len(filters) > 1:
                     warn(f"{tag}: 'none' combined with other filters")
+                if len(set(filters)) != len(filters):
+                    err(f"{tag}: duplicate filters {filters}")
 
             for field in ("label", "region"):
                 if not str(entry.get(field, "")).strip():
                     warn(f"{tag}: empty '{field}'")
 
-    print(f"Providers : {len(providers)}")
-    print(f"Endpoints : {host_count}")
+            doh = entry.get("doh")
+            if protocol in ("doh", "dot+doh"):
+                if not doh:
+                    err(f"{tag}: protocol '{protocol}' requires a 'doh' URL")
+                elif not URL_RE.match(str(doh)):
+                    err(f"{tag}: doh '{doh}' is not an https URL")
+            elif doh:
+                warn(f"{tag}: 'doh' present but protocol is '{protocol}'")
+
+            if protocol in ("dot", "dot+doh") and host.startswith("doh.") and host not in DOH_HOST_ALLOWLIST:
+                warn(f"{tag}: host starts with 'doh.' — usually DoH-only, check DoT on :853")
+
+            ipv4 = entry.get("ipv4")
+            if ipv4 is not None:
+                if not isinstance(ipv4, list) or not ipv4:
+                    err(f"{tag}: 'ipv4' must be a non-empty list")
+                else:
+                    for ip in ipv4:
+                        if not IPV4_RE.match(str(ip)):
+                            err(f"{tag}: '{ip}' is not a valid IPv4 address")
+
+            if entry.get("notes") is not None and not isinstance(entry["notes"], str):
+                err(f"{tag}: 'notes' must be a string")
+
+    print(f"DNS data  : {len(providers)} providers, {host_count} endpoints")
+    print("Filters   : " + ", ".join(f"{k}={v}" for k, v in filter_counts.items()))
+    return len(providers), host_count
+
+
+# --------------------------------------------------------------------------- #
+# ShortsGuard data
+# --------------------------------------------------------------------------- #
+def validate_guard() -> int:
+    try:
+        doc = json.loads(GUARD_DATA.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        err(f"{GUARD_DATA} not found")
+        return 0
+    except json.JSONDecodeError as exc:
+        err(f"invalid JSON in {GUARD_DATA}: {exc}")
+        return 0
+
+    for field in ("schema", "version", "title", "honest_limit", "profiles", "targets", "rules"):
+        if not doc.get(field):
+            err(f"guard: missing top-level field '{field}'")
+
+    limit = doc.get("honest_limit") or {}
+    for lang in ("en", "bn"):
+        if not str(limit.get(lang, "")).strip():
+            err(f"guard: honest_limit.{lang} is empty")
+
+    target_ids = set()
+    for i, target in enumerate(doc.get("targets") or []):
+        where = f"guard.targets[{i}]"
+        for field in ("id", "app", "surface", "dns", "focus", "hard", "note"):
+            if field not in target:
+                err(f"{where}: missing '{field}'")
+        tid = target.get("id")
+        if tid in target_ids:
+            err(f"{where}: duplicate target id '{tid}'")
+        target_ids.add(tid)
+
+    profiles = doc.get("profiles") or []
+    if not isinstance(profiles, list) or not profiles:
+        err("guard: 'profiles' must be a non-empty list")
+    seen_profiles = set()
+    for i, profile in enumerate(profiles):
+        where = profile.get("name") or f"guard.profiles[{i}]"
+        for field in ("id", "name", "layer", "tagline", "blocks", "keeps", "does", "install"):
+            if not profile.get(field):
+                err(f"{where}: missing required field '{field}'")
+        pid = profile.get("id")
+        if pid in seen_profiles:
+            err(f"{where}: duplicate profile id '{pid}'")
+        seen_profiles.add(pid)
+        for blocked in profile.get("blocks") or []:
+            if blocked in target_ids:
+                continue
+            if str(blocked).split("-")[0] in {"facebook", "instagram", "youtube", "tiktok"}:
+                err(f"{where}: blocks '{blocked}' but no such target exists")
+
+    seen_domains: dict[str, str] = {}
+    for group in doc.get("domain_groups") or []:
+        where = f"guard.domain_groups[{group.get('id', '?')}]"
+        if not group.get("id") or not group.get("label") or not group.get("domains"):
+            err(f"{where}: id, label and domains are required")
+        if not str(group.get("breaks", "")).strip():
+            warn(f"{where}: 'breaks' is empty — say what stops working")
+        for domain in group.get("domains") or []:
+            if not HOST_RE.match(str(domain)):
+                err(f"{where}: '{domain}' is not a valid domain")
+            if domain in seen_domains and seen_domains[domain] != group.get("id"):
+                warn(f"{where}: '{domain}' also listed in {seen_domains[domain]}")
+            seen_domains[str(domain)] = str(group.get("id"))
+
+    rules = doc.get("rules") or {}
+    for key in REQUIRED_RULES:
+        if not str(rules.get(key, "")).strip():
+            err(f"guard.rules: missing rule set '{key}'")
+
+    for i, redirect in enumerate(doc.get("redirects") or []):
+        where = f"guard.redirects[{i}]"
+        pattern = redirect.get("pattern")
+        try:
+            re.compile(pattern or "")
+        except re.error as exc:
+            err(f"{where}: invalid regex ({exc})")
+        if not str(redirect.get("target", "")).startswith("https://"):
+            err(f"{where}: target must be an https URL")
+
+    for i, guide in enumerate(doc.get("install_guides") or []):
+        where = f"guard.install_guides[{i}]"
+        if not guide.get("id") or not guide.get("title") or not guide.get("steps"):
+            err(f"{where}: id, title and steps are required")
+
+    # Generated artifacts
+    for name in EXPECTED_BLOCKLISTS:
+        path = ROOT / "blocklists" / name
+        if not path.exists():
+            err(f"missing generated file: {path.relative_to(ROOT)} (run scripts/build_guard.py)")
+        elif path.stat().st_size == 0:
+            err(f"generated file is empty: {path.relative_to(ROOT)}")
+
+    userscript = ROOT / "guard" / "shorts-guard.user.js"
+    extension_copy = ROOT / "guard" / "extension" / "shorts-guard.js"
+    if not userscript.exists():
+        err("missing guard/shorts-guard.user.js")
+    elif not extension_copy.exists():
+        err("missing guard/extension/shorts-guard.js (run scripts/build_guard.py)")
+    elif userscript.read_bytes() != extension_copy.read_bytes():
+        err("guard/extension/shorts-guard.js is out of date (run scripts/build_guard.py)")
+
+    print(f"ShortsGuard: {len(profiles)} profiles, {len(target_ids)} targets, {len(seen_domains)} domains")
+    return len(profiles)
+
+
+def main() -> int:
+    strict = "--strict" in sys.argv[1:]
+    validate_dns()
+    validate_guard()
+
     print(f"Warnings  : {len(warnings)}")
     for w in warnings:
         print(f"  warn: {w}")
@@ -111,7 +317,11 @@ def main() -> int:
             print(f"  - {e}")
         return 1
 
-    print("\nOK — data file is valid.")
+    if strict and warnings:
+        print("\n--strict: treating warnings as errors.")
+        return 1
+
+    print("\nOK — data files and generated artifacts are valid.")
     return 0
 
 

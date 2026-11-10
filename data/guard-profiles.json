@@ -1,0 +1,306 @@
+{
+  "schema": "shortsguard/v1",
+  "version": "1.0.0",
+  "updated": "2026-11-10",
+  "title": "ShortsGuard — keep Facebook, YouTube, Instagram & Messenger, drop Reels/Shorts",
+  "honest_limit": {
+    "en": "DNS resolves domain names, nothing else. facebook.com/reel/123, youtube.com/shorts/abc and instagram.com/reels/xyz all live on the SAME domains as the normal feed. No DNS resolver on earth can block a path — and blocking fbcdn.net / cdninstagram.com / googlevideo.com to kill short videos also kills every photo, video, story and Messenger attachment. So ShortsGuard blocks the short-video SURFACES inside the page (userscript, extension or content blocker) and uses DNS only for whole-app blocks and normal ad/malware/adult filtering.",
+    "bn": "DNS শুধু ডোমেইন নাম resolve করে। facebook.com/reel/123, youtube.com/shorts/abc, instagram.com/reels/xyz — সবই স্বাভাবিক ফিডের একই ডোমেইনে থাকে। কোনো DNS দিয়েই শুধু path ব্লক করা সম্ভব না। আর শর্ট ভিডিও আটকাতে fbcdn.net বা cdninstagram.com ব্লক করলে ফেসবুক/ইনস্টাগ্রামের সব ছবি, ভিডিও, স্টোরি আর Messenger-এর অ্যাটাচমেন্টও ভেঙে যাবে। তাই ShortsGuard পেজের ভেতরে Reels/Shorts লুকিয়ে/রিডাইরেক্ট করে (userscript / extension / content blocker), আর DNS শুধু পুরো অ্যাপ ব্লক ও অ্যাড/ম্যালওয়্যার/অ্যাডাল্ট ফিল্টারিং-এর জন্য ব্যবহার করে।"
+  },
+  "profiles": [
+    {
+      "id": "focus",
+      "name": "Focus Mode",
+      "badge": "recommended",
+      "layer": "browser",
+      "tagline": "Reels & Shorts surfaces gone. Feeds, DMs, Messenger and normal YouTube videos keep working.",
+      "tagline_bn": "Reels ও Shorts সেকশন বন্ধ; ফিড, DM, Messenger আর সাধারণ ইউটিউব ভিডিও সবই চলবে।",
+      "blocks": ["youtube-shorts", "facebook-reels", "instagram-reels"],
+      "keeps": ["facebook", "messenger", "instagram-dm", "youtube", "tiktok", "whatsapp"],
+      "does": [
+        "Hides the Shorts shelf, Shorts tab, Shorts search results and Reels tabs/shelves.",
+        "Redirects /shorts/<id> to the normal watch page so a shared link still plays.",
+        "Redirects /reel/ and /reels/ URLs to the home feed.",
+        "Never touches /messages, messenger.com, /direct/ or any media CDN."
+      ],
+      "install": [
+        "Install the userscript (Tampermonkey / Violentmonkey) — one file, no build step.",
+        "Or install the uBlock Origin / AdGuard cosmetic ruleset.",
+        "Or load the bundled MV3 extension in Chrome/Edge/Brave."
+      ],
+      "dns": null
+    },
+    {
+      "id": "focus-filtered",
+      "name": "Focus + Filtered DNS",
+      "badge": "best all-round",
+      "layer": "dns+browser",
+      "tagline": "Focus Mode plus a filtered resolver: ads, trackers and malware blocked for every app on the device.",
+      "tagline_bn": "Focus Mode + ফিল্টার করা DNS — ফোনের সব অ্যাপে অ্যাড, ট্র্যাকার ও ম্যালওয়্যার ব্লক।",
+      "blocks": ["youtube-shorts", "facebook-reels", "instagram-reels", "ads", "malware"],
+      "keeps": ["facebook", "messenger", "instagram-dm", "youtube", "tiktok", "whatsapp"],
+      "does": [
+        "Everything Focus Mode does, in the browser.",
+        "Adds device-wide DNS filtering (ads, trackers, malware) at the resolver level."
+      ],
+      "install": [
+        "Pick a filtered resolver from the Resolvers tab (e.g. dns.adguard-dns.com).",
+        "Then install the Focus Mode userscript or uBlock rules."
+      ],
+      "dns": {
+        "android": "dns.adguard-dns.com",
+        "browser": "https://dns.adguard-dns.com/dns-query",
+        "windows": "https://dns.adguard-dns.com/dns-query"
+      }
+    },
+    {
+      "id": "dns-hard",
+      "name": "DNS Hard Block (opt-in)",
+      "badge": "breaks apps",
+      "layer": "dns",
+      "tagline": "Blocks entire short-video apps at the DNS level — only for apps you are willing to lose.",
+      "tagline_bn": "পুরো শর্ট-ভিডিও অ্যাপ DNS লেভেলে ব্লক — যে অ্যাপ না থাকলেও চলে, শুধু সেগুলোর জন্য।",
+      "blocks": ["tiktok", "likee", "kwai", "snackvideo"],
+      "keeps": ["facebook", "messenger", "instagram-dm", "youtube"],
+      "does": [
+        "Blocks TikTok / Likee / Kwai / SnackVideo completely (app + website).",
+        "Does NOT block Facebook Reels, Instagram Reels or YouTube Shorts — impossible at DNS level.",
+        "Facebook, Messenger, Instagram and YouTube keep working."
+      ],
+      "install": [
+        "Use the hosts / AdGuard Home / dnsmasq blocklist below on your router or Pi-hole.",
+        "Do not add fbcdn.net, cdninstagram.com or googlevideo.com — that breaks normal media."
+      ],
+      "dns": null
+    },
+    {
+      "id": "family",
+      "name": "Family Safe",
+      "badge": "kids",
+      "layer": "dns+browser",
+      "tagline": "Adult + malware DNS filter, plus Reels/Shorts hidden on every browser profile.",
+      "tagline_bn": "অ্যাডাল্ট ও ম্যালওয়্যার DNS ফিল্টার, সঙ্গে সব ব্রাউজারে Reels/Shorts বন্ধ।",
+      "blocks": ["adult", "malware", "youtube-shorts", "facebook-reels", "instagram-reels"],
+      "keeps": ["facebook", "messenger", "instagram-dm", "youtube"],
+      "does": [
+        "Device-wide adult + malware blocking through the resolver.",
+        "Short-video surfaces hidden in the browser.",
+        "SafeSearch enforced by the resolver where the provider supports it."
+      ],
+      "install": [
+        "Set family.cloudflare-dns.com or dns-family.adguard.com as Private DNS / DoH.",
+        "Install the Focus Mode userscript or uBlock rules on every browser profile."
+      ],
+      "dns": {
+        "android": "family.cloudflare-dns.com",
+        "browser": "https://dns.cloudflare.com/dns-query",
+        "windows": "https://family.cloudflare-dns.com/dns-query"
+      }
+    }
+  ],
+  "targets": [
+    {
+      "id": "facebook",
+      "app": "Facebook",
+      "surface": "Feed, Marketplace, Groups, Pages",
+      "dns": "works",
+      "focus": "kept",
+      "hard": "kept",
+      "note": "Never blocked by any ShortsGuard profile."
+    },
+    {
+      "id": "facebook-reels",
+      "app": "Facebook",
+      "surface": "Reels tab, Reels shelf, /reel/ links",
+      "dns": "impossible",
+      "focus": "hidden + redirected",
+      "hard": "impossible",
+      "note": "Same domain and same CDN (fbcdn.net) as the feed — only the page can hide it."
+    },
+    {
+      "id": "messenger",
+      "app": "Messenger",
+      "surface": "Chats, calls, attachments",
+      "dns": "works",
+      "focus": "kept",
+      "hard": "kept",
+      "note": "messenger.com and /messages are explicitly allowlisted. Media CDNs are never blocked."
+    },
+    {
+      "id": "youtube",
+      "app": "YouTube",
+      "surface": "Home, subscriptions, watch page",
+      "dns": "works",
+      "focus": "kept",
+      "hard": "kept",
+      "note": ""
+    },
+    {
+      "id": "youtube-shorts",
+      "app": "YouTube",
+      "surface": "Shorts shelf, Shorts tab, /shorts/ links",
+      "dns": "impossible",
+      "focus": "hidden + redirected to /watch",
+      "hard": "impossible",
+      "note": "youtube.com/shorts is a path on the main domain; googlevideo.com serves normal videos too."
+    },
+    {
+      "id": "instagram",
+      "app": "Instagram",
+      "surface": "Feed, Stories, DMs",
+      "dns": "works",
+      "focus": "kept",
+      "hard": "kept",
+      "note": ""
+    },
+    {
+      "id": "instagram-reels",
+      "app": "Instagram",
+      "surface": "Reels tab, Reels shelf, /reels/ links",
+      "dns": "impossible",
+      "focus": "hidden + redirected",
+      "hard": "impossible",
+      "note": "cdninstagram.com serves every photo and story too."
+    },
+    {
+      "id": "tiktok",
+      "app": "TikTok",
+      "surface": "Whole app",
+      "dns": "whole app only",
+      "focus": "kept",
+      "hard": "blocked (opt-in)",
+      "note": "TikTok is 100% short video — there is no non-Reels part to keep."
+    }
+  ],
+  "domain_groups": [
+    {
+      "id": "tiktok",
+      "label": "TikTok",
+      "breaks": "TikTok app and tiktok.com stop working. CapCut login may also fail (ByteDance shared domains).",
+      "domains": [
+        "tiktok.com",
+        "www.tiktok.com",
+        "m.tiktok.com",
+        "tiktokv.com",
+        "tiktokv.us",
+        "tiktokcdn.com",
+        "tiktokcdn-us.com",
+        "tiktokcdn-eu.com",
+        "musical.ly",
+        "byteoversea.com",
+        "ibytedtos.com",
+        "ibytedapm.com"
+      ]
+    },
+    {
+      "id": "likee",
+      "label": "Likee",
+      "breaks": "Likee app and likee.video stop working.",
+      "domains": ["likee.video", "likee.com", "bigo.tv", "bigo.sg"]
+    },
+    {
+      "id": "kwai",
+      "label": "Kwai",
+      "breaks": "Kwai app and kwai.com stop working.",
+      "domains": ["kwai.com", "kwai.net", "kuaishou.com", "gifshow.com"]
+    },
+    {
+      "id": "snackvideo",
+      "label": "SnackVideo",
+      "breaks": "SnackVideo app and snackvideo.com stop working.",
+      "domains": ["snackvideo.com", "snackvideo.mobi"]
+    },
+    {
+      "id": "nuclear",
+      "label": "Whole-platform block (NOT recommended)",
+      "breaks": "Kills the entire platform: feed, photos, stories, Messenger attachments and normal videos.",
+      "domains": [
+        "facebook.com",
+        "fb.com",
+        "fbcdn.net",
+        "fbsbx.com",
+        "messenger.com",
+        "instagram.com",
+        "cdninstagram.com",
+        "instagr.am",
+        "youtube.com",
+        "youtu.be",
+        "googlevideo.com",
+        "ytimg.com"
+      ]
+    }
+  ],
+  "allowlist": [
+    "messenger.com",
+    "www.messenger.com",
+    "facebook.com/messages",
+    "instagram.com/direct",
+    "web.whatsapp.com"
+  ],
+  "rules": {
+    "ublock": "! Title: ShortsGuard — Focus Mode (YouTube Shorts · Facebook Reels · Instagram Reels)\n! Description: Hides short-form video surfaces; feeds, DMs and Messenger keep working.\n! Version: 1.0.0\n! Expires: 7 days\n! Homepage: https://github.com/iamtanzir/DNS-Server-List\n\n! ===== YouTube Shorts =====\nyoutube.com##ytd-reel-shelf-renderer\nyoutube.com##ytm-reel-shelf-renderer\nyoutube.com##ytd-rich-shelf-renderer[is-shorts]\nyoutube.com##ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts])\nyoutube.com##ytd-reel-video-renderer\nyoutube.com##ytd-shorts\nyoutube.com##ytm-shorts-lockup-view-model\nyoutube.com##ytd-guide-entry-renderer:has(a[title=\"Shorts\"])\nyoutube.com##ytd-mini-guide-entry-renderer[aria-label=\"Shorts\"]\nyoutube.com##yt-tab-shape[tab-title=\"Shorts\"]\nyoutube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string[title=\"Shorts\"])\nyoutube.com##ytd-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##ytd-grid-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##yt-lockup-view-model:has(a[href^=\"/shorts/\"])\nyoutube.com##grid-shelf-view-model:has(a[href^=\"/shorts/\"])\nyoutube.com##ytd-comment-thread-renderer:has(a[href^=\"/shorts/\"])\n\n! ===== Facebook Reels =====\nfacebook.com##a[href*=\"/reel/\"]\nfacebook.com##a[href*=\"sk=reels_tab\"]\nfacebook.com##div[aria-label=\"Reels\"]\nfacebook.com##div[aria-label=\"Reels and short videos\"]\nfacebook.com##div[data-pagelet^=\"Reels\"]\nfacebook.com##div[data-pagelet*=\"Reel\"]\nfacebook.com##div[role=\"navigation\"] a[href*=\"/reel/\"]\nfacebook.com##div[role=\"feed\"] div:has(> div a[href*=\"/reel/\"])\n\n! ===== Instagram Reels =====\ninstagram.com##a[href=\"/reels/\"]\ninstagram.com##a[href^=\"/reels/\"]\ninstagram.com##a[href*=\"/reel/\"]\ninstagram.com##a:has(svg[aria-label=\"Reels\"])\ninstagram.com##div[aria-label=\"Reels\"]\ninstagram.com##div[role=\"tablist\"] a[href=\"/reels/\"]\ninstagram.com##article:has(a[href*=\"/reel/\"])\n",
+    "adguard": "! Title: ShortsGuard — Focus Mode (AdGuard / AdGuard Browser Extension)\n! Description: Hides YouTube Shorts, Facebook Reels and Instagram Reels surfaces.\n! Version: 1.0.0\n\n! ===== YouTube Shorts =====\nyoutube.com##ytd-reel-shelf-renderer\nyoutube.com##ytm-reel-shelf-renderer\nyoutube.com##ytd-rich-shelf-renderer[is-shorts]\nyoutube.com##ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts])\nyoutube.com##ytd-reel-video-renderer\nyoutube.com##ytd-shorts\nyoutube.com##ytm-shorts-lockup-view-model\nyoutube.com##ytd-guide-entry-renderer:has(a[title=\"Shorts\"])\nyoutube.com##ytd-mini-guide-entry-renderer[aria-label=\"Shorts\"]\nyoutube.com##yt-tab-shape[tab-title=\"Shorts\"]\nyoutube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string[title=\"Shorts\"])\nyoutube.com##ytd-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##ytd-grid-video-renderer:has(a#thumbnail[href^=\"/shorts/\"])\nyoutube.com##yt-lockup-view-model:has(a[href^=\"/shorts/\"])\nyoutube.com##grid-shelf-view-model:has(a[href^=\"/shorts/\"])\n\n! ===== Facebook Reels =====\nfacebook.com##a[href*=\"/reel/\"]\nfacebook.com##a[href*=\"sk=reels_tab\"]\nfacebook.com##div[aria-label=\"Reels\"]\nfacebook.com##div[aria-label=\"Reels and short videos\"]\nfacebook.com##div[data-pagelet^=\"Reels\"]\nfacebook.com##div[role=\"navigation\"] a[href*=\"/reel/\"]\n\n! ===== Instagram Reels =====\ninstagram.com##a[href=\"/reels/\"]\ninstagram.com##a[href^=\"/reels/\"]\ninstagram.com##a[href*=\"/reel/\"]\ninstagram.com##a:has(svg[aria-label=\"Reels\"])\ninstagram.com##div[aria-label=\"Reels\"]\ninstagram.com##div[role=\"tablist\"] a[href=\"/reels/\"]\n",
+    "adguardhome": "! Title: ShortsGuard — DNS Hard Block (AdGuard Home)\n! DNS filtering only: AdGuard Home cannot hide page elements.\n! Blocks whole apps (TikTok / Likee / Kwai / SnackVideo).\n! Facebook, Messenger, Instagram and YouTube are NOT touched.\n! Add a blocklist URL in AdGuard Home -> Filters -> DNS blocklists,\n! or paste these rules into Filters -> Custom filtering rules.\n\n! ===== TikTok =====\n||tiktok.com^\n||tiktokv.com^\n||tiktokv.us^\n||tiktokcdn.com^\n||tiktokcdn-us.com^\n||tiktokcdn-eu.com^\n||musical.ly^\n||byteoversea.com^\n||ibytedtos.com^\n||ibytedapm.com^\n\n! ===== Likee =====\n||likee.video^\n||likee.com^\n||bigo.tv^\n||bigo.sg^\n\n! ===== Kwai =====\n||kwai.com^\n||kwai.net^\n||kuaishou.com^\n||gifshow.com^\n\n! ===== SnackVideo =====\n||snackvideo.com^\n||snackvideo.mobi^\n\n! ===== Allowlist (safety net) =====\n@@||messenger.com^\n@@||facebook.com^\n@@||instagram.com^\n@@||youtube.com^\n",
+    "hosts": "# ShortsGuard — hosts file (Pi-hole, AdGuard Home import, dnsmasq, Windows hosts)\n# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.\n# Generated from data/guard-profiles.json\n\n# TikTok\n0.0.0.0 tiktok.com\n0.0.0.0 www.tiktok.com\n0.0.0.0 m.tiktok.com\n0.0.0.0 tiktokv.com\n0.0.0.0 tiktokv.us\n0.0.0.0 tiktokcdn.com\n0.0.0.0 tiktokcdn-us.com\n0.0.0.0 tiktokcdn-eu.com\n0.0.0.0 musical.ly\n0.0.0.0 byteoversea.com\n0.0.0.0 ibytedtos.com\n0.0.0.0 ibytedapm.com\n\n# Likee\n0.0.0.0 likee.video\n0.0.0.0 likee.com\n0.0.0.0 bigo.tv\n0.0.0.0 bigo.sg\n\n# Kwai\n0.0.0.0 kwai.com\n0.0.0.0 kwai.net\n0.0.0.0 kuaishou.com\n0.0.0.0 gifshow.com\n\n# SnackVideo\n0.0.0.0 snackvideo.com\n0.0.0.0 snackvideo.mobi\n",
+    "dnsmasq": "# ShortsGuard — dnsmasq / OpenWrt config\n# Drop this in /etc/dnsmasq.conf (or a conf-file) and restart dnsmasq.\n# Blocks whole short-video apps only. Facebook / Messenger / Instagram / YouTube stay up.\n\naddress=/tiktok.com/0.0.0.0\naddress=/tiktokv.com/0.0.0.0\naddress=/tiktokv.us/0.0.0.0\naddress=/tiktokcdn.com/0.0.0.0\naddress=/tiktokcdn-us.com/0.0.0.0\naddress=/tiktokcdn-eu.com/0.0.0.0\naddress=/musical.ly/0.0.0.0\naddress=/byteoversea.com/0.0.0.0\naddress=/ibytedtos.com/0.0.0.0\naddress=/ibytedapm.com/0.0.0.0\naddress=/likee.video/0.0.0.0\naddress=/likee.com/0.0.0.0\naddress=/bigo.tv/0.0.0.0\naddress=/bigo.sg/0.0.0.0\naddress=/kwai.com/0.0.0.0\naddress=/kwai.net/0.0.0.0\naddress=/kuaishou.com/0.0.0.0\naddress=/gifshow.com/0.0.0.0\naddress=/snackvideo.com/0.0.0.0\naddress=/snackvideo.mobi/0.0.0.0\n"
+  },
+  "redirects": [
+    {
+      "id": "youtube-shorts",
+      "pattern": "^https?://(www\\.|m\\.)?youtube\\.com/shorts/([A-Za-z0-9_-]{6,})",
+      "target": "https://www.youtube.com/watch?v=$2",
+      "note": "Keeps a shared Short playable as a normal video."
+    },
+    {
+      "id": "facebook-reels",
+      "pattern": "^https?://(www\\.|web\\.|m\\.)?facebook\\.com/(reel|reels)/",
+      "target": "https://www.facebook.com/",
+      "note": "Reels have no non-Reels player; send the user back to the feed."
+    },
+    {
+      "id": "instagram-reels",
+      "pattern": "^https?://(www\\.)?instagram\\.com/(reel|reels)/",
+      "target": "https://www.instagram.com/",
+      "note": "Same: hide the surface, keep the app."
+    }
+  ],
+  "install_guides": [
+    {
+      "id": "userscript",
+      "title": "Userscript (fastest, all browsers)",
+      "steps": [
+        "Install Tampermonkey (Chrome/Edge/Brave) or Violentmonkey (Firefox).",
+        "Open guard/shorts-guard.user.js and click Raw — the manager offers Install.",
+        "Open youtube.com, facebook.com and instagram.com once to confirm the badge appears.",
+        "Toggle any target from the script menu (ShortsGuard → settings)."
+      ]
+    },
+    {
+      "id": "ublock",
+      "title": "uBlock Origin (no extra extension if you already use it)",
+      "steps": [
+        "Open the uBlock Origin dashboard → My filters.",
+        "Paste blocklists/shortsguard-ublock.txt and click Apply changes.",
+        "Reload the three sites. Reels/Shorts shelves disappear; URLs still work."
+      ]
+    },
+    {
+      "id": "extension",
+      "title": "Bundled Chrome / Edge extension (MV3)",
+      "steps": [
+        "Open chrome://extensions and enable Developer mode.",
+        "Load unpacked → select the guard/extension folder.",
+        "Pin ShortsGuard and use the popup to toggle YouTube / Facebook / Instagram."
+      ]
+    },
+    {
+      "id": "adguardhome",
+      "title": "AdGuard Home / Pi-hole (whole network, apps only)",
+      "steps": [
+        "AdGuard Home → Filters → DNS blocklists → Add blocklist → paste the raw URL of blocklists/shortsguard-adguardhome.txt.",
+        "Pi-hole → Adlists → paste the raw URL of blocklists/shortsguard-hosts.txt → Update gravity.",
+        "This blocks TikTok/Likee/Kwai/SnackVideo on every device. It cannot hide Reels/Shorts inside Facebook/Instagram/YouTube — use Focus Mode for that."
+      ]
+    }
+  ]
+}

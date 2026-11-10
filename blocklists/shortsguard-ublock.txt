@@ -1,0 +1,42 @@
+! Title: ShortsGuard — Focus Mode (YouTube Shorts · Facebook Reels · Instagram Reels)
+! Description: Hides short-form video surfaces; feeds, DMs and Messenger keep working.
+! Version: 1.0.0
+! Expires: 7 days
+! Homepage: https://github.com/iamtanzir/DNS-Server-List
+
+! ===== YouTube Shorts =====
+youtube.com##ytd-reel-shelf-renderer
+youtube.com##ytm-reel-shelf-renderer
+youtube.com##ytd-rich-shelf-renderer[is-shorts]
+youtube.com##ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts])
+youtube.com##ytd-reel-video-renderer
+youtube.com##ytd-shorts
+youtube.com##ytm-shorts-lockup-view-model
+youtube.com##ytd-guide-entry-renderer:has(a[title="Shorts"])
+youtube.com##ytd-mini-guide-entry-renderer[aria-label="Shorts"]
+youtube.com##yt-tab-shape[tab-title="Shorts"]
+youtube.com##yt-chip-cloud-chip-renderer:has(yt-formatted-string[title="Shorts"])
+youtube.com##ytd-video-renderer:has(a#thumbnail[href^="/shorts/"])
+youtube.com##ytd-grid-video-renderer:has(a#thumbnail[href^="/shorts/"])
+youtube.com##yt-lockup-view-model:has(a[href^="/shorts/"])
+youtube.com##grid-shelf-view-model:has(a[href^="/shorts/"])
+youtube.com##ytd-comment-thread-renderer:has(a[href^="/shorts/"])
+
+! ===== Facebook Reels =====
+facebook.com##a[href*="/reel/"]
+facebook.com##a[href*="sk=reels_tab"]
+facebook.com##div[aria-label="Reels"]
+facebook.com##div[aria-label="Reels and short videos"]
+facebook.com##div[data-pagelet^="Reels"]
+facebook.com##div[data-pagelet*="Reel"]
+facebook.com##div[role="navigation"] a[href*="/reel/"]
+facebook.com##div[role="feed"] div:has(> div a[href*="/reel/"])
+
+! ===== Instagram Reels =====
+instagram.com##a[href="/reels/"]
+instagram.com##a[href^="/reels/"]
+instagram.com##a[href*="/reel/"]
+instagram.com##a:has(svg[aria-label="Reels"])
+instagram.com##div[aria-label="Reels"]
+instagram.com##div[role="tablist"] a[href="/reels/"]
+instagram.com##article:has(a[href*="/reel/"])

@@ -1,0 +1,47 @@
+name: Health check
+
+on:
+  schedule:
+    # Every Monday at 03:17 UTC.
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Query every endpoint
+        run: python scripts/check_health.py --timeout 8 --workers 24
+
+      - name: Rebuild the site with the new snapshot
+        run: python scripts/build_site.py
+
+      - name: Commit the refreshed snapshot
+        run: |
+          if git diff --quiet -- data/health.json index.html; then
+            echo "No health changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/health.json index.html
+          git commit -m "chore(health): refresh live DNS snapshot"
+          git push
+
+      - name: Upload the snapshot as an artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-json
+          path: data/health.json
+          if-no-files-found: error
