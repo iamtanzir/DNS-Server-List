@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private DNS Server List — Encrypted DNS for Android, Windows, macOS &amp; Linux</title>
+<meta name="description" content="A curated, searchable list of 85+ public DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) endpoints: ad-blocking, family-safe, malware-filtering and privacy-first resolvers. Works with Android Private DNS and all major OSes.">
+<meta name="theme-color" content="#0d1117">
+<meta property="og:title" content="Private DNS Server List">
+<meta property="og:description" content="Searchable, copy-paste-ready list of public encrypted DNS endpoints (DoT/DoH) with filters for ads, malware, adult content and social media.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+<style>
+:root{
+  --bg:#0d1117; --bg-soft:#161b22; --card:#161b22; --card-hover:#1c2330;
+  --border:#2d333b; --text:#e6edf3; --text-dim:#9da7b3; --accent:#58a6ff;
+  --accent-2:#3fb950; --chip:#21262d; --shadow:0 8px 24px rgba(0,0,0,.35);
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+}
+[data-theme="light"]{
+  --bg:#f6f8fa; --bg-soft:#ffffff; --card:#ffffff; --card-hover:#f0f3f6;
+  --border:#d0d7de; --text:#1f2328; --text-dim:#57606a; --accent:#0969da;
+  --accent-2:#1a7f37; --chip:#eaeef2; --shadow:0 8px 24px rgba(140,149,159,.3);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;transition:background .25s,color .25s}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* ---------- header ---------- */
+header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--bg-soft),transparent)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+.brand .logo{font-size:1.5rem}
+.topbar-actions{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--chip);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.85rem;cursor:pointer;font-weight:600;transition:transform .12s,border-color .2s}
+.btn:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-1px)}
+.icon-btn{width:38px;height:38px;justify-content:center;padding:0;font-size:1.05rem}
+
+.hero{text-align:center;padding:56px 0 34px}
+.hero h1{font-size:clamp(1.8rem,4.5vw,3rem);letter-spacing:-.03em;line-height:1.15;background:linear-gradient(120deg,#58a6ff 0%,#3fb950 55%,#d2a8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--text-dim);max-width:640px;margin:16px auto 0;font-size:1.02rem}
+.stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.stat{background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:6px 16px;font-size:.83rem;color:var(--text-dim)}
+.stat b{color:var(--text)}
+
+/* ---------- toolbar ---------- */
+.toolbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 0;border-bottom:1px solid var(--border)}
+.search-row{display:flex;gap:10px;align-items:center}
+.search{flex:1;display:flex;align-items:center;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:0 14px;height:46px;transition:border-color .2s}
+.search:focus-within{border-color:var(--accent)}
+.search input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:1rem;height:100%}
+.search input::placeholder{color:var(--text-dim)}
+.search kbd{border:1px solid var(--border);border-radius:5px;padding:1px 7px;font-size:.75rem;color:var(--text-dim);background:var(--chip)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chip{border:1px solid var(--border);background:var(--chip);color:var(--text-dim);border-radius:999px;padding:5px 14px;font-size:.8rem;cursor:pointer;transition:all .15s;font-weight:600}
+.chip:hover{color:var(--text);border-color:var(--accent)}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#0d1117}
+.result-count{color:var(--text-dim);font-size:.83rem;margin-top:10px;min-height:1.2em}
+
+/* ---------- cards ---------- */
+main{padding:28px 0 60px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card-head h2{font-size:1.05rem;letter-spacing:-.01em}
+.card-head a.site{font-size:.72rem;color:var(--text-dim);white-space:nowrap}
+.card-notes{color:var(--text-dim);font-size:.8rem;margin-top:2px}
+.endpoint{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--bg-soft)}
+.endpoint + .endpoint{margin-top:8px}
+.ep-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.host{font-family:var(--mono);font-size:.83rem;word-break:break-all;color:var(--text)}
+.copy-btn{flex-shrink:0;border:1px solid var(--border);background:transparent;color:var(--text-dim);border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:.85rem;transition:all .15s}
+.copy-btn:hover{color:#3fb950;border-color:#3fb950}
+.ep-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}
+.tag{font-size:.68rem;border-radius:5px;padding:2px 8px;font-weight:700;letter-spacing:.02em;border:1px solid transparent}
+.tag-none{background:#21262d;color:#9da7b3;border-color:#30363d}
+.tag-ads{background:#3b2304;color:#f0a35e;border-color:#6e3a0a}
+.tag-malware{background:#3d1214;color:#ff7b72;border-color:#6e2428}
+.tag-adult{background:#3a1d3f;color:#d2a8ff;border-color:#5e2d68}
+.tag-social{background:#0d2d3a;color:#79c0ff;border-color:#174a5e}
+.tag-proto{background:#0d2818;color:#7ee787;border-color:#17492c}
+.tag-region{background:#1c2330;color:#9da7b3;border-color:#30363d}
+[data-theme="light"] .tag-none,[data-theme="light"] .tag-region{background:#eaeef2;color:#57606a;border-color:#d0d7de}
+[data-theme="light"] .tag-ads{background:#fff1e5;color:#bc4c00;border-color:#ffd8b5}
+[data-theme="light"] .tag-malware{background:#ffebe9;color:#cf222e;border-color:#ffb3ad}
+[data-theme="light"] .tag-adult{background:#fbefff;color:#8250df;border-color:#e5c2ff}
+[data-theme="light"] .tag-social{background:#ddf4ff;color:#0969da;border-color:#b6e3ff}
+[data-theme="light"] .tag-proto{background:#dafbe1;color:#1a7f37;border-color:#aceebb}
+.ep-label{font-size:.75rem;color:var(--text-dim);margin-top:6px}
+.ep-note{font-size:.72rem;color:var(--text-dim);opacity:.85;margin-top:4px;font-style:italic}
+.empty{text-align:center;color:var(--text-dim);padding:60px 20px;display:none}
+.empty.show{display:block}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--border);padding:26px 0 40px;color:var(--text-dim);font-size:.83rem;text-align:center}
+footer p{margin:4px 0}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--accent-2);color:#08130c;font-weight:700;padding:10px 22px;border-radius:10px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;font-size:.9rem}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+  .hero h1{font-size:1.7rem}
+  .search kbd{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <div class="topbar">
+      <div class="brand"><span class="logo">🛡️</span> Private DNS List</div>
+      <div class="topbar-actions">
+        <a class="btn" href="https://github.com/iamtanzir/DNS-Server-List" target="_blank" rel="noopener">⭐ GitHub</a>
+        <button class="btn icon-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">🌓</button>
+      </div>
+    </div>
+    <div class="hero">
+      <h1>Encrypted DNS,<br>one tap away.</h1>
+      <p>A curated, searchable list of public DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) endpoints — ad-blocking, family-safe, malware-filtering and privacy-first. Paste one hostname into Android <b>Private DNS</b> and you&apos;re done.</p>
+      <div class="stats">
+        <span class="stat"><b id="statProviders">–</b> providers</span>
+        <span class="stat"><b id="statEndpoints">–</b> endpoints</span>
+        <span class="stat"><b>100% free</b> &amp; open</span>
+        <span class="stat">No account needed</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="container">
+    <div class="search-row">
+      <label class="search" for="q">
+        <span style="margin-right:10px">🔍</span>
+        <input id="q" type="text" placeholder="Search by name, host, region or filter… ( / )" autocomplete="off" spellcheck="false" aria-label="Search DNS servers">
+        <kbd>/</kbd>
+      </label>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by capability"></div>
+    <div class="result-count" id="resultCount" aria-live="polite"></div>
+  </div>
+</div>
+
+<main class="container">
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty">No DNS servers match “<span id="emptyQuery"></span>”.<br>Try a different search or clear the filters.</div>
+</main>
+
+<footer>
+  <div class="container">
+    <p><b>Private DNS Server List</b> — maintained by <a href="https://github.com/iamtanzir" target="_blank" rel="noopener">@iamtanzir</a> · MIT License</p>
+    <p>DNS hostnames belong to their respective operators. Test before relying on them; no-logging claims are self-declared by each provider.</p>
+    <p>Android: <i>Settings → Network &amp; internet → Private DNS → Private DNS provider hostname</i> · Paste ONE hostname — not the whole list.</p>
+  </div>
+</footer>
+
+<div id="toast" role="status">Copied to clipboard!</div>
+
+<script id="dns-data" type="application/json">__DNS_DATA__</script>
+<script>
+"use strict";
+const DATA = JSON.parse(document.getElementById("dns-data").textContent);
+
+/* ---------- stats ---------- */
+const allEndpoints = DATA.providers.flatMap(p => p.hosts.map(h => ({...h, provider: p})));
+document.getElementById("statProviders").textContent = DATA.providers.length;
+document.getElementById("statEndpoints").textContent = allEndpoints.length;
+
+/* ---------- theme ---------- */
+const rootEl = document.documentElement;
+const saved = localStorage.getItem("theme");
+if (saved) rootEl.dataset.theme = saved;
+else if (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches) rootEl.dataset.theme = "light";
+document.getElementById("themeToggle").addEventListener("click", () => {
+  rootEl.dataset.theme = rootEl.dataset.theme === "dark" ? "light" : "dark";
+  localStorage.setItem("theme", rootEl.dataset.theme);
+});
+
+/* ---------- filter chips ---------- */
+const FILTER_DEFS = [
+  {id: "all",     label: "All"},
+  {id: "none",    label: "🚫 Unfiltered"},
+  {id: "ads",     label: "🎯 Ad-Blocking"},
+  {id: "malware", label: "🦠 Malware Shield"},
+  {id: "adult",   label: "🔞 Family-Safe"},
+  {id: "social",  label: "📵 Social Block"},
+  {id: "dot",     label: "🔒 DoT (Private DNS)"},
+  {id: "doh",     label: "🌐 DoH (Browsers)"}
+];
+let activeFilter = "all";
+const chipsEl = document.getElementById("chips");
+for (const f of FILTER_DEFS) {
+  const btn = document.createElement("button");
+  btn.className = "chip" + (f.id === activeFilter ? " active" : "");
+  btn.textContent = f.label;
+  btn.setAttribute("aria-pressed", f.id === activeFilter);
+  btn.addEventListener("click", () => {
+    activeFilter = f.id;
+    chipsEl.querySelectorAll(".chip").forEach(c => { c.classList.toggle("active", c === btn); c.setAttribute("aria-pressed", c === btn); });
+    render();
+  });
+  chipsEl.appendChild(btn);
+}
+
+/* ---------- search ---------- */
+const q = document.getElementById("q");
+q.addEventListener("input", render);
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && !/input|textarea/i.test(e.target.tagName)) { e.preventDefault(); q.focus(); }
+  if (e.key === "Escape" && e.target === q) { q.value = ""; render(); q.blur(); }
+});
+
+const matchesFilter = (h) => {
+  switch (activeFilter) {
+    case "all": return true;
+    case "dot": return h.protocol !== "doh";
+    case "doh": return h.protocol !== "dot";
+    default:    return h.filters.includes(activeFilter);
+  }
+};
+const matchesQuery = (p, h, needle) => {
+  if (!needle) return true;
+  const hay = [p.name, p.notes, h.host, h.label, h.region, h.notes, (h.filters || []).join(" "), h.protocol].join(" ").toLowerCase();
+  return needle.split(/\s+/).every(tok => hay.includes(tok));
+};
+
+const escapeHtml = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const tagClass = f => "tag tag-" + (["none","ads","malware","adult","social"].includes(f) ? f : "none");
+const protoLabel = {dot:"DoT · :853", doh:"DoH · :443", "dot+doh":"DoT + DoH"};
+
+/* ---------- render ---------- */
+const grid = document.getElementById("grid");
+const resultCount = document.getElementById("resultCount");
+const empty = document.getElementById("empty");
+
+function render() {
+  const needle = q.value.trim().toLowerCase();
+  let shown = 0, shownProviders = 0;
+  const frag = document.createDocumentFragment();
+
+  for (const p of DATA.providers) {
+    const visibleHosts = p.hosts.filter(h => matchesFilter(h) && matchesQuery(p, h, needle));
+    if (!visibleHosts.length) continue;
+    shownProviders++;
+
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-head">
+        <div>
+          <h2>${escapeHtml(p.name)}</h2>
+          ${p.notes ? `<div class="card-notes">${escapeHtml(p.notes)}</div>` : ""}
+        </div>
+        ${p.website ? `<a class="site" href="${escapeHtml(p.website)}" target="_blank" rel="noopener">site ↗</a>` : ""}
+      </div>
+      <div class="endpoints">${visibleHosts.map(endpointHtml).join("")}</div>`;
+    frag.appendChild(card);
+    shown += visibleHosts.length;
+  }
+
+  grid.replaceChildren(frag);
+  empty.classList.toggle("show", shown === 0);
+  document.getElementById("emptyQuery").textContent = q.value.trim();
+  resultCount.textContent = shown === 0 ? "" : `Showing ${shown} endpoint${shown !== 1 ? "s" : ""} from ${shownProviders} provider${shownProviders !== 1 ? "s" : ""}`;
+}
+
+function endpointHtml(h) {
+  const tags = [
+    `<span class="tag tag-proto">${protoLabel[h.protocol] || escapeHtml(h.protocol)}</span>`,
+    ...h.filters.map(f => `<span class="${tagClass(f)}">${escapeHtml(f.toUpperCase())}</span>`),
+    `<span class="tag tag-region">📍 ${escapeHtml(h.region)}</span>`
+  ].join("");
+  return `
+    <div class="endpoint">
+      <div class="ep-top">
+        <code class="host">${escapeHtml(h.host)}</code>
+        <button class="copy-btn" data-host="${escapeHtml(h.host)}" title="Copy ${escapeHtml(h.host)}" aria-label="Copy ${escapeHtml(h.host)}">📋</button>
+      </div>
+      <div class="ep-meta">${tags}</div>
+      ${h.label ? `<div class="ep-label">${escapeHtml(h.label)}</div>` : ""}
+      ${h.notes ? `<div class="ep-note">${escapeHtml(h.notes)}</div>` : ""}
+    </div>`;
+}
+
+/* ---------- copy (event delegation) ---------- */
+const toast = document.getElementById("toast");
+let toastTimer;
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = text; ta.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); ta.remove(); return true;
+    } catch { return false; }
+  }
+}
+grid.addEventListener("click", async e => {
+  const btn = e.target.closest(".copy-btn");
+  if (!btn) return;
+  const ok = await copyText(btn.dataset.host);
+  btn.textContent = ok ? "✅" : "❌";
+  showToast(ok ? `Copied “${btn.dataset.host}”` : "Copy failed — select the text manually");
+  setTimeout(() => { btn.textContent = "📋"; }, 1600);
+});
+
+render();
+</script>
+</body>
+</html>

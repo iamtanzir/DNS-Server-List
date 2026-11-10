@@ -1,0 +1,441 @@
+{
+  "schema": "dns-server-list/v1",
+  "title": "Private DNS Server List",
+  "updated": "2026-11-10",
+  "description": "A curated list of public DNS-over-TLS (DoT) / DNS-over-HTTPS (DoH) endpoints, mainly for Android Private DNS and other encrypted-DNS setups.",
+  "filters": {
+    "none": "No filtering — pure resolver",
+    "ads": "Blocks advertising & trackers",
+    "malware": "Blocks malware / phishing domains",
+    "adult": "Blocks adult content",
+    "social": "Blocks social-media / distraction domains"
+  },
+  "protocols": {
+    "dot": "DNS over TLS (port 853) — works with Android Private DNS",
+    "doh": "DNS over HTTPS (port 443) — works in browsers & OS DoH settings",
+    "dot+doh": "Supports both DoT and DoH on the same hostname"
+  },
+  "providers": [
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "website": "https://1.1.1.1/dns",
+      "notes": "Anycast, one of the fastest public resolvers.",
+      "hosts": [
+        { "host": "1dot1dot1dot1.cloudflare-dns.com", "label": "Standard (unfiltered)", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "family.cloudflare-dns.com", "label": "Malware + Adult blocking", "protocol": "dot+doh", "filters": ["malware", "adult"], "region": "global", "notes": "1.1.1.3 / 1.0.0.3" },
+        { "host": "security.cloudflare-dns.com", "label": "Malware blocking only", "protocol": "dot+doh", "filters": ["malware"], "region": "global", "notes": "1.1.1.2 / 1.0.0.2" }
+      ]
+    },
+    {
+      "id": "google",
+      "name": "Google Public DNS",
+      "website": "https://developers.google.com/speed/public-dns",
+      "notes": "Anycast; 8.8.8.8 / 8.8.4.4 equivalent.",
+      "hosts": [
+        { "host": "dns.google", "label": "Standard (unfiltered)", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "quad9",
+      "name": "Quad9",
+      "website": "https://www.quad9.net",
+      "notes": "Non-profit; blocks known-malicious domains by default.",
+      "hosts": [
+        { "host": "dns.quad9.net", "label": "Standard (blocks malware)", "protocol": "dot+doh", "filters": ["malware"], "region": "global", "notes": "9.9.9.9 / 149.112.112.112" },
+        { "host": "dns10.quad9.net", "label": "Unfiltered (no blocking)", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "9.9.9.10 / 149.112.112.10" },
+        { "host": "dns11.quad9.net", "label": "ECS support (blocks malware)", "protocol": "dot+doh", "filters": ["malware"], "region": "global", "notes": "Sends EDNS Client Subnet; better CDN routing" }
+      ]
+    },
+    {
+      "id": "cleanbrowsing",
+      "name": "CleanBrowsing",
+      "website": "https://cleanbrowsing.org",
+      "notes": "US-based family/security focused filters.",
+      "hosts": [
+        { "host": "doh.cleanbrowsing.org", "label": "Default", "protocol": "doh", "filters": ["none"], "region": "global", "notes": "DoH endpoint; see site for the matching filter" },
+        { "host": "family-filter-dns.cleanbrowsing.org", "label": "Family Filter", "protocol": "dot+doh", "filters": ["adult"], "region": "global", "notes": "Blocks adult content, mixed-content sites and proxies" },
+        { "host": "adult-filter-dns.cleanbrowsing.org", "label": "Adult Filter", "protocol": "dot+doh", "filters": ["adult"], "region": "global", "notes": "Blocks adult content only" },
+        { "host": "security-filter-dns.cleanbrowsing.org", "label": "Security Filter", "protocol": "dot+doh", "filters": ["malware"], "region": "global", "notes": "Blocks phishing, malware and C2 domains" }
+      ]
+    },
+    {
+      "id": "nextdns",
+      "name": "NextDNS",
+      "website": "https://nextdns.io",
+      "notes": "Freemium, configurable blocklists. These are the built-in public endpoints.",
+      "hosts": [
+        { "host": "dns.nextdns.io", "label": "Ultra-low latency", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "Create an account for custom blocklists (recommended)" },
+        { "host": "anycast.dns.nextdns.io", "label": "Anycast", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "adguard",
+      "name": "AdGuard DNS",
+      "website": "https://adguard-dns.com",
+      "notes": "Blocks ads and trackers at the DNS level.",
+      "hosts": [
+        { "host": "dns.adguard-dns.com", "label": "Default (ad-blocking)", "protocol": "dot+doh", "filters": ["ads"], "region": "global", "notes": "94.140.14.14 / 94.140.15.15" },
+        { "host": "dns-family.adguard.com", "label": "Family Protection", "protocol": "dot+doh", "filters": ["ads", "adult"], "region": "global", "notes": "Ads + adult; safe search enforced" },
+        { "host": "dns-unfiltered.adguard.com", "label": "Non-filtering", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "No blocking, no logs sold" }
+      ]
+    },
+    {
+      "id": "opendns",
+      "name": "OpenDNS (Cisco Umbrella)",
+      "website": "https://www.opendns.com",
+      "notes": "Cisco-owned. Free 208.67.222.222 service; blocks known-phishing domains.",
+      "hosts": [
+        { "host": "dns.opendns.com", "label": "Standard", "protocol": "dot+doh", "filters": ["malware"], "region": "global", "notes": "208.67.222.222 / 208.67.220.220" }
+      ]
+    },
+    {
+      "id": "rubyfish",
+      "name": "Rubyfish DNS",
+      "website": "https://rubyfish.cn",
+      "notes": "China-based public resolver.",
+      "hosts": [
+        { "host": "dns.rubyfish.cn", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "china", "notes": "" }
+      ]
+    },
+    {
+      "id": "switch",
+      "name": "SWITCH DNS",
+      "website": "https://www.switch.ch",
+      "notes": "Operated by SWITCH (Swiss education/research network). DNSSEC-validating.",
+      "hosts": [
+        { "host": "dns.switch.ch", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "switzerland", "notes": "" }
+      ]
+    },
+    {
+      "id": "futuredns",
+      "name": "FutureDNS",
+      "website": "https://futuredns.me",
+      "notes": "Free resolver focused on blocking malicious domains.",
+      "hosts": [
+        { "host": "dns.futuredns.me", "label": "Standard (blocks malware)", "protocol": "dot", "filters": ["malware"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "comss",
+      "name": "Comss One DNS",
+      "website": "https://comss.one",
+      "notes": "Operated in Russia; nearest region gives best latency.",
+      "hosts": [
+        { "host": "dns.comss.one", "label": "West — main server", "protocol": "dot", "filters": ["none"], "region": "russia", "notes": "" },
+        { "host": "dns.east.comss.one", "label": "East — Siberia & Far East", "protocol": "dot", "filters": ["none"], "region": "russia", "notes": "Use if you are east of the Urals" }
+      ]
+    },
+    {
+      "id": "cira",
+      "name": "CIRA Canadian Shield",
+      "website": "https://cira.ca/cira-canadian-shield",
+      "notes": "Run by the Canadian Internet Registration Authority. Three tiers, no logging of personal data.",
+      "hosts": [
+        { "host": "private.canadianshield.cira.ca", "label": "Private (privacy-only, no blocking)", "protocol": "dot", "filters": ["none"], "region": "canada", "notes": "" },
+        { "host": "protected.canadianshield.cira.ca", "label": "Protected (blocks malware & phishing)", "protocol": "dot", "filters": ["malware"], "region": "canada", "notes": "" },
+        { "host": "family.canadianshield.cira.ca", "label": "Family (Protected + adult blocking)", "protocol": "dot", "filters": ["malware", "adult"], "region": "canada", "notes": "" }
+      ]
+    },
+    {
+      "id": "blahdns",
+      "name": "BlahDNS",
+      "website": "https://blahdns.com",
+      "notes": "Community-run, privacy-focused DoT/DoH; check the site for its current filtering lists.",
+      "hosts": [
+        { "host": "dot-fi.blahdns.com", "label": "Finland", "protocol": "dot", "filters": ["none"], "region": "finland", "notes": "May filter ads — see blahdns.com" },
+        { "host": "dot-jp.blahdns.com", "label": "Japan", "protocol": "dot", "filters": ["none"], "region": "japan", "notes": "May filter ads — see blahdns.com" },
+        { "host": "dot-de.blahdns.com", "label": "Germany", "protocol": "dot", "filters": ["none"], "region": "germany", "notes": "May filter ads — see blahdns.com" }
+      ]
+    },
+    {
+      "id": "snopyta",
+      "name": "Snopyta DNS",
+      "website": "https://snopyta.org",
+      "notes": "No-log, hosted in Finland (Hetzner).",
+      "hosts": [
+        { "host": "fi.dot.dns.snopyta.org", "label": "Finland", "protocol": "dot", "filters": ["none"], "region": "finland", "notes": "" }
+      ]
+    },
+    {
+      "id": "dnsforfamily",
+      "name": "DNS For Family",
+      "website": "https://dnsforfamily.com",
+      "notes": "Volunteer-run, family-safe resolver that filters adult content.",
+      "hosts": [
+        { "host": "dns-dot.dnsforfamily.com", "label": "Family Filter", "protocol": "dot", "filters": ["adult"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "nic-cz",
+      "name": "CZ.NIC ODVR",
+      "website": "https://odvr.nic.cz",
+      "notes": "Run by CZ.NIC (Czech top-level domain registry). ODVR = Open DNS-over-TLS Resolver.",
+      "hosts": [
+        { "host": "odvr.nic.cz", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "czechia", "notes": "" }
+      ]
+    },
+    {
+      "id": "alidns",
+      "name": "AliDNS (Alibaba)",
+      "website": "https://www.alidns.com",
+      "notes": "Alibaba Cloud public resolver; popular in China.",
+      "hosts": [
+        { "host": "dns.alidns.com", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "china", "notes": "223.5.5.5 / 223.6.6.6" }
+      ]
+    },
+    {
+      "id": "cfiec",
+      "name": "CFIEC Public DNS",
+      "website": "https://www.cfiec.net",
+      "notes": "China public DNS service.",
+      "hosts": [
+        { "host": "dns.cfiec.net", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "china", "notes": "" }
+      ]
+    },
+    {
+      "id": "360",
+      "name": "360 Secure DNS",
+      "website": "https://www.360.cn",
+      "notes": "Qihoo 360 public resolver; security-focused (blocks known-bad domains).",
+      "hosts": [
+        { "host": "dot.360.cn", "label": "Standard (secure)", "protocol": "dot", "filters": ["malware"], "region": "china", "notes": "" }
+      ]
+    },
+    {
+      "id": "iij",
+      "name": "IIJ Public DNS",
+      "website": "https://public.dns.iij.jp",
+      "notes": "Internet Initiative Japan public resolver; DNSSEC-validating.",
+      "hosts": [
+        { "host": "public.dns.iij.jp", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "japan", "notes": "" }
+      ]
+    },
+    {
+      "id": "dnspod",
+      "name": "DNSPod Public DNS+",
+      "website": "https://www.dnspod.cn",
+      "notes": "Tencent-owned public resolver (dot.pub / 119.29.29.29).",
+      "hosts": [
+        { "host": "dot.pub", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "china", "notes": "" }
+      ]
+    },
+    {
+      "id": "tiar",
+      "name": "Privacy-First DNS (tiar.app)",
+      "website": "https://tiar.app",
+      "notes": "No logging, no filtering. Operated by tiar.app.",
+      "hosts": [
+        { "host": "dot.tiarap.org", "label": "Singapore", "protocol": "dot", "filters": ["none"], "region": "singapore", "notes": "" },
+        { "host": "jp.tiar.app", "label": "Japan", "protocol": "dot", "filters": ["none"], "region": "japan", "notes": "" }
+      ]
+    },
+    {
+      "id": "oszx",
+      "name": "OSZX DNS",
+      "website": "https://oszx.co",
+      "notes": "Independent public resolver.",
+      "hosts": [
+        { "host": "dns.oszx.co", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "pumplex",
+      "name": "PumpleX DNS",
+      "website": "https://pumplex.com",
+      "notes": "Independent public resolver.",
+      "hosts": [
+        { "host": "dns.pumplex.com", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "applied-privacy",
+      "name": "Applied Privacy DNS",
+      "website": "https://applied-privacy.net",
+      "notes": "Run by Applied Privacy (Austria). Strict no-logging policy.",
+      "hosts": [
+        { "host": "dot1.applied-privacy.net", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "austria", "notes": "" }
+      ]
+    },
+    {
+      "id": "decloudus",
+      "name": "DeCloudUs DNS",
+      "website": "https://decloudus.com",
+      "notes": "US-based decentralized-cloud resolver.",
+      "hosts": [
+        { "host": "dns.decloudus.com", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "usa", "notes": "" }
+      ]
+    },
+    {
+      "id": "lelux",
+      "name": "Lelux DNS",
+      "website": "https://lelux.fi",
+      "notes": "Finland-based EU resolver.",
+      "hosts": [
+        { "host": "resolver-eu.lelux.fi", "label": "EU resolver", "protocol": "dot", "filters": ["none"], "region": "finland", "notes": "" }
+      ]
+    },
+    {
+      "id": "dnsforge",
+      "name": "DNS Forge",
+      "website": "https://dnsforge.de",
+      "notes": "Community-run German resolver; blocks advertising and malware.",
+      "hosts": [
+        { "host": "dnsforge.de", "label": "Standard (ad & malware blocking)", "protocol": "dot", "filters": ["ads", "malware"], "region": "germany", "notes": "" }
+      ]
+    },
+    {
+      "id": "restena",
+      "name": "Fondation Restena DNS",
+      "website": "https://www.restena.lu",
+      "notes": "Research/education infrastructure of Luxembourg.",
+      "hosts": [
+        { "host": "kaitain.restena.lu", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "luxembourg", "notes": "" }
+      ]
+    },
+    {
+      "id": "ffmuc",
+      "name": "FFMUC DNS",
+      "website": "https://ffmuc.net",
+      "notes": "Freifunk München community network resolver.",
+      "hosts": [
+        { "host": "dot.ffmuc.net", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "germany", "notes": "" }
+      ]
+    },
+    {
+      "id": "digitale-gesellschaft",
+      "name": "Digitale Gesellschaft DNS",
+      "website": "https://digitale-gesellschaft.ch",
+      "notes": "Swiss digital-rights non-profit resolver.",
+      "hosts": [
+        { "host": "dns.digitale-gesellschaft.ch", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "switzerland", "notes": "" }
+      ]
+    },
+    {
+      "id": "libredns",
+      "name": "LibreDNS",
+      "website": "https://libredns.gr",
+      "notes": "Community-run resolver in Greece.",
+      "hosts": [
+        { "host": "dot.libredns.gr", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "greece", "notes": "See libredns.gr — some endpoints filter ads" }
+      ]
+    },
+    {
+      "id": "ibksturm",
+      "name": "ibksturm DNS",
+      "website": "https://ibksturm.at",
+      "notes": "Self-hosted resolver running on a Synology NAS.",
+      "hosts": [
+        { "host": "ibksturm.synology.me", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "germany", "notes": "Personal/self-hosted — may go offline" }
+      ]
+    },
+    {
+      "id": "dns-privacy",
+      "name": "DNS Privacy (Stubby / no-log projects)",
+      "website": "https://dnsprivacy.org",
+      "notes": "Hosts run by the Unbound/Stubby developers and other no-logging projects. The last two use minimal logging, self-signed certs or no strict-mode support.",
+      "hosts": [
+        { "host": "getdnsapi.net", "label": "Stubby developers — no logging", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "dnsovertls.sinodun.com", "label": "Stubby developers — no logging", "protocol": "dot", "filters": ["none"], "region": "uk", "notes": "" },
+        { "host": "dnsovertls1.sinodun.com", "label": "Stubby developers — no logging", "protocol": "dot", "filters": ["none"], "region": "uk", "notes": "" },
+        { "host": "unicast.censurfridns.dk", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "denmark", "notes": "" },
+        { "host": "anycast.censurfridns.dk", "label": "No logging (anycast)", "protocol": "dot", "filters": ["none"], "region": "denmark", "notes": "" },
+        { "host": "dns.cmrg.net", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "dns.larsdebruin.net", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "dns-tls.bitwiseshift.net", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "ns1.dnsprivacy.at", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "austria", "notes": "" },
+        { "host": "ns2.dnsprivacy.at", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "austria", "notes": "" },
+        { "host": "dns.bitgeek.in", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "india", "notes": "" },
+        { "host": "dns.neutopia.org", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "privacydns.go6lab.si", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "slovenia", "notes": "" },
+        { "host": "dot.securedns.eu", "label": "No logging", "protocol": "dot", "filters": ["none"], "region": "europe", "notes": "" },
+        { "host": "dnsotls.lab.nic.cl", "label": "Minimal logging / self-signed cert", "protocol": "dot", "filters": ["none"], "region": "chile", "notes": "No strict-mode support" },
+        { "host": "tls-dns-u.odvr.dns-oarc.net", "label": "Minimal logging / no strict mode", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "ahadns",
+      "name": "AhaDNS",
+      "website": "https://ahadns.net",
+      "notes": "Anycast/CDN resolver with locations across NA, EU and India.",
+      "hosts": [
+        { "host": "dot.nl.ahadns.net", "label": "Netherlands", "protocol": "dot", "filters": ["none"], "region": "netherlands", "notes": "" },
+        { "host": "dot.in.ahadns.net", "label": "India", "protocol": "dot", "filters": ["none"], "region": "india", "notes": "" },
+        { "host": "dot.la.ahadns.net", "label": "Los Angeles, USA", "protocol": "dot", "filters": ["none"], "region": "usa", "notes": "" },
+        { "host": "dot.ny.ahadns.net", "label": "New York, USA", "protocol": "dot", "filters": ["none"], "region": "usa", "notes": "" },
+        { "host": "dot.pl.ahadns.net", "label": "Poland", "protocol": "dot", "filters": ["none"], "region": "poland", "notes": "" },
+        { "host": "dot.it.ahadns.net", "label": "Italy", "protocol": "dot", "filters": ["none"], "region": "italy", "notes": "" },
+        { "host": "dot.es.ahadns.net", "label": "Spain", "protocol": "dot", "filters": ["none"], "region": "spain", "notes": "" },
+        { "host": "dot.no.ahadns.net", "label": "Norway", "protocol": "dot", "filters": ["none"], "region": "norway", "notes": "" },
+        { "host": "dot.chi.ahadns.net", "label": "Chicago, USA", "protocol": "dot", "filters": ["none"], "region": "usa", "notes": "" }
+      ]
+    },
+    {
+      "id": "seby",
+      "name": "Seby DNS",
+      "website": "https://seby.io",
+      "notes": "Independent public resolver.",
+      "hosts": [
+        { "host": "dot.seby.io", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "dnslify",
+      "name": "DNSlify",
+      "website": "https://dnslify.com",
+      "notes": "DoH service with analytics-free resolution.",
+      "hosts": [
+        { "host": "doh.dnslify.com", "label": "DoH endpoint", "protocol": "doh", "filters": ["none"], "region": "global", "notes": "DoH only — not usable as Android Private DNS (DoT)" }
+      ]
+    },
+    {
+      "id": "rethinkdns",
+      "name": "Rethink DNS",
+      "website": "https://www.rethinkdns.com",
+      "notes": "Open-source firewall/DNS. This is the non-filtering public endpoint.",
+      "hosts": [
+        { "host": "max.rethinkdns.com", "label": "Non-filtering", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "Use the Rethink app for custom blocklists" }
+      ]
+    },
+    {
+      "id": "controld",
+      "name": "ControlD (Free DNS)",
+      "website": "https://controld.com",
+      "notes": "Free managed DNS tiers from ControlD; no account required.",
+      "hosts": [
+        { "host": "p0.freedns.controld.com", "label": "Non-filtering", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "" },
+        { "host": "p1.freedns.controld.com", "label": "Block malware", "protocol": "dot+doh", "filters": ["malware"], "region": "global", "notes": "" },
+        { "host": "p2.freedns.controld.com", "label": "Block malware + ads", "protocol": "dot+doh", "filters": ["malware", "ads"], "region": "global", "notes": "" },
+        { "host": "p3.freedns.controld.com", "label": "Block malware + ads + social", "protocol": "dot+doh", "filters": ["malware", "ads", "social"], "region": "global", "notes": "" }
+      ]
+    },
+    {
+      "id": "mullvad",
+      "name": "Mullvad DNS",
+      "website": "https://mullvad.net/en/help/dns",
+      "notes": "From the Mullvad VPN team. No-log, no account required.",
+      "hosts": [
+        { "host": "doh.mullvad.net", "label": "Non-filtering", "protocol": "dot+doh", "filters": ["none"], "region": "global", "notes": "Also answers DoT on port 853" },
+        { "host": "adblock.doh.mullvad.net", "label": "Ad-blocking", "protocol": "dot+doh", "filters": ["ads"], "region": "global", "notes": "Blocks ads & trackers; also answers DoT" }
+      ]
+    },
+    {
+      "id": "arapurayil",
+      "name": "Arapurayil DNS",
+      "website": "https://arapurayil.com",
+      "notes": "Independent public resolver.",
+      "hosts": [
+        { "host": "dns.arapurayil.com", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "india", "notes": "" }
+      ]
+    },
+    {
+      "id": "dandelionsprout",
+      "name": "Dandelion Sprout DNS",
+      "website": "https://dandelionsprout.blogspot.com",
+      "notes": "Personal resolver on ASUScomm DDNS; treat as best-effort uptime.",
+      "hosts": [
+        { "host": "dandelionsprout.asuscomm.com", "label": "Standard", "protocol": "dot", "filters": ["none"], "region": "global", "notes": "Personal/self-hosted — may go offline" }
+      ]
+    }
+  ]
+}

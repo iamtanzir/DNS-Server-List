@@ -1,0 +1,38 @@
+name: Validate DNS data
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate data/dns-servers.json
+        run: python scripts/validate.py
+
+      - name: Check hostnames.txt is up to date
+        run: |
+          python scripts/export_hosts.py
+          git diff --exit-code hostnames.txt || {
+            echo "::error::hostnames.txt is out of date. Run 'python scripts/export_hosts.py' and commit."
+            exit 1
+          }
+
+      - name: Check index.html is up to date
+        run: |
+          python scripts/build_site.py
+          git diff --exit-code index.html || {
+            echo "::error::index.html is out of date. Run 'python scripts/build_site.py' and commit."
+            exit 1
+          }
