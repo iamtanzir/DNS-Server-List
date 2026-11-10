@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
+# Pages must be enabled once by the repo owner (Settings -> Pages -> Source: GitHub Actions),
+# Then run this workflow manually (Actions tab -> Run workflow).
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
