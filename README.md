@@ -238,10 +238,10 @@ python -m http.server 8000   # then open http://localhost:8000
 ```
 
 ### Publish to GitHub Pages (free)
-1. Repo **Settings → Pages**
-2. **Source: GitHub Actions**
-3. Push to `main` — the included [`pages.yml`](.github/workflows/pages.yml) workflow deploys automatically
-4. Your list is live at `https://<username>.github.io/DNS-Server-List/`
+1. Repo **Settings → Pages** → Source: **Deploy from a branch** → Branch **`main`** → folder **`/ (root)`** → **Save**
+2. Every push to `main` auto-publishes. Your list is then live at `https://iamtanzir.github.io/DNS-Server-List/`
+
+*(Alternative: Source **GitHub Actions** + the [`pages.yml`](.github/workflows/pages.yml) workflow, triggered manually from the Actions tab.)*
 
 ### Regenerate after editing the data
 ```bash
