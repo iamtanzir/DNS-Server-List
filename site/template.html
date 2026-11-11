@@ -30,7 +30,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 code,kbd,pre{font-family:var(--mono)}
-.container{max-width:1120px;margin:0 auto;padding:0 20px}
+/* fluid container: fills any display — narrow phones get tight padding, wide monitors get a wide layout */
+.container{width:100%;max-width:min(1760px,100%);margin:0 auto;padding:0 clamp(16px,3vw,36px)}
 .bn{color:var(--text-dim);font-size:.86rem;border-left:3px solid var(--border);padding-left:10px;margin-top:8px}
 :root{color-scheme:dark}
 [data-theme="light"]{color-scheme:light}
@@ -80,7 +81,7 @@ header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,v
 
 /* cards */
 main{padding:18px 0 46px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px}
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
@@ -455,7 +456,7 @@ python scripts/dnsctl.py reset              # back to DHCP</pre>
           <label>Extra preferences</label>
           <div class="goals">
             <label class="goal"><input type="checkbox" id="prefPrivacy"> No-log provider</label>
-            <label class="goal"><input type="checkbox" id="prefFocus" checked> Block Reels &amp; Shorts</label>
+            <label class="goal"><input type="checkbox" id="prefFocus" checked> Block Reels &amp; Shorts (page-level)</label>
           </div>
         </div>
         <button class="btn primary" type="submit" style="width:100%;justify-content:center">Find my setup →</button>
