@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Private DNS Server List — live-verified DoT &amp; DoH + ShortsGuard</title>
-<meta name="description" content="Live-verified free DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) resolvers for Android, Windows, macOS, iOS, Linux and routers — plus ShortsGuard: block Facebook Reels, Instagram Reels and YouTube Shorts while keeping Messenger, feeds and normal videos.">
+<title>Private DNS Server List — live-verified DoT &amp; DoH + Full DNS System</title>
+<meta name="description" content="Live-verified free DNS-over-TLS (DoT) and DNS-over-HTTPS (DoH) resolvers for Android, Windows, macOS, iOS, Linux and routers — plus Kids Guard, a full DNS system with ready-to-run configs, and ShortsGuard: block Facebook Reels, Instagram Reels and YouTube Shorts while keeping Messenger, feeds and normal videos.">
 <meta name="theme-color" content="#0d1117">
-<meta property="og:title" content="Private DNS Server List + ShortsGuard">
-<meta property="og:description" content="Every endpoint live-checked. Filter ads, malware and adult content — and hide Reels/Shorts without losing Facebook, Instagram, YouTube or Messenger.">
+<meta property="og:title" content="Private DNS Server List + Full DNS System + ShortsGuard">
+<meta property="og:description" content="Every endpoint live-checked. Build a Kids Guard / Kahf Guard / ad-block DNS setup for every device — and hide Reels/Shorts without losing Facebook, Instagram, YouTube or Messenger.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 <style>
@@ -171,6 +171,20 @@ td.meh{color:var(--warn);font-weight:700}
 .guide h3{font-size:.95rem;margin-bottom:8px}
 .guide ol{padding-left:18px;font-size:.84rem;color:var(--text-dim);display:flex;flex-direction:column;gap:5px}
 
+/* full DNS system */
+.system-controls{display:flex;flex-direction:column;gap:7px;margin:16px 0}
+.system-label{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim)}
+.system-profile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);margin-top:14px}
+.system-profile h3{font-size:1.1rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.system-profile p{color:var(--text-dim);font-size:.88rem;margin-top:6px}
+.system-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:8px;margin-top:14px}
+.sys-value{display:flex;align-items:center;gap:8px;background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:7px 10px;min-width:0}
+.sys-value span{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap;flex:0 0 140px}
+.sys-value code{font-family:var(--mono);font-size:.75rem;overflow-wrap:anywhere;flex:1;min-width:0}
+.system-steps{margin:12px 0 0;padding-left:18px;color:var(--text-dim);font-size:.88rem;display:flex;flex-direction:column;gap:6px}
+.system-steps code{background:var(--chip);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:.8rem;word-break:break-all}
+.system-files{margin-top:18px;display:flex;flex-direction:column;gap:12px}
+
 /* advisor */
 .advisor{display:grid;grid-template-columns:minmax(280px,380px) 1fr;gap:18px;align-items:start}
 @media (max-width:860px){.advisor{grid-template-columns:1fr}}
@@ -235,6 +249,7 @@ footer p{margin:4px 0}
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button class="tab" role="tab" id="tabbtn-resolvers" aria-controls="tab-resolvers" aria-selected="true" data-tab="resolvers">Resolvers</button>
       <button class="tab" role="tab" id="tabbtn-guard" aria-controls="tab-guard" aria-selected="false" data-tab="guard">🚫 ShortsGuard</button>
+      <button class="tab" role="tab" id="tabbtn-system" aria-controls="tab-system" aria-selected="false" data-tab="system">🧰 DNS System</button>
       <button class="tab" role="tab" id="tabbtn-advisor" aria-controls="tab-advisor" aria-selected="false" data-tab="advisor">🤖 Smart Advisor</button>
       <button class="tab" role="tab" id="tabbtn-guide" aria-controls="tab-guide" aria-selected="false" data-tab="guide">Setup Guide</button>
     </nav>
@@ -250,7 +265,8 @@ footer p{margin:4px 0}
       <div class="stats">
         <span class="stat"><b id="statProviders">–</b> providers</span>
         <span class="stat"><b id="statEndpoints">–</b> endpoints</span>
-        <span class="stat good"><b id="statLive">–</b> live now</span>
+        <span class="stat good" id="statLiveWrap"><b id="statLive">–</b> healthy now</span>
+        <span class="stat" id="statPartialWrap" hidden><b id="statPartial">–</b> partial</span>
         <span class="stat" id="statChecked">checked –</span>
       </div>
     </div>
@@ -323,6 +339,36 @@ footer p{margin:4px 0}
       <h3>✅ Safety net</h3>
       <p>ShortsGuard never touches <code>messenger.com</code>, <code>facebook.com/messages</code>, <code>instagram.com/direct</code> or any media CDN (<code>fbcdn.net</code>, <code>cdninstagram.com</code>, <code>googlevideo.com</code>). Those are the three domains people accidentally block and then wonder why photos, stories and chat attachments are broken.</p>
       <p class="bn">ShortsGuard কখনোই Messenger, চ্যাট, ছবি/ভিডিও CDN ব্লক করে না — তাই Facebook/Instagram/YouTube-এর সাধারণ ব্যবহার অক্ষত থাকে।</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== DNS SYSTEM ============================== -->
+<section id="tab-system" class="hidden" role="tabpanel" aria-labelledby="tabbtn-system">
+  <div class="container section">
+    <h2>🧰 Full DNS System — one profile, every device</h2>
+    <p class="lead" id="systemIntro"></p>
+    <p class="bn" id="systemIntroBn"></p>
+
+    <div class="notice good">
+      <h3>🧸 Kids Guard is the default</h3>
+      <p>Kids Guard blocks ads, trackers, malware and adult content for every app, enforces SafeSearch where the resolver supports it, and hides Reels/Shorts in the browser. Facebook, Messenger, YouTube, Instagram, TikTok and WhatsApp keep working.</p>
+      <p class="bn">Kids Guard সব অ্যাপে অ্যাড, ট্র্যাকার, ম্যালওয়্যার ও অ্যাডাল্ট কনটেন্ট ব্লক করে, SafeSearch চালু রাখে এবং ব্রাউজারে Reels/Shorts লুকায়। Facebook, Messenger, YouTube, Instagram, TikTok ও WhatsApp আগের মতোই চলবে।</p>
+    </div>
+
+    <div class="system-controls">
+      <span class="system-label">1. Pick a protection profile</span>
+      <div class="segmented" id="sysProfiles" role="group" aria-label="DNS protection profile"></div>
+      <span class="system-label" style="margin-top:10px">2. Pick your device</span>
+      <div class="segmented" id="sysPlatforms" role="group" aria-label="Device platform"></div>
+    </div>
+
+    <div id="sysOutput" aria-live="polite"></div>
+
+    <div class="notice" style="margin-top:22px">
+      <h3>📥 Committed config files</h3>
+      <p>Every profile is also generated into the repo under <code>system/&lt;profile&gt;/</code> — Windows PowerShell, macOS shell, systemd-resolved, Stubby, dnsmasq, AdGuard Home and Pi-hole. The download buttons above build the exact same file in your browser, so you can use the site offline.</p>
+      <p class="bn">প্রতিটি প্রোফাইলের রেডি config ফাইল <code>system/&lt;profile&gt;/</code> ফোল্ডারে আছে। উপরের Download বাটনও একই ফাইল তৈরি করে — ইন্টারনেট ছাড়াও কাজ করবে।</p>
     </div>
   </div>
 </section>
@@ -536,6 +582,7 @@ DNSSEC=allow-downgrade</pre>
 
 <script id="dns-data" type="application/json">__DNS_DATA__</script>
 <script id="guard-data" type="application/json">__GUARD_DATA__</script>
+<script id="system-data" type="application/json">__SYSTEM_DATA__</script>
 <script id="health-data" type="application/json">__HEALTH_DATA__</script>
 <script>
 "use strict";
@@ -592,7 +639,7 @@ document.addEventListener("click", async e => {
 });
 
 /* ---------------------------------------------------------------- tabs */
-const TABS = ["resolvers", "guard", "advisor", "guide"];
+const TABS = ["resolvers", "guard", "system", "advisor", "guide"];
 function showTab(name, updateHash = true) {
   if (!TABS.includes(name)) name = "resolvers";
   for (const t of TABS) {
@@ -753,8 +800,21 @@ function render() {
 /* stats */
 document.getElementById("statProviders").textContent = DATA.providers.length;
 document.getElementById("statEndpoints").textContent = allEndpoints.length;
-const liveCount = allEndpoints.filter(isLive).length;
-document.getElementById("statLive").textContent = liveCount;
+// "Healthy now" counts only endpoints whose full protocol set answered. Partial
+// endpoints (e.g. DoT works but DoH needs HTTP/2) are shown separately so the
+// headline number is honest.
+const healthResults = HEALTH.results || null;
+const okCount = allEndpoints.filter(h => { const s = healthFor(h.host); return s && s.overall === "ok"; }).length;
+const partialCount = allEndpoints.filter(h => { const s = healthFor(h.host); return s && s.overall === "partial"; }).length;
+if (healthResults) {
+  document.getElementById("statLive").textContent = okCount;
+  if (partialCount) {
+    document.getElementById("statPartial").textContent = partialCount;
+    document.getElementById("statPartialWrap").hidden = false;
+  }
+} else {
+  document.getElementById("statLiveWrap").hidden = true;
+}
 if (HEALTH.checked) {
   const when = new Date(HEALTH.checked);
   document.getElementById("statChecked").textContent = "checked " + when.toLocaleDateString(undefined, { month: "short", day: "numeric" });
@@ -829,6 +889,141 @@ document.getElementById("installGuides").innerHTML = GUARD.install_guides.map(g 
     <ol>${g.steps.map(s => `<li>${escapeHtml(s)}</li>`).join("")}</ol>
   </article>`).join("");
 
+/* ---------------------------------------------------------------- dns system */
+const SYSTEM = JSON.parse(document.getElementById("system-data").textContent);
+document.getElementById("systemIntro").textContent = SYSTEM.intro.en;
+document.getElementById("systemIntroBn").textContent = SYSTEM.intro.bn;
+
+const SYS_PLACEHOLDER = /\{\{(PROFILE_NAME|ANDROID_HOST|DOH_URL|IPV4|IPV4_ALT|DOT_HOST)\}\}/g;
+function sysValues(p) {
+  return {
+    PROFILE_NAME: p.name,
+    ANDROID_HOST: p.android,
+    DOH_URL: p.doh,
+    IPV4: p.ipv4[0],
+    IPV4_ALT: p.ipv4[1] || p.ipv4[0],
+    DOT_HOST: p.dot_host
+  };
+}
+function sysSub(text, p) {
+  const values = sysValues(p);
+  return String(text).replace(SYS_PLACEHOLDER, (_, key) => values[key]);
+}
+function sysFileText(name, p) {
+  const lines = (SYSTEM.configs || {})[name];
+  return lines ? sysSub(lines.join("\n"), p) + "\n" : "";
+}
+
+let sysProfile = (SYSTEM.profiles.find(p => p.recommended) || SYSTEM.profiles[0]).id;
+let sysPlatform = "android";
+
+const sysProfilesEl = document.getElementById("sysProfiles");
+const sysPlatformsEl = document.getElementById("sysPlatforms");
+const sysOutputEl = document.getElementById("sysOutput");
+
+sysProfilesEl.innerHTML = SYSTEM.profiles.map(p =>
+  `<button class="seg" type="button" data-sys-profile="${escapeHtml(p.id)}" aria-pressed="false">${p.icon || ""} ${escapeHtml(p.name)}</button>`
+).join("");
+sysPlatformsEl.innerHTML = SYSTEM.platforms.map(p =>
+  `<button class="seg" type="button" data-sys-platform="${escapeHtml(p.id)}" aria-pressed="false">${p.icon || ""} ${escapeHtml(p.name)}</button>`
+).join("");
+
+function sysValueRow(label, value) {
+  return `<div class="sys-value"><span>${escapeHtml(label)}</span><code>${escapeHtml(value)}</code>` +
+    `<button class="copy-btn" type="button" data-copy="${escapeHtml(value)}" aria-label="Copy ${escapeHtml(label)}">📋</button></div>`;
+}
+
+function sysRender() {
+  const p = SYSTEM.profiles.find(x => x.id === sysProfile) || SYSTEM.profiles[0];
+  const platform = SYSTEM.platforms.find(x => x.id === sysPlatform) || SYSTEM.platforms[0];
+  const files = platform.files || (platform.file ? [platform.file] : []);
+
+  sysProfilesEl.querySelectorAll("[data-sys-profile]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.sysProfile === p.id)));
+  sysPlatformsEl.querySelectorAll("[data-sys-platform]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.sysPlatform === platform.id)));
+
+  const tags = [
+    ...p.blocks.map(b => `<span class="tag tag-block">${escapeHtml(b)}</span>`),
+    ...p.keeps.map(k => `<span class="tag tag-keep">keep: ${escapeHtml(k)}</span>`)
+  ].join("");
+
+  const values = [
+    sysValueRow("Android Private DNS", p.android),
+    sysValueRow("DoH URL", p.doh),
+    sysValueRow("DoT host", p.dot_host),
+    ...p.ipv4.map((ip, i) => sysValueRow(i === 0 ? "IPv4 primary" : `IPv4 ${i + 1}`, ip))
+  ].join("");
+
+  const steps = (platform.steps || []).map(step => `<li>${sysSub(escapeHtml(step), p)}</li>`).join("");
+
+  const code = files.map(name => {
+    const text = sysFileText(name, p);
+    return `<div class="codebox" style="margin-top:12px">
+      <div class="code-head">
+        <span>${escapeHtml(name)}</span>
+        <div class="code-actions">
+          <button class="btn small" type="button" data-copy-config="${escapeHtml(name)}">📋 Copy</button>
+          <button class="btn small" type="button" data-download="${escapeHtml(name)}">⬇ Download</button>
+        </div>
+      </div>
+      <pre>${escapeHtml(text)}</pre>
+    </div>`;
+  }).join("");
+
+  sysOutputEl.innerHTML = `<article class="system-profile">
+    <h3>${p.icon || ""} ${escapeHtml(p.name)}
+      ${p.badge ? `<span class="badge">${escapeHtml(p.badge)}</span>` : ""}
+      ${p.recommended ? `<span class="badge rec">recommended</span>` : ""}
+    </h3>
+    <p>${escapeHtml(p.summary)}</p>
+    <p class="bn">${escapeHtml(p.summary_bn || "")}</p>
+    <div class="tags" style="margin-top:10px">${tags}</div>
+    <div class="system-values">${values}</div>
+    <h4 style="margin-top:18px;font-size:.92rem">${platform.icon || ""} ${escapeHtml(platform.name)} — ${escapeHtml(platform.summary)}</h4>
+    <ol class="system-steps">${steps}</ol>
+    <div class="system-files">${code}</div>
+    ${p.notes && p.notes.length ? `<ul class="why" style="margin-top:16px">${p.notes.map(n => `<li>${escapeHtml(n)}</li>`).join("")}</ul>` : ""}
+  </article>`;
+}
+
+sysProfilesEl.addEventListener("click", e => {
+  const btn = e.target.closest("[data-sys-profile]");
+  if (!btn) return;
+  sysProfile = btn.dataset.sysProfile;
+  sysRender();
+});
+sysPlatformsEl.addEventListener("click", e => {
+  const btn = e.target.closest("[data-sys-platform]");
+  if (!btn) return;
+  sysPlatform = btn.dataset.sysPlatform;
+  sysRender();
+});
+
+document.addEventListener("click", async e => {
+  const copyBtn = e.target.closest("[data-copy-config]");
+  if (copyBtn) {
+    const p = SYSTEM.profiles.find(x => x.id === sysProfile) || SYSTEM.profiles[0];
+    const ok = await copyText(sysFileText(copyBtn.dataset.copyConfig, p));
+    showToast(ok ? "Config copied" : "Copy failed — select the text manually");
+    return;
+  }
+  const dlBtn = e.target.closest("[data-download]");
+  if (dlBtn) {
+    const p = SYSTEM.profiles.find(x => x.id === sysProfile) || SYSTEM.profiles[0];
+    const name = dlBtn.dataset.download;
+    const blob = new Blob([sysFileText(name, p)], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast(`Downloaded ${name}`);
+  }
+});
+sysRender();
+
 /* ---------------------------------------------------------------- advisor */
 const REGION_LABEL = {
   global: "Global", bangladesh: "Bangladesh", india: "India", singapore: "Singapore",
@@ -867,22 +1062,38 @@ const SETUP = {
     e.doh ? `Add the DoH URL <code>${escapeHtml(e.doh)}</code>.` : "iOS needs DoH; this endpoint is DoT-only — pick a DoH-capable one.",
     "Enable the profile, then confirm in the app that queries are encrypted."
   ],
-  windows: e => [
-    "Settings → Network &amp; internet → your connection → DNS server assignment → Edit.",
-    `Manual → IPv4 on → Preferred <code>${escapeHtml((e.ipv4 && e.ipv4[0]) || "1.1.1.1")}</code>, Alternate <code>${escapeHtml((e.ipv4 && e.ipv4[1]) || "1.0.0.1")}</code>.`,
-    "Set “Preferred DNS encryption” to “Encrypted only (DNS over HTTPS)”.",
-    e.doh ? `Paste <code>${escapeHtml(e.doh)}</code>.` : "This endpoint has no DoH URL — choose a DoT+DoH resolver."
-  ],
-  macos: e => [
-    "System Settings → Network → your interface → Details… → DNS.",
-    `Add <code>${escapeHtml((e.ipv4 || ["1.1.1.1", "1.0.0.1"]).join("</code> and <code>"))}</code>.`,
-    e.doh ? `For encrypted DNS, install a DoH profile and use <code>${escapeHtml(e.doh)}</code>.` : "For encrypted DNS, use a DoT client such as stubby."
-  ],
+  windows: e => {
+    const ips = (e.ipv4 || []).slice(0, 2);
+    const address = ips.length > 1
+      ? `Manual → IPv4 on → Preferred <code>${escapeHtml(ips[0])}</code>, Alternate <code>${escapeHtml(ips[1])}</code>.`
+      : ips.length === 1
+        ? `Manual → IPv4 on → Preferred <code>${escapeHtml(ips[0])}</code>. Leave Alternate empty.`
+        : "Manual → IPv4 on. This endpoint has no published IPv4 — use the DoH template below instead.";
+    return [
+      "Settings → Network &amp; internet → your connection → DNS server assignment → Edit.",
+      address,
+      "Set “Preferred DNS encryption” to “Encrypted only (DNS over HTTPS)”.",
+      e.doh ? `Paste <code>${escapeHtml(e.doh)}</code>.` : "This endpoint has no DoH URL — choose a DoT+DoH resolver."
+    ];
+  },
+  macos: e => {
+    const ips = (e.ipv4 || []).slice(0, 2);
+    return [
+      "System Settings → Network → your interface → Details… → DNS.",
+      ips.length
+        ? `Add <code>${ips.map(ip => escapeHtml(ip)).join("</code> and <code>")}</code>.`
+        : "Add the IP addresses published by the provider — this endpoint has none in the list.",
+      e.doh ? `For encrypted DNS, install a DoH profile and use <code>${escapeHtml(e.doh)}</code>.` : "For encrypted DNS, use a DoT client such as stubby."
+    ];
+  },
   linux: e => {
-    const ip = (e.ipv4 && e.ipv4[0]) || "1.1.1.1";
+    const ips = (e.ipv4 || []).slice(0, 2);
+    const dnsLine = ips.length
+      ? `DNS=${ips.map(ip => `${ip}#${e.host}`).join(" ")}`
+      : `DNS=${e.host}`;
     return [
       "Create /etc/systemd/resolved.conf.d/dns.conf:",
-      `DNS=${escapeHtml(ip)}#${escapeHtml(e.host)}`,
+      escapeHtml(dnsLine),
       "DNSOverTLS=yes",
       "Run: sudo systemctl restart systemd-resolved && resolvectl status"
     ];

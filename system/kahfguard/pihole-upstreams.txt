@@ -1,0 +1,6 @@
+# Kahf Guard — Pi-hole → Settings → DNS → Upstream DNS servers (custom)
+# Pi-hole speaks plain DNS. Put stubby (127.0.0.1:5053) or cloudflared in front for encryption.
+127.0.0.1#5053
+# Plain fallback:
+142.132.207.231
+157.90.95.113

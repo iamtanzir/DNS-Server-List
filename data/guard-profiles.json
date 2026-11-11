@@ -1,7 +1,7 @@
 {
   "schema": "shortsguard/v1",
-  "version": "1.0.0",
-  "updated": "2026-11-10",
+  "version": "1.1.0",
+  "updated": "2026-11-11",
   "title": "ShortsGuard — keep Facebook, YouTube, Instagram & Messenger, drop Reels/Shorts",
   "honest_limit": {
     "en": "DNS resolves domain names, nothing else. facebook.com/reel/123, youtube.com/shorts/abc and instagram.com/reels/xyz all live on the SAME domains as the normal feed. No DNS resolver on earth can block a path — and blocking fbcdn.net / cdninstagram.com / googlevideo.com to kill short videos also kills every photo, video, story and Messenger attachment. So ShortsGuard blocks the short-video SURFACES inside the page (userscript, extension or content blocker) and uses DNS only for whole-app blocks and normal ad/malware/adult filtering.",
@@ -95,6 +95,33 @@
         "android": "family.cloudflare-dns.com",
         "browser": "https://dns.cloudflare.com/dns-query",
         "windows": "https://family.cloudflare-dns.com/dns-query"
+      }
+    },
+    {
+      "id": "kids-guard",
+      "name": "Kids Guard",
+      "badge": "child-safe",
+      "layer": "dns+browser",
+      "tagline": "Ads, trackers, malware and adult content blocked for every app, SafeSearch where supported, and Reels/Shorts hidden in the browser.",
+      "tagline_bn": "সব অ্যাপে অ্যাড, ট্র্যাকার, ম্যালওয়্যার ও অ্যাডাল্ট কনটেন্ট ব্লক; SafeSearch চালু; ব্রাউজারে Reels/Shorts লুকানো।",
+      "blocks": ["ads", "malware", "adult", "youtube-shorts", "facebook-reels", "instagram-reels"],
+      "keeps": ["facebook", "messenger", "instagram-dm", "youtube", "tiktok", "whatsapp"],
+      "does": [
+        "Device-wide ad, tracker, malware and adult-content filtering through the resolver.",
+        "SafeSearch enforced where the provider supports it (AdGuard Family / Cloudflare Family).",
+        "Reels and Shorts surfaces hidden; normal feeds, videos, DMs and Messenger stay.",
+        "Optional extra: add the DNS Hard Block list to remove TikTok / Likee / Kwai / SnackVideo completely."
+      ],
+      "install": [
+        "Set dns-family.adguard.com (ads + adult + SafeSearch) or family.cloudflare-dns.com (malware + adult) as Private DNS.",
+        "Want ads + gambling blocked too? Use Kahf Guard's medium.kahfguard.com (DoT/DoH) — see the DNS System tab → Kahf Guard.",
+        "Install the Focus Mode userscript or uBlock rules on every browser profile.",
+        "For a managed home network use the Full DNS System tab → Kids Guard."
+      ],
+      "dns": {
+        "android": "dns-family.adguard.com",
+        "browser": "https://dns-family.adguard.com/dns-query",
+        "windows": "https://dns-family.adguard.com/dns-query"
       }
     }
   ],

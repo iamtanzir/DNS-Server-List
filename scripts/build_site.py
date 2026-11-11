@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Build the self-contained index.html from site/template.html + the data files.
 
-Three JSON blobs are inlined so the site works offline (file://) and on GitHub
+Four JSON blobs are inlined so the site works offline (file://) and on GitHub
 Pages without a backend:
 
   data/dns-servers.json    -> __DNS_DATA__
   data/guard-profiles.json -> __GUARD_DATA__
+  data/dns-system.json     -> __SYSTEM_DATA__
   data/health.json         -> __HEALTH_DATA__   (optional; {} when absent)
 
 Run:  python scripts/build_site.py
@@ -23,6 +24,7 @@ OUT = ROOT / "index.html"
 SOURCES = {
     "__DNS_DATA__": ROOT / "data" / "dns-servers.json",
     "__GUARD_DATA__": ROOT / "data" / "guard-profiles.json",
+    "__SYSTEM_DATA__": ROOT / "data" / "dns-system.json",
     "__HEALTH_DATA__": ROOT / "data" / "health.json",
 }
 OPTIONAL = {"__HEALTH_DATA__"}
@@ -51,11 +53,13 @@ def main() -> None:
 
     data = json.loads(SOURCES["__DNS_DATA__"].read_text(encoding="utf-8"))
     guard = json.loads(SOURCES["__GUARD_DATA__"].read_text(encoding="utf-8"))
+    system = json.loads(SOURCES["__SYSTEM_DATA__"].read_text(encoding="utf-8"))
     endpoints = sum(len(p["hosts"]) for p in data["providers"])
     print(
         f"Wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size:,} bytes, "
         f"{len(data['providers'])} providers, {endpoints} endpoints, "
-        f"{len(guard['profiles'])} guard profiles)"
+        f"{len(guard['profiles'])} guard profiles, "
+        f"{len(system['profiles'])} system profiles)"
     )
 
 

@@ -6,10 +6,10 @@
 [![Health check](https://github.com/iamtanzir/DNS-Server-List/actions/workflows/health.yml/badge.svg)](https://github.com/iamtanzir/DNS-Server-List/actions/workflows/health.yml)
 [![GitHub Pages](https://img.shields.io/badge/demo-interactive%20list-58a6ff)](https://iamtanzir.github.io/DNS-Server-List/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3fb950)](LICENSE)
-[![Endpoints](https://img.shields.io/badge/endpoints-66%20%2F%2037%20providers-d2a8ff)](data/dns-servers.json)
-[![Health](https://img.shields.io/badge/last%20check-63%20healthy%20%C2%B7%203%20partial%20%C2%B7%200%20dead-3fb950)](data/health.json)
+[![Endpoints](https://img.shields.io/badge/endpoints-67%20%2F%2038%20providers-d2a8ff)](data/dns-servers.json)
+[![Health](https://img.shields.io/badge/last%20check-64%20healthy%20%C2%B7%203%20partial%20%C2%B7%200%20dead-3fb950)](data/health.json)
 
-🌐 **Live interactive site:** <https://iamtanzir.github.io/DNS-Server-List/> — search 66 endpoints, filter by capability, copy any hostname, run the **Smart Advisor**, and install **ShortsGuard** from one page.
+🌐 **Live interactive site:** <https://iamtanzir.github.io/DNS-Server-List/> — search 67 endpoints, filter by capability, copy any hostname, run the **Smart Advisor**, build a **full DNS system** for every device, and install **ShortsGuard** from one page.
 
 > বাংলায় পড়ুন: [দ্রুত শুরু (বাংলা গাইড)](#-বাংলা-গাইড) — Android Private DNS, ShortsGuard এবং Smart Advisor-এর ধাপে ধাপে নির্দেশনা।
 
@@ -21,8 +21,9 @@
 - [Why encrypted DNS?](#-why-encrypted-dns)
 - [Quick start — Android Private DNS](#-quick-start--android-private-dns)
 - [Quick picks](#-quick-picks)
-- [The full list (66 endpoints / 37 providers)](#-the-full-list)
+- [The full list (67 endpoints / 38 providers)](#-the-full-list)
 - [ShortsGuard — Reels & Shorts blocked, apps kept](#-shortsguard--reels--shorts-blocked-apps-kept)
+- [Full DNS System — one profile, every device](#-full-dns-system--one-profile-every-device)
 - [Smart Advisor](#-smart-advisor)
 - [Live health checks](#-live-health-checks)
 - [DoT vs DoH — which one do I need?](#-dot-vs-doh--which-one-do-i-need)
@@ -50,6 +51,8 @@ That split is the honest answer to the most common request:
 > “Facebook should work, but Facebook Reels should be blocked. YouTube should work, but Shorts should be blocked. Instagram should work, but Reels should be blocked. TikTok should work. Messenger should work.”
 
 **DNS alone cannot do that.** `facebook.com/reel/123`, `youtube.com/shorts/abc` and `instagram.com/reels/xyz` live on the **same domains** as the normal feed. Blocking `fbcdn.net`, `cdninstagram.com` or `googlevideo.com` to kill short videos also kills every photo, story, normal video and Messenger attachment. ShortsGuard handles the page-level part; DNS handles device-wide ads / malware / adult filtering and optional whole-app blocks.
+
+A third, packaging layer — the **Full DNS System** — turns one protection profile into exact settings and ready-to-run configs for Android, iPhone, Windows, macOS, Linux, a whole-home router and a browser.
 
 ---
 
@@ -92,6 +95,7 @@ Verify: open <https://1.1.1.1/help> and confirm it says *“Using DNS over TLS (
 | Block malware everywhere | `security.cloudflare-dns.com` or `dns.quad9.net` |
 | Block **ads** device-wide | `dns.adguard-dns.com` |
 | Family-safe (ads + adult) | `family.cloudflare-dns.com` or `dns-family.adguard.com` |
+| Family + ads + gambling + SafeSearch | `medium.kahfguard.com` (Kahf Guard) |
 | Ad + malware block, Germany | `dnsforge.de` |
 | No-log, non-profit | `dns.quad9.net` (`dns10.quad9.net` = unfiltered) |
 | No-log, EU, Wikimedia | `wikimedia-dns.org` |
@@ -180,6 +184,7 @@ Every endpoint below answered a real DNS query when it was added. Dead services 
 | 64 | Privacy-First DNS (tiar.app) | `dot.tiar.app` | DoT | none | singapore |
 | 65 | Privacy-First DNS (tiar.app) | `doh.tiar.app` | DoH | none | singapore |
 | 66 | Njalla DNS | `dns.njal.la` | DoT+DoH | none | sweden |
+| 67 | Kahf Guard (KahfDNS) | `medium.kahfguard.com` | DoT+DoH | ads, malware, adult | global |
 
 A plain copy-paste hostname list is in [`hostnames.txt`](hostnames.txt) (DoT-capable endpoints) and [`hostnames-doh.txt`](hostnames-doh.txt) (DoH URLs).
 
@@ -207,7 +212,8 @@ A plain copy-paste hostname list is in [`hostnames.txt`](hostnames.txt) (DoT-cap
 
 | Profile | Layer | Blocks | Keeps |
 |---|---|---|---|
-| **Focus Mode** (recommended) | Browser | YouTube Shorts, Facebook Reels, Instagram Reels | Facebook, Messenger, Instagram DMs, YouTube, TikTok, WhatsApp |
+| **Kids Guard** (default) | DNS + browser | Ads, trackers, malware, adult content, Reels/Shorts surfaces | Facebook, Messenger, YouTube, Instagram, TikTok, WhatsApp |
+| **Focus Mode** (recommended for adults) | Browser | YouTube Shorts, Facebook Reels, Instagram Reels | Facebook, Messenger, Instagram DMs, YouTube, TikTok, WhatsApp |
 | **Focus + Filtered DNS** (best all-round) | DNS + browser | Focus Mode + ads, trackers, malware device-wide | Same as Focus |
 | **DNS Hard Block** (opt-in, breaks apps) | DNS | TikTok, Likee, Kwai, SnackVideo **completely** | Facebook, Messenger, Instagram, YouTube |
 | **Family Safe** | DNS + browser | Adult + malware + all short-video surfaces | Facebook, Messenger, Instagram DMs, YouTube |
@@ -238,6 +244,54 @@ A plain copy-paste hostname list is in [`hostnames.txt`](hostnames.txt) (DoT-cap
 The plain domain list for NextDNS / pfSense / other tools is [`blocklists/shortsguard-domains.txt`](blocklists/shortsguard-domains.txt).
 
 > **Safety net:** the DNS blocklists allowlist `messenger.com`, `facebook.com`, `instagram.com` and `youtube.com`, and the guard never touches `/messages`, `/direct/`, `web.whatsapp.com` or any media CDN.
+
+---
+
+## 🧰 Full DNS System — one profile, every device
+
+The **DNS System** tab (and the generated [`system/`](system/) folder) turns one protection profile into exact settings for every platform — Android, iPhone/iPad, Windows, macOS, Linux, a whole-home router and a browser-only setup.
+
+### Profiles
+
+| Profile | Blocks | Android Private DNS | DoH URL | IPv4 |
+|---|---|---|---|---|
+| 🧸 **Kids Guard** (default) | ads, trackers, malware, adult, SafeSearch | `dns-family.adguard.com` | `https://dns-family.adguard.com/dns-query` | `94.140.14.15`, `94.140.15.16` |
+| 🕌 **Kahf Guard** | ads, trackers, malware, adult, gambling, SafeSearch | `medium.kahfguard.com` | `https://medium.kahfguard.com/dns-query` | `142.132.207.231`, `157.90.95.113` |
+| 🎯 **Ad Block** | ads, trackers | `dns.adguard-dns.com` | `https://dns.adguard-dns.com/dns-query` | `94.140.14.14`, `94.140.15.15` |
+| 👨‍👩‍👧 **Family Safe** | malware, adult, SafeSearch | `family.cloudflare-dns.com` | `https://family.cloudflare-dns.com/dns-query` | `1.1.1.3`, `1.0.0.3` |
+| 🕵️ **Privacy (no-log)** | nothing (Quad9 still blocks known malware) | `dns.quad9.net` | `https://dns.quad9.net/dns-query` | `9.9.9.9`, `149.112.112.112` |
+
+All five keep Facebook, Messenger, YouTube, Instagram, TikTok and WhatsApp working. Reels/Shorts remain a page-level job — use ShortsGuard for those.
+
+### Ready-to-run files
+
+`python scripts/build_system.py` renders every profile into [`system/<profile>/`](system/):
+
+| Platform | File |
+|---|---|
+| Windows 10/11 | `windows-dns.ps1` (run as Administrator) |
+| macOS | `macos-dns.sh` (run with `sudo`) |
+| Linux (systemd-resolved) | `systemd-resolved.conf` → `/etc/systemd/resolved.conf.d/dns.conf` |
+| Stubby | `stubby.yml` → `/etc/stubby/stubby.yml` |
+| dnsmasq / OpenWrt | `dnsmasq.conf` |
+| AdGuard Home | `adguardhome-upstreams.txt` |
+| Pi-hole | `pihole-upstreams.txt` |
+
+[`system/safesearch.conf`](system/safesearch.conf) adds the Google / YouTube / Bing SafeSearch CNAMEs for AdGuard Home, Pi-hole and dnsmasq 2.86+.
+
+The website renders the same templates in your browser, so **Copy** and **Download** work offline and always match the committed files.
+
+### Kahf Guard (KahfDNS) — live-verified
+
+`medium.kahfguard.com` was tested on 2026-11-11 before being added:
+
+- **DoT** on `:853` answered `example.com/A` with a valid `*.kahfguard.com` certificate (Let's Encrypt).
+- **DoH** at `https://medium.kahfguard.com/dns-query` works (HTTP/2; browsers and Windows 11 support it).
+- **Filtering verified:** `doubleclick.net`, `googleadservices.com`, `pornhub.com`, `xvideos.com`, `bet365.com` and `malware.wicar.org` all return `blocked.kahfguard.com`, while `facebook.com`, `youtube.com` and `tiktok.com` resolve normally.
+- **SafeSearch:** `www.google.com` resolves to `forcesafesearch.google.com`.
+- **Privacy:** query logs auto-delete within 48 hours (minimal-log), no account needed.
+
+Kahf Guard also advertises DoQ (`quic://medium.kahfguard.com:853`) and DoH3 (`h3://medium.kahfguard.com/dns-query`); this repo verifies and lists DoT + DoH.
 
 ---
 
@@ -275,7 +329,7 @@ python scripts/check_health.py --no-write      # do not touch health.json
 python scripts/check_health.py --strict        # exit 1 if any endpoint is dead
 ```
 
-Current snapshot (2026-11-10): **63 healthy · 3 partial · 0 dead · 66 checked**.
+Current snapshot (2026-11-11): **64 healthy · 3 partial · 0 dead · 67 checked**.
 
 `partial` means one protocol worked and the other was blocked by the local network or needs HTTP/2. `cert` means DNS answered but the checking machine's root store did not validate the certificate (often an outdated CA bundle, not a broken resolver) — those endpoints still count as alive.
 
@@ -340,6 +394,7 @@ On stock routers: set the DNS servers to the filtered IPs (e.g. AdGuard `94.140.
 
 - **Resolvers** — live search, filter chips (All / Working now / Unfiltered / Ad-Blocking / Malware Shield / Family-Safe / Social Block / DoT / DoH), health badges, one-click copy of hostnames, DoH URLs and IPv4 addresses.
 - **ShortsGuard** — profiles, a per-surface matrix, the exact uBlock / AdGuard / hosts / dnsmasq rules, and install guides.
+- **DNS System** — pick a protection profile and a device, copy the hostname / DoH URL / IPv4, and download ready-to-run Windows, macOS, Linux, Stubby, dnsmasq, AdGuard Home and Pi-hole configs.
 - **Smart Advisor** — the offline scoring engine with setup steps.
 - **Setup Guide** — Android, iOS, Windows, macOS, Linux, browser and router instructions, plus a Bengali quick-start.
 
@@ -359,11 +414,12 @@ python -m http.server 8000   # then open http://localhost:8000
 
 ### Regenerate after editing data
 ```bash
-python scripts/validate.py --strict
+python scripts/build_system.py
 python scripts/build_guard.py
 python scripts/export_hosts.py
 python scripts/export_hosts.py --doh
 python scripts/build_site.py
+python scripts/validate.py --strict
 ```
 
 ---
@@ -374,9 +430,18 @@ python scripts/build_site.py
 ├── index.html                    # Built, self-contained site (open in any browser)
 ├── site/template.html            # Site source; data is inlined by build_site.py
 ├── data/
-│   ├── dns-servers.json          # Source of truth: 37 providers / 66 endpoints
+│   ├── dns-servers.json          # Source of truth: 38 providers / 67 endpoints
 │   ├── guard-profiles.json       # ShortsGuard profiles, targets, domains, rules
+│   ├── dns-system.json           # Full DNS System: profiles, platforms, config templates
 │   └── health.json               # Latest live health snapshot
+├── system/                       # Generated per-profile configs (build_system.py)
+│   ├── kids-guard/               # Windows, macOS, Linux, Stubby, dnsmasq, AdGuard, Pi-hole
+│   ├── kahfguard/
+│   ├── adblock/
+│   ├── family/
+│   ├── privacy/
+│   ├── safesearch.conf           # SafeSearch CNAME records
+│   └── README.md
 ├── hostnames.txt                 # Plain DoT-capable hostname list (generated)
 ├── hostnames-doh.txt             # Plain DoH URL list (generated)
 ├── blocklists/                   # Generated ShortsGuard lists
@@ -393,6 +458,7 @@ python scripts/build_site.py
 │   ├── validate.py               # Data + artifact validator (CI)
 │   ├── check_health.py           # Live DoT/DoH verifier
 │   ├── build_guard.py            # Blocklist generator + extension sync
+│   ├── build_system.py           # dns-system.json → system/<profile>/ configs
 │   ├── export_hosts.py           # JSON → hostnames.txt / hostnames-doh.txt
 │   ├── build_site.py             # template + JSON → index.html
 │   └── advisor.py                # CLI Smart Advisor
@@ -434,11 +500,12 @@ Found a dead resolver or a new one? Adding entries is three steps:
    Rules: unique lowercase hostnames, `protocol` ∈ `dot | doh | dot+doh`, `filters` ⊆ `none | ads | malware | adult | social`, `privacy` ∈ `no-log | minimal-log | unknown`.
 2. **Validate & rebuild:**
    ```bash
-   python scripts/validate.py --strict
+   python scripts/build_system.py
    python scripts/build_guard.py
    python scripts/export_hosts.py
    python scripts/export_hosts.py --doh
    python scripts/build_site.py
+   python scripts/validate.py --strict
    python scripts/check_health.py --host dns.example.com
    ```
 3. **Open a PR** — CI must pass and will show the endpoint count.
@@ -460,6 +527,9 @@ A: No. `messenger.com`, `facebook.com/messages`, `instagram.com/direct` and `web
 
 **Q: What about TikTok?**
 A: Focus Mode keeps TikTok working. If you want it gone, the **DNS Hard Block** profile blocks TikTok / Likee / Kwai / SnackVideo completely — but that is opt-in because those apps stop working entirely.
+
+**Q: What is Kahf Guard (KahfDNS)?**
+A: A family/halal filtering resolver at `medium.kahfguard.com` (DoT + DoH). It blocks ads, trackers, malware, adult content and gambling, enforces SafeSearch, and keeps Facebook / YouTube / TikTok working. Query logs auto-delete within 48 hours. It was live-verified before being added — see [Full DNS System](#-full-dns-system--one-profile-every-device).
 
 **Q: Android says “Private DNS provider hostname can't be resolved”.**
 A: The hostname is wrong or the resolver is down. Double-check spelling; temporarily switch to **Automatic** and try another hostname (e.g. `dns.google`).
@@ -487,6 +557,7 @@ A: It is for humans. Paste **one hostname**, not lines starting with `#`.
 3. **শুধু একটি** hostname পেস্ট করুন, যেমন:
    - অ্যাড ব্লক: `dns.adguard-dns.com`
    - ফ্যামিলি-সেফ: `family.cloudflare-dns.com`
+   - অ্যাড + ফ্যামিলি + জুয়া + SafeSearch: `medium.kahfguard.com` (Kahf Guard)
    - ম্যালওয়্যার ব্লক: `security.cloudflare-dns.com`
    - ফিল্টার ছাড়া: `1dot1dot1dot1.cloudflare-dns.com`
 4. **Save** চাপুন।
@@ -508,7 +579,19 @@ A: It is for humans. Paste **one hostname**, not lines starting with `#`.
    - TikTok চালু থাকবে (চাইলে DNS Hard Block দিয়ে পুরো TikTok বন্ধ করা যাবে)।
    - Messenger ও DM আগের মতোই কাজ করবে।
 
-### ৩. Smart Advisor
+### ৩. Full DNS System — এক প্রোফাইল, সব ডিভাইস
+
+ওয়েবসাইটের **DNS System** ট্যাবে প্রোফাইল ও ডিভাইস বেছে নিন — hostname, DoH URL, IPv4 কপি করুন বা রেডি config ডাউনলোড করুন। একই ফাইল রিপোর `system/<profile>/` ফোল্ডারেও আছে (Windows PowerShell, macOS, Linux, Stubby, dnsmasq, AdGuard Home, Pi-hole)।
+
+- 🧸 **Kids Guard** (ডিফল্ট): অ্যাড, ট্র্যাকার, ম্যালওয়্যার, অ্যাডাল্ট + SafeSearch — `dns-family.adguard.com`
+- 🕌 **Kahf Guard**: অ্যাড, ম্যালওয়্যার, অ্যাডাল্ট, জুয়া + SafeSearch — `medium.kahfguard.com`
+- 🎯 **Ad Block**: শুধু অ্যাড/ট্র্যাকার — `dns.adguard-dns.com`
+- 👨‍👩‍👧 **Family Safe**: ম্যালওয়্যার + অ্যাডাল্ট — `family.cloudflare-dns.com`
+- 🕵️ **Privacy**: ফিল্টার ছাড়া, no-log — `dns.quad9.net`
+
+Facebook, Messenger, YouTube, Instagram, TikTok ও WhatsApp — সবই চালু থাকবে। Reels/Shorts আলাদা করে ShortsGuard দিয়ে বন্ধ করুন।
+
+### ৪. Smart Advisor
 
 ওয়েবসাইটের **Smart Advisor** ট্যাবে আপনার ডিভাইস, অঞ্চল ও প্রয়োজন বলুন — এটি সেরা DNS এবং সেটআপ ধাপ দেখাবে। সবকিছু ব্রাউজারেই চলে; কোনো ডেটা কোথাও যায় না। চাইলে CLI-ও ব্যবহার করতে পারেন:
 
@@ -516,7 +599,7 @@ A: It is for humans. Paste **one hostname**, not lines starting with `#`.
 python scripts/advisor.py --device android --region bangladesh --block malware --keep facebook,messenger,youtube,instagram,tiktok
 ```
 
-### ৪. বাংলাদেশের জন্য নোট
+### ৫. বাংলাদেশের জন্য নোট
 
 এই লিস্টে বাংলাদেশ-হোস্টেড কোনো পাবলিক এনক্রিপ্টেড রিজলভার নেই। সিঙ্গাপুর, ভারত ও গ্লোবাল anycast endpointগুলো বাংলাদেশ থেকে সবচেয়ে কম লেটেন্সি দেয় — দু-তিনটি টেস্ট করে দ্রুততমটি রাখুন।
 
@@ -536,4 +619,4 @@ python scripts/advisor.py --device android --region bangladesh --block malware -
 
 MIT © 2024 [A.K.M. Tanzir Ahmed](https://github.com/iamtanzir) — fork freely, PRs welcome.
 
-Original list by **@tanzir786 / @iamtanzir**. v2.1 (Nov 2026): live-verified data, health checker, ShortsGuard, Smart Advisor, interactive site and full docs.
+Original list by **@tanzir786 / @iamtanzir**. v2.2 (Nov 2026): 67 live-verified endpoints / 38 providers, Kids Guard, Full DNS System with per-profile configs, Kahf Guard, health checker, ShortsGuard, Smart Advisor, interactive site and full docs.

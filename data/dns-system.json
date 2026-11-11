@@ -1,0 +1,321 @@
+{
+  "schema": "dns-system/v1",
+  "version": "1.1.0",
+  "updated": "2026-11-11",
+  "title": "Full DNS System — one profile, every device",
+  "intro": {
+    "en": "Pick a protection profile, pick your device, and copy the exact hostname, DoH URL or ready-to-run config. The same profile works on Android, iPhone, Windows, macOS, Linux, a whole-home router and a browser — so every device in the house gets the same filtering.",
+    "bn": "একটি প্রোফাইল বেছে নিন, আপনার ডিভাইস বেছে নিন — তারপর হুবহু hostname, DoH URL বা রেডি config কপি করুন। একই প্রোফাইল Android, iPhone, Windows, macOS, Linux, রাউটার ও ব্রাউজারে কাজ করে — ফলে বাড়ির সব ডিভাইসে একই ফিল্টারিং চালু থাকে।"
+  },
+  "profiles": [
+    {
+      "id": "kids-guard",
+      "name": "Kids Guard",
+      "icon": "🧸",
+      "badge": "child-safe",
+      "recommended": true,
+      "summary": "Ads, trackers, malware and adult content blocked for every app, SafeSearch where supported, and Reels/Shorts hidden in the browser.",
+      "summary_bn": "সব অ্যাপে অ্যাড, ট্র্যাকার, ম্যালওয়্যার ও অ্যাডাল্ট কনটেন্ট ব্লক; SafeSearch চালু; ব্রাউজারে Reels/Shorts লুকানো।",
+      "blocks": ["ads", "trackers", "malware", "adult", "reels", "shorts"],
+      "keeps": ["facebook", "messenger", "youtube", "instagram", "tiktok", "whatsapp"],
+      "android": "dns-family.adguard.com",
+      "doh": "https://dns-family.adguard.com/dns-query",
+      "ipv4": ["94.140.14.15", "94.140.15.16"],
+      "dot_host": "dns-family.adguard.com",
+      "safesearch": true,
+      "notes": [
+        "AdGuard Family blocks ads, trackers and adult content, and enforces SafeSearch.",
+        "Cloudflare Family (family.cloudflare-dns.com) is the malware + adult alternative; it does not block ads.",
+        "Kids Guard uses AdGuard Family because it is no-log. Kahf Guard (medium.kahfguard.com) also blocks malware and gambling but keeps 48-hour logs — pick it from the profile list if you prefer that trade-off.",
+        "For a strict allow-list, use NextDNS with a child profile — it is free up to 300k queries/month."
+      ]
+    },
+    {
+      "id": "kahfguard",
+      "name": "Kahf Guard",
+      "icon": "🕌",
+      "badge": "family + halal",
+      "recommended": false,
+      "summary": "KahfDNS blocks ads, trackers, malware, adult content and gambling, enforces SafeSearch, and keeps social apps working. Logs auto-delete within 48 hours.",
+      "summary_bn": "KahfDNS অ্যাড, ট্র্যাকার, ম্যালওয়্যার, অ্যাডাল্ট কনটেন্ট ও জুয়া ব্লক করে, SafeSearch চালু রাখে; সোশ্যাল অ্যাপ চলবে। লগ ৪৮ ঘণ্টায় মুছে যায়।",
+      "blocks": ["ads", "trackers", "malware", "adult", "gambling"],
+      "keeps": ["facebook", "messenger", "youtube", "instagram", "tiktok", "whatsapp"],
+      "android": "medium.kahfguard.com",
+      "doh": "https://medium.kahfguard.com/dns-query",
+      "ipv4": ["142.132.207.231", "157.90.95.113"],
+      "dot_host": "medium.kahfguard.com",
+      "safesearch": true,
+      "notes": [
+        "KahfDNS is the family/halal filter from Kahf Guard: 1.6M+ harmful sites, ads, adult content and gambling are blocked.",
+        "SafeSearch is enforced (www.google.com resolves to forcesafesearch.google.com). The provider also advertises YouTube Restricted Mode.",
+        "Facebook, Messenger, YouTube, Instagram, TikTok and WhatsApp keep working — only harmful domains are blocked.",
+        "Query logs are deleted within 48 hours (minimal-log). AdGuard Family is the no-log alternative.",
+        "DoH is HTTP/2-only; Windows 11 and all modern browsers support it. DoQ and DoH3 are also offered."
+      ]
+    },
+    {
+      "id": "adblock",
+      "name": "Ad Block",
+      "icon": "🎯",
+      "badge": "everyday",
+      "recommended": false,
+      "summary": "Ads and trackers blocked device-wide. Everything else — social apps, video, chat — keeps working.",
+      "summary_bn": "পুরো ডিভাইসে অ্যাড ও ট্র্যাকার ব্লক; বাকি সব — সোশ্যাল অ্যাপ, ভিডিও, চ্যাট — আগের মতোই চলবে।",
+      "blocks": ["ads", "trackers"],
+      "keeps": ["facebook", "messenger", "youtube", "instagram", "tiktok", "whatsapp"],
+      "android": "dns.adguard-dns.com",
+      "doh": "https://dns.adguard-dns.com/dns-query",
+      "ipv4": ["94.140.14.14", "94.140.15.15"],
+      "dot_host": "dns.adguard-dns.com",
+      "safesearch": false,
+      "notes": [
+        "dns.adguard-dns.com is the most popular free ad-blocking resolver.",
+        "If an app misbehaves, switch that device to dns-unfiltered.adguard.com temporarily.",
+        "dnsforge.de (ads + malware, no-log, Germany) is a good alternative."
+      ]
+    },
+    {
+      "id": "family",
+      "name": "Family Safe",
+      "icon": "👨‍👩‍👧",
+      "badge": "family",
+      "recommended": false,
+      "summary": "Adult content and malware blocked with SafeSearch, without ad filtering. Normal apps and videos keep working.",
+      "summary_bn": "অ্যাড ফিল্টার ছাড়াই অ্যাডাল্ট কনটেন্ট ও ম্যালওয়্যার ব্লক, সঙ্গে SafeSearch; সাধারণ অ্যাপ ও ভিডিও চলবে।",
+      "blocks": ["malware", "adult"],
+      "keeps": ["facebook", "messenger", "youtube", "instagram", "tiktok", "whatsapp"],
+      "android": "family.cloudflare-dns.com",
+      "doh": "https://family.cloudflare-dns.com/dns-query",
+      "ipv4": ["1.1.1.3", "1.0.0.3"],
+      "dot_host": "family.cloudflare-dns.com",
+      "safesearch": true,
+      "notes": [
+        "family.cloudflare-dns.com blocks malware and adult content and enforces SafeSearch.",
+        "It does not block ads — pair it with ShortsGuard/uBlock if you also want an ad-free web.",
+        "CleanBrowsing Family Filter (family-filter-dns.cleanbrowsing.org) is a stricter alternative."
+      ]
+    },
+    {
+      "id": "privacy",
+      "name": "Privacy (no-log)",
+      "icon": "🕵️",
+      "badge": "no filtering",
+      "recommended": false,
+      "summary": "Encrypted, no-log, no filtering. The cleanest resolver when you do not want any blocking.",
+      "summary_bn": "এনক্রিপ্টেড, no-log, কোনো ফিল্টার নেই। ব্লকিং না চাইলে সবচেয়ে পরিষ্কার রিজলভার।",
+      "blocks": [],
+      "keeps": ["facebook", "messenger", "youtube", "instagram", "tiktok", "whatsapp"],
+      "android": "dns.quad9.net",
+      "doh": "https://dns.quad9.net/dns-query",
+      "ipv4": ["9.9.9.9", "149.112.112.112"],
+      "dot_host": "dns.quad9.net",
+      "safesearch": false,
+      "notes": [
+        "Quad9 blocks known-malicious domains by default; dns10.quad9.net is the unfiltered variant.",
+        "Mullvad (doh.mullvad.net) and Wikimedia DNS (wikimedia-dns.org) are also no-log.",
+        "No filtering means ads, trackers and adult sites are not blocked — use another profile if you need that."
+      ]
+    }
+  ],
+  "platforms": [
+    {
+      "id": "android",
+      "name": "Android",
+      "icon": "📱",
+      "summary": "Private DNS (DoT) — built in, no app, no root.",
+      "steps": [
+        "Open Settings → Network & internet → Private DNS.",
+        "Choose “Private DNS provider hostname”.",
+        "Paste {{ANDROID_HOST}} and tap Save.",
+        "Verify at 1.1.1.1/help — it should say “Using DNS over TLS (DoT)”."
+      ],
+      "file": null,
+      "language": "text"
+    },
+    {
+      "id": "ios",
+      "name": "iPhone / iPad",
+      "icon": "🍎",
+      "summary": "DoH profile through a free app or a .mobileconfig.",
+      "steps": [
+        "Install DNSecure (free) from the App Store, or use an existing .mobileconfig profile.",
+        "Add a custom DoH server: {{DOH_URL}}",
+        "Enable the profile and turn on “Encrypted DNS”.",
+        "For Kids Guard, also set Screen Time → Content & Privacy Restrictions → Allowed Apps / Web Content."
+      ],
+      "file": null,
+      "language": "text"
+    },
+    {
+      "id": "windows",
+      "name": "Windows 10/11",
+      "icon": "🪟",
+      "summary": "Built-in DoH with a one-file PowerShell script.",
+      "steps": [
+        "Open PowerShell as Administrator.",
+        "Run the generated script (copy it or download windows-dns.ps1).",
+        "Settings → Network & internet → your adapter → DNS shows the new servers.",
+        "Verify with: Resolve-DnsName example.com"
+      ],
+      "file": "windows-dns.ps1",
+      "language": "powershell"
+    },
+    {
+      "id": "macos",
+      "name": "macOS",
+      "icon": "🍏",
+      "summary": "System DNS with a small shell script; DoH through a profile.",
+      "steps": [
+        "Run the generated script in Terminal (it asks for sudo).",
+        "Or use System Settings → Network → Details… → DNS.",
+        "For encrypted DNS, install a DoH profile with {{DOH_URL}}."
+      ],
+      "file": "macos-dns.sh",
+      "language": "bash"
+    },
+    {
+      "id": "linux",
+      "name": "Linux",
+      "icon": "🐧",
+      "summary": "systemd-resolved with DNS-over-TLS for the whole machine.",
+      "steps": [
+        "Copy the generated file to /etc/systemd/resolved.conf.d/dns.conf.",
+        "Run: sudo systemctl restart systemd-resolved",
+        "Check: resolvectl status — look for “+DNSOverTLS”."
+      ],
+      "file": "systemd-resolved.conf",
+      "language": "ini"
+    },
+    {
+      "id": "router",
+      "name": "Router / whole home",
+      "icon": "📶",
+      "summary": "AdGuard Home, Pi-hole, dnsmasq or OpenWrt — one setting for every device.",
+      "steps": [
+        "Pick the stack you already run (AdGuard Home, Pi-hole, dnsmasq or stubby).",
+        "Paste the generated upstream list into that stack.",
+        "Point your DHCP DNS at the router and reconnect the devices.",
+        "Test from a phone on Wi-Fi — every device now uses the profile."
+      ],
+      "files": ["adguardhome-upstreams.txt", "pihole-upstreams.txt", "dnsmasq.conf", "stubby.yml"],
+      "language": "text"
+    },
+    {
+      "id": "browser",
+      "name": "Browser only",
+      "icon": "🌐",
+      "summary": "Chrome / Edge / Firefox secure DNS — no OS change.",
+      "steps": [
+        "Chrome / Edge / Brave: Settings → Privacy and security → Security → Use secure DNS → Custom.",
+        "Paste {{DOH_URL}}.",
+        "Firefox: Privacy & Security → DNS over HTTPS → Increased Protection → Custom."
+      ],
+      "file": null,
+      "language": "text"
+    }
+  ],
+  "configs": {
+    "windows-dns.ps1": [
+      "# {{PROFILE_NAME}} — Windows 10/11 DNS + DoH",
+      "# Run in an elevated PowerShell:",
+      "#   powershell -ExecutionPolicy Bypass -File windows-dns.ps1",
+      "$ErrorActionPreference = 'Stop'",
+      "$primary = '{{IPV4}}'",
+      "$secondary = '{{IPV4_ALT}}'",
+      "$doh = '{{DOH_URL}}'",
+      "",
+      "Write-Host \"Setting DNS to $primary / $secondary ...\"",
+      "Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | ForEach-Object {",
+      "    Set-DnsClientServerAddress -InterfaceIndex $_.ifIndex -ServerAddresses @($primary, $secondary)",
+      "}",
+      "",
+      "# DoH templates require Windows 11 22H2+ / Windows Server 2022.",
+      "try {",
+      "    Add-DnsClientDohServerAddress -ServerAddress $primary -DohTemplate $doh -AllowFallbackToUdp $false -AutoUpgrade $true -ErrorAction Stop",
+      "    Write-Host \"DoH enabled for $primary\"",
+      "} catch {",
+      "    Write-Host 'This Windows build has no DoH cmdlet; DNS is set but not encrypted.'",
+      "    Write-Host 'Use Windows 11 22H2+ or set DoH in the browser.'",
+      "}",
+      "",
+      "ipconfig /flushdns | Out-Null",
+      "Write-Host 'Done. Verify with: Resolve-DnsName example.com'"
+    ],
+    "macos-dns.sh": [
+      "#!/usr/bin/env bash",
+      "# {{PROFILE_NAME}} — macOS system DNS",
+      "set -euo pipefail",
+      "SERVICE=\"${1:-Wi-Fi}\"",
+      "PRIMARY='{{IPV4}}'",
+      "SECONDARY='{{IPV4_ALT}}'",
+      "sudo networksetup -setdnsservers \"$SERVICE\" \"$PRIMARY\" \"$SECONDARY\"",
+      "sudo dscacheutil -flushcache",
+      "echo \"DNS set on $SERVICE: $PRIMARY $SECONDARY\"",
+      "echo 'macOS has no native DoH. Install a DoH profile with: {{DOH_URL}}'"
+    ],
+    "systemd-resolved.conf": [
+      "# {{PROFILE_NAME}} — /etc/systemd/resolved.conf.d/dns.conf",
+      "[Resolve]",
+      "DNS={{IPV4}}#{{DOT_HOST}} {{IPV4_ALT}}#{{DOT_HOST}}",
+      "DNSOverTLS=yes",
+      "DNSSEC=allow-downgrade",
+      "Cache=yes"
+    ],
+    "stubby.yml": [
+      "# {{PROFILE_NAME}} — /etc/stubby/stubby.yml",
+      "resolution_type: GETDNS_RESOLUTION_STUB",
+      "dns_transport_list:",
+      "  - GETDNS_TRANSPORT_TLS",
+      "tls_authentication: GETDNS_AUTHENTICATION_REQUIRED",
+      "tls_query_padding_blocksize: 128",
+      "edns_client_subnet_private: 1",
+      "idle_timeout: 10000",
+      "round_robin_upstreams: 1",
+      "listen_addresses:",
+      "  - 127.0.0.1",
+      "  - 0::1",
+      "upstream_recursive_servers:",
+      "  - address_data: {{IPV4}}",
+      "    tls_auth_name: \"{{DOT_HOST}}\"",
+      "  - address_data: {{IPV4_ALT}}",
+      "    tls_auth_name: \"{{DOT_HOST}}\""
+    ],
+    "dnsmasq.conf": [
+      "# {{PROFILE_NAME}} — dnsmasq / OpenWrt",
+      "# dnsmasq cannot speak DoT. Forward to stubby on 127.0.0.1:5053:",
+      "no-resolv",
+      "server=127.0.0.1#5053",
+      "# Plain-DNS fallback (no encryption) if stubby is not available:",
+      "# server={{IPV4}}",
+      "# server={{IPV4_ALT}}"
+    ],
+    "adguardhome-upstreams.txt": [
+      "# {{PROFILE_NAME}} — AdGuard Home → Settings → DNS settings → Upstream DNS servers",
+      "tls://{{DOT_HOST}}",
+      "{{DOH_URL}}",
+      "# Bootstrap DNS for the DoT/DoH hostname:",
+      "{{IPV4}}",
+      "{{IPV4_ALT}}"
+    ],
+    "pihole-upstreams.txt": [
+      "# {{PROFILE_NAME}} — Pi-hole → Settings → DNS → Upstream DNS servers (custom)",
+      "# Pi-hole speaks plain DNS. Put stubby (127.0.0.1:5053) or cloudflared in front for encryption.",
+      "127.0.0.1#5053",
+      "# Plain fallback:",
+      "{{IPV4}}",
+      "{{IPV4_ALT}}"
+    ],
+    "safesearch.conf": [
+      "# SafeSearch enforcement — Kids Guard / Kahf Guard / Family Safe",
+      "# AdGuard Home: Filters → DNS rewrites → add these CNAME records:",
+      "#   www.google.com  -> forcesafesearch.google.com",
+      "#   www.youtube.com -> restrict.youtube.com",
+      "#   www.bing.com    -> strict.bing.com",
+      "# dnsmasq 2.86+: add these lines to dnsmasq.conf",
+      "cname=www.google.com,forcesafesearch.google.com",
+      "cname=www.youtube.com,restrict.youtube.com",
+      "cname=www.bing.com,strict.bing.com",
+      "# Pi-hole: Local DNS → CNAME Records (same mapping)"
+    ]
+  }
+}

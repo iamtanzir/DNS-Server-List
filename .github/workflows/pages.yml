@@ -30,10 +30,16 @@ jobs:
           # Auto-enable GitHub Pages (source: GitHub Actions) if not already enabled.
           enablement: true
 
+      - name: Stage site
+        # Upload only the built site, never the whole repo (.git, data, scripts).
+        run: |
+          mkdir -p _site
+          cp index.html _site/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment

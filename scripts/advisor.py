@@ -164,9 +164,11 @@ def setup_steps(device: str, entry: dict) -> list[str]:
             f"Use the DoH URL {doh}" if doh else "This endpoint has no DoH URL - pick another",
         ]
     if device == "windows":
+        preferred = ipv4[0]
+        alternate = ipv4[1] if len(ipv4) > 1 else None
         return [
             "Settings -> Network & internet -> DNS server assignment -> Edit",
-            f"Preferred {ipv4[0]}, Alternate {ipv4[1] if len(ipv4) > 1 else '1.0.0.1'}",
+            f"Preferred {preferred}" + (f", Alternate {alternate}" if alternate else " (leave Alternate empty)"),
             "Preferred DNS encryption: Encrypted only (DNS over HTTPS)",
             f"Paste {doh}" if doh else "No DoH URL - pick a DoT+DoH resolver",
         ]
@@ -177,9 +179,10 @@ def setup_steps(device: str, entry: dict) -> list[str]:
             f"Encrypted DNS: install a DoH profile with {doh}" if doh else "Use stubby for DoT",
         ]
     if device == "linux":
+        dns_value = " ".join(f"{ip}#{host}" for ip in ipv4[:2])
         return [
             "Create /etc/systemd/resolved.conf.d/dns.conf",
-            f"DNS={ipv4[0]}#{host}",
+            f"DNS={dns_value}",
             "DNSOverTLS=yes",
             "sudo systemctl restart systemd-resolved && resolvectl status",
         ]

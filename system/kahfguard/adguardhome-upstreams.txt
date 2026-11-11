@@ -1,0 +1,6 @@
+# Kahf Guard — AdGuard Home → Settings → DNS settings → Upstream DNS servers
+tls://medium.kahfguard.com
+https://medium.kahfguard.com/dns-query
+# Bootstrap DNS for the DoT/DoH hostname:
+142.132.207.231
+157.90.95.113

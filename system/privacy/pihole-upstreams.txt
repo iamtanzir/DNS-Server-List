@@ -1,0 +1,6 @@
+# Privacy (no-log) — Pi-hole → Settings → DNS → Upstream DNS servers (custom)
+# Pi-hole speaks plain DNS. Put stubby (127.0.0.1:5053) or cloudflared in front for encryption.
+127.0.0.1#5053
+# Plain fallback:
+9.9.9.9
+149.112.112.112

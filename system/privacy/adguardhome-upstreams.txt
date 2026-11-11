@@ -1,0 +1,6 @@
+# Privacy (no-log) — AdGuard Home → Settings → DNS settings → Upstream DNS servers
+tls://dns.quad9.net
+https://dns.quad9.net/dns-query
+# Bootstrap DNS for the DoT/DoH hostname:
+9.9.9.9
+149.112.112.112

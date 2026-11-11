@@ -72,6 +72,16 @@
       ]
     },
     {
+      "id": "kahfguard",
+      "name": "Kahf Guard (KahfDNS)",
+      "website": "https://kahfguard.com/",
+      "privacy": "minimal-log",
+      "notes": "Family/halal filter: ads, trackers, malware, adult and gambling blocked, SafeSearch enforced. Query logs auto-delete within 48h. No account needed.",
+      "hosts": [
+        { "host": "medium.kahfguard.com", "label": "Medium — family filter (ads, malware, adult, gambling)", "protocol": "dot+doh", "filters": ["ads", "malware", "adult"], "region": "global", "doh": "https://medium.kahfguard.com/dns-query", "ipv4": ["142.132.207.231", "157.90.95.113"], "notes": "SafeSearch enforced (www.google.com → forcesafesearch). DoQ and DoH3 also available. Router users can request regional IPs by email." }
+      ]
+    },
+    {
       "id": "controld",
       "name": "ControlD (Free DNS)",
       "website": "https://controld.com",

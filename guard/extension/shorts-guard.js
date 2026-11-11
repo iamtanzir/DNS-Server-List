@@ -8,11 +8,16 @@
 // @homepageURL  https://github.com/iamtanzir/DNS-Server-List
 // @supportURL   https://github.com/iamtanzir/DNS-Server-List/issues
 // @match        https://www.youtube.com/*
+// @match        https://youtube.com/*
 // @match        https://m.youtube.com/*
 // @match        https://www.facebook.com/*
+// @match        https://facebook.com/*
 // @match        https://web.facebook.com/*
 // @match        https://m.facebook.com/*
+// @match        https://www.fb.com/*
+// @match        https://fb.com/*
 // @match        https://www.instagram.com/*
+// @match        https://instagram.com/*
 // @run-at       document-start
 // @grant        GM_registerMenuCommand
 // ==/UserScript==
@@ -43,7 +48,7 @@
   const host = location.hostname;
   const site = /(^|\.)youtube\.com$/.test(host)
     ? "youtube"
-    : /(^|\.)facebook\.com$/.test(host)
+    : /(^|\.)(facebook|fb)\.com$/.test(host)
       ? "facebook"
       : /(^|\.)instagram\.com$/.test(host)
         ? "instagram"

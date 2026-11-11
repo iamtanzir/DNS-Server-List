@@ -23,6 +23,7 @@ jobs:
 
       - name: Rebuild generated artifacts
         run: |
+          python scripts/build_system.py
           python scripts/build_guard.py
           python scripts/export_hosts.py
           python scripts/export_hosts.py --doh
@@ -31,19 +32,20 @@ jobs:
       - name: Check generated artifacts are committed
         run: |
           git diff --exit-code -- \
+            system/ \
             blocklists/ \
             guard/extension/shorts-guard.js \
             hostnames.txt \
             hostnames-doh.txt \
             index.html || {
-            echo "::error::Generated files are out of date. Run 'python scripts/build_guard.py && python scripts/export_hosts.py && python scripts/export_hosts.py --doh && python scripts/build_site.py' and commit."
+            echo "::error::Generated files are out of date. Run 'python scripts/build_system.py && python scripts/build_guard.py && python scripts/export_hosts.py && python scripts/export_hosts.py --doh && python scripts/build_site.py' and commit."
             exit 1
           }
 
       - name: Check for untracked generated files
         run: |
-          git status --porcelain -- blocklists/ guard/ hostnames.txt hostnames-doh.txt index.html
-          test -z "$(git status --porcelain -- blocklists/ guard/ hostnames.txt hostnames-doh.txt index.html)" || {
+          git status --porcelain -- system/ blocklists/ guard/ hostnames.txt hostnames-doh.txt index.html
+          test -z "$(git status --porcelain -- system/ blocklists/ guard/ hostnames.txt hostnames-doh.txt index.html)" || {
             echo "::error::Generated files exist but are not tracked. Commit them."
             exit 1
           }

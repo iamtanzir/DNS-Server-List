@@ -1,0 +1,6 @@
+# Kids Guard — AdGuard Home → Settings → DNS settings → Upstream DNS servers
+tls://dns-family.adguard.com
+https://dns-family.adguard.com/dns-query
+# Bootstrap DNS for the DoT/DoH hostname:
+94.140.14.15
+94.140.15.16

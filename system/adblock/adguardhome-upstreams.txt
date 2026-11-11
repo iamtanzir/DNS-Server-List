@@ -1,0 +1,6 @@
+# Ad Block — AdGuard Home → Settings → DNS settings → Upstream DNS servers
+tls://dns.adguard-dns.com
+https://dns.adguard-dns.com/dns-query
+# Bootstrap DNS for the DoT/DoH hostname:
+94.140.14.14
+94.140.15.15

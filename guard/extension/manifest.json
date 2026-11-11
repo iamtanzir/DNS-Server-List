@@ -6,21 +6,31 @@
   "permissions": ["storage"],
   "host_permissions": [
     "https://www.youtube.com/*",
+    "https://youtube.com/*",
     "https://m.youtube.com/*",
     "https://www.facebook.com/*",
+    "https://facebook.com/*",
     "https://web.facebook.com/*",
     "https://m.facebook.com/*",
-    "https://www.instagram.com/*"
+    "https://www.fb.com/*",
+    "https://fb.com/*",
+    "https://www.instagram.com/*",
+    "https://instagram.com/*"
   ],
   "content_scripts": [
     {
       "matches": [
         "https://www.youtube.com/*",
+        "https://youtube.com/*",
         "https://m.youtube.com/*",
         "https://www.facebook.com/*",
+        "https://facebook.com/*",
         "https://web.facebook.com/*",
         "https://m.facebook.com/*",
-        "https://www.instagram.com/*"
+        "https://www.fb.com/*",
+        "https://fb.com/*",
+        "https://www.instagram.com/*",
+        "https://instagram.com/*"
       ],
       "js": ["shorts-guard.js"],
       "run_at": "document_start",

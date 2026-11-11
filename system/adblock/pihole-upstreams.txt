@@ -1,0 +1,6 @@
+# Ad Block — Pi-hole → Settings → DNS → Upstream DNS servers (custom)
+# Pi-hole speaks plain DNS. Put stubby (127.0.0.1:5053) or cloudflared in front for encryption.
+127.0.0.1#5053
+# Plain fallback:
+94.140.14.14
+94.140.15.15
