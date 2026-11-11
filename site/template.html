@@ -26,12 +26,15 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;transition:background .25s,color .25s}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;transition:background .25s,color .25s;display:flex;flex-direction:column;min-height:100vh}
 a{color:var(--accent);text-decoration:none}
 a:hover{text-decoration:underline}
 code,kbd,pre{font-family:var(--mono)}
 .container{max-width:1120px;margin:0 auto;padding:0 20px}
 .bn{color:var(--text-dim);font-size:.86rem;border-left:3px solid var(--border);padding-left:10px;margin-top:8px}
+:root{color-scheme:dark}
+[data-theme="light"]{color-scheme:light}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 
 /* header + tabs */
 header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,var(--bg-soft),transparent)}
@@ -51,7 +54,7 @@ header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,v
 .tab[aria-selected="true"]{color:var(--text);background:var(--chip);border-color:var(--border)}
 
 /* hero */
-.hero{text-align:center;padding:44px 0 26px}
+.hero{text-align:center;padding:36px 0 22px}
 .hero h1{font-size:clamp(1.8rem,4.5vw,2.9rem);letter-spacing:-.03em;line-height:1.15;background:linear-gradient(120deg,#58a6ff 0%,#3fb950 55%,#d2a8ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{color:var(--text-dim);max-width:720px;margin:16px auto 0;font-size:1.01rem}
 .stats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
@@ -76,7 +79,7 @@ header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,v
 .check input{accent-color:var(--accent)}
 
 /* cards */
-main{padding:26px 0 60px}
+main{padding:18px 0 46px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:border-color .2s,transform .2s;display:flex;flex-direction:column;gap:12px}
 .card:hover{border-color:var(--accent);transform:translateY(-2px)}
@@ -91,7 +94,7 @@ main{padding:26px 0 60px}
 .endpoint{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--bg-soft)}
 .endpoint + .endpoint{margin-top:8px}
 .ep-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.host{font-family:var(--mono);font-size:.84rem;word-break:break-all;color:var(--text)}
+.host{font-family:var(--mono);font-size:.84rem;overflow-wrap:anywhere;color:var(--text)}
 .copy-btn{flex-shrink:0;border:1px solid var(--border);background:transparent;color:var(--text-dim);border-radius:6px;min-width:30px;height:30px;padding:0 7px;cursor:pointer;font-size:.85rem;transition:all .15s}
 .copy-btn:hover{color:var(--accent-2);border-color:var(--accent-2)}
 .ep-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}
@@ -120,12 +123,14 @@ main{padding:26px 0 60px}
 [data-theme="light"] .health-live{background:#dafbe1;color:#1a7f37;border-color:#aceebb}
 [data-theme="light"] .health-partial{background:#fff1e5;color:#bc4c00;border-color:#ffd8b5}
 [data-theme="light"] .health-dead{background:#ffebe9;color:#cf222e;border-color:#ffb3ad}
-.empty{text-align:center;color:var(--text-dim);padding:60px 20px;display:none}
+.empty{text-align:center;color:var(--text-dim);padding:44px 20px;display:none}
 .empty.show{display:block}
 
 /* shared section blocks */
-.section{padding:8px 0 30px}
+.section{padding:16px 0 30px}
 .section h2{font-size:1.45rem;letter-spacing:-.02em;margin-bottom:6px}
+.h-block{margin-top:26px}
+.mt{margin-top:18px}
 .section .lead{color:var(--text-dim);max-width:820px;margin-bottom:18px}
 .notice{border:1px solid var(--border);border-left:4px solid var(--warn);background:var(--bg-soft);border-radius:10px;padding:16px 18px;margin:14px 0}
 .notice h3{font-size:1rem;margin-bottom:6px;display:flex;gap:8px;align-items:center}
@@ -163,7 +168,7 @@ td.meh{color:var(--warn);font-weight:700}
 [data-theme="light"] .codebox{background:#f6f8fa}
 .codebox .code-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--border);background:var(--bg-soft)}
 .codebox .code-head span{font-size:.75rem;color:var(--text-dim);font-weight:700}
-.codebox pre{padding:14px;overflow:auto;max-height:360px;font-size:.76rem;line-height:1.5;color:var(--text);white-space:pre}
+.codebox pre{padding:12px;overflow:auto;max-height:320px;font-size:.76rem;line-height:1.5;color:var(--text);white-space:pre}
 .code-actions{display:flex;gap:6px;flex-wrap:wrap}
 
 .guides{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:8px}
@@ -179,7 +184,7 @@ td.meh{color:var(--warn);font-weight:700}
 .system-profile p{color:var(--text-dim);font-size:.88rem;margin-top:6px}
 .system-values{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:8px;margin-top:14px}
 .sys-value{display:flex;align-items:center;gap:8px;background:var(--bg-soft);border:1px solid var(--border);border-radius:8px;padding:7px 10px;min-width:0}
-.sys-value span{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap;flex:0 0 140px}
+.sys-value span{font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim);white-space:nowrap;flex:0 0 132px}
 .sys-value code{font-family:var(--mono);font-size:.75rem;overflow-wrap:anywhere;flex:1;min-width:0}
 .system-steps{margin:12px 0 0;padding-left:18px;color:var(--text-dim);font-size:.88rem;display:flex;flex-direction:column;gap:6px}
 .system-steps code{background:var(--chip);border:1px solid var(--border);border-radius:4px;padding:1px 6px;font-size:.8rem;word-break:break-all}
@@ -220,9 +225,9 @@ details .body ol,details .body ul{padding-left:18px;display:flex;flex-direction:
 details .body pre{background:#0b0f14;border:1px solid var(--border);border-radius:8px;padding:12px;overflow:auto;font-size:.76rem;margin-top:8px;color:var(--text)}
 [data-theme="light"] details .body pre{background:#f6f8fa}
 
-footer{border-top:1px solid var(--border);padding:26px 0 40px;color:var(--text-dim);font-size:.83rem;text-align:center}
+footer{border-top:1px solid var(--border);padding:22px 0 32px;color:var(--text-dim);font-size:.83rem;text-align:center;margin-top:auto}
 footer p{margin:4px 0}
-#toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:var(--accent-2);color:#08130c;font-weight:700;padding:10px 22px;border-radius:10px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;font-size:.9rem;max-width:90vw;text-align:center}
+#toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);background:var(--accent-2);color:#08130c;font-weight:700;padding:10px 22px;border-radius:10px;opacity:0;pointer-events:none;transition:all .25s;z-index:99;font-size:.9rem;max-width:90vw;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 .hidden{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -231,6 +236,8 @@ footer p{margin:4px 0}
   .grid{grid-template-columns:1fr}
   .hero h1{font-size:1.7rem}
   .search kbd{display:none}
+  .sys-value{flex-wrap:wrap}
+  .sys-value span{flex:1 1 100%}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -304,12 +311,12 @@ footer p{margin:4px 0}
     <div class="notice bad">
       <h3>⚠️ Read this first: DNS cannot block a path</h3>
       <p id="limitEn"></p>
-      <p class="bn" id="limitBn"></p>
+      <p class="bn" lang="bn" id="limitBn"></p>
     </div>
 
     <div class="profile-grid" id="profiles"></div>
 
-    <h2 style="margin-top:30px">What actually happens to each app</h2>
+    <h2 class="h-block">What actually happens to each app</h2>
     <p class="lead">“DNS” = blockable with a resolver/blocklist. “Focus Mode” = the userscript / uBlock / extension.</p>
     <div class="table-wrap">
       <table>
@@ -318,7 +325,7 @@ footer p{margin:4px 0}
       </table>
     </div>
 
-    <h2 style="margin-top:30px">Copy-paste rules</h2>
+    <h2 class="h-block">Copy-paste rules</h2>
     <p class="lead">Same rules as the userscript, packaged for the blocker you already use. Cosmetic rules hide the Reels/Shorts surfaces; the DNS lists block whole apps only.</p>
     <div class="segmented" id="ruleTabs" role="group" aria-label="Rule format"></div>
     <div class="codebox">
@@ -332,13 +339,13 @@ footer p{margin:4px 0}
       <pre id="rulesPre"></pre>
     </div>
 
-    <h2 style="margin-top:30px">Install in 2 minutes</h2>
+    <h2 class="h-block">Install in 2 minutes</h2>
     <div class="guides" id="installGuides"></div>
 
-    <div class="notice good" style="margin-top:18px">
+    <div class="notice good mt">
       <h3>✅ Safety net</h3>
       <p>ShortsGuard never touches <code>messenger.com</code>, <code>facebook.com/messages</code>, <code>instagram.com/direct</code> or any media CDN (<code>fbcdn.net</code>, <code>cdninstagram.com</code>, <code>googlevideo.com</code>). Those are the three domains people accidentally block and then wonder why photos, stories and chat attachments are broken.</p>
-      <p class="bn">ShortsGuard কখনোই Messenger, চ্যাট, ছবি/ভিডিও CDN ব্লক করে না — তাই Facebook/Instagram/YouTube-এর সাধারণ ব্যবহার অক্ষত থাকে।</p>
+      <p class="bn" lang="bn">ShortsGuard কখনোই Messenger, চ্যাট, ছবি/ভিডিও CDN ব্লক করে না — তাই Facebook/Instagram/YouTube-এর সাধারণ ব্যবহার অক্ষত থাকে।</p>
     </div>
   </div>
 </section>
@@ -348,12 +355,12 @@ footer p{margin:4px 0}
   <div class="container section">
     <h2>🧰 Full DNS System — one profile, every device</h2>
     <p class="lead" id="systemIntro"></p>
-    <p class="bn" id="systemIntroBn"></p>
+    <p class="bn" lang="bn" id="systemIntroBn"></p>
 
     <div class="notice good">
       <h3>🧸 Kids Guard is the default</h3>
       <p>Kids Guard blocks ads, trackers, malware and adult content for every app, enforces SafeSearch where the resolver supports it, and hides Reels/Shorts in the browser. Facebook, Messenger, YouTube, Instagram, TikTok and WhatsApp keep working.</p>
-      <p class="bn">Kids Guard সব অ্যাপে অ্যাড, ট্র্যাকার, ম্যালওয়্যার ও অ্যাডাল্ট কনটেন্ট ব্লক করে, SafeSearch চালু রাখে এবং ব্রাউজারে Reels/Shorts লুকায়। Facebook, Messenger, YouTube, Instagram, TikTok ও WhatsApp আগের মতোই চলবে।</p>
+      <p class="bn" lang="bn">Kids Guard সব অ্যাপে অ্যাড, ট্র্যাকার, ম্যালওয়্যার ও অ্যাডাল্ট কনটেন্ট ব্লক করে, SafeSearch চালু রাখে এবং ব্রাউজারে Reels/Shorts লুকায়। Facebook, Messenger, YouTube, Instagram, TikTok ও WhatsApp আগের মতোই চলবে।</p>
     </div>
 
     <div class="system-controls">
@@ -368,7 +375,7 @@ footer p{margin:4px 0}
     <div class="notice" style="margin-top:22px">
       <h3>📥 Committed config files</h3>
       <p>Every profile is also generated into the repo under <code>system/&lt;profile&gt;/</code> — Windows PowerShell, macOS shell, systemd-resolved, Stubby, dnsmasq, AdGuard Home and Pi-hole. The download buttons above build the exact same file in your browser, so you can use the site offline.</p>
-      <p class="bn">প্রতিটি প্রোফাইলের রেডি config ফাইল <code>system/&lt;profile&gt;/</code> ফোল্ডারে আছে। উপরের Download বাটনও একই ফাইল তৈরি করে — ইন্টারনেট ছাড়াও কাজ করবে।</p>
+      <p class="bn" lang="bn">প্রতিটি প্রোফাইলের রেডি config ফাইল <code>system/&lt;profile&gt;/</code> ফোল্ডারে আছে। উপরের Download বাটনও একই ফাইল তৈরি করে — ইন্টারনেট ছাড়াও কাজ করবে।</p>
     </div>
 
     <div class="notice good" style="margin-top:14px">
@@ -379,7 +386,7 @@ python scripts/dnsctl.py test               # live latency (UDP/DoT/DoH)
 python scripts/dnsctl.py fastest --apply    # benchmark, then switch
 python scripts/dnsctl.py use kahfguard      # switch anytime
 python scripts/dnsctl.py reset              # back to DHCP</pre>
-      <p class="bn" style="margin-top:10px">একটা কমান্ডে live ping দেখে সবচেয়ে দ্রুত DNS বেছে নিয়ে Apply করা যায়। Android/iPhone/Router-এর জন্য <code>dnsctl.py mobile / export / router</code>। সবকিছু লোকাল — কোনো ক্লাউড বা অ্যাকাউন্ট লাগে না।</p>
+      <p class="bn" lang="bn" style="margin-top:10px">একটা কমান্ডে live ping দেখে সবচেয়ে দ্রুত DNS বেছে নিয়ে Apply করা যায়। Android/iPhone/Router-এর জন্য <code>dnsctl.py mobile / export / router</code>। সবকিছু লোকাল — কোনো ক্লাউড বা অ্যাকাউন্ট লাগে না।</p>
     </div>
   </div>
 </section>
@@ -389,9 +396,9 @@ python scripts/dnsctl.py reset              # back to DHCP</pre>
   <div class="container section">
     <h2>🤖 Smart Advisor</h2>
     <p class="lead">Answer seven questions and get a ranked resolver plus exact setup steps. The engine is a deterministic rules model that runs entirely in your browser — no account, no upload, no tracking. It also tells you when your goal is impossible at the DNS layer (Reels/Shorts) and hands you the working alternative.</p>
-    <p class="bn">সাতটি প্রশ্নের উত্তর দিন — আপনার ডিভাইস ও চাহিদা অনুযায়ী সেরা DNS এবং সেটআপ ধাপ দেখাবে। সবকিছু ব্রাউজারেই চলে, কোনো ডেটা কোথাও যায় না।</p>
+    <p class="bn" lang="bn">সাতটি প্রশ্নের উত্তর দিন — আপনার ডিভাইস ও চাহিদা অনুযায়ী সেরা DNS এবং সেটআপ ধাপ দেখাবে। সবকিছু ব্রাউজারেই চলে, কোনো ডেটা কোথাও যায় না।</p>
 
-    <div class="advisor" style="margin-top:18px">
+    <div class="advisor mt">
       <form class="panel" id="advisorForm">
         <div class="field">
           <label for="advDevice">Where will you use it?</label>
@@ -597,8 +604,25 @@ DNSSEC=allow-downgrade</pre>
 <script id="health-data" type="application/json">__HEALTH_DATA__</script>
 <script>
 "use strict";
-const DATA = JSON.parse(document.getElementById("dns-data").textContent);
-const GUARD = JSON.parse(document.getElementById("guard-data").textContent);
+function fatalBanner(message) {
+  const div = document.createElement("div");
+  div.innerHTML = '<div class="notice bad" style="margin:18px auto;max-width:760px"><h3>⚠️ Failed to load data</h3><p></p></div>';
+  div.querySelector("p").textContent = message;
+  document.body.prepend(div);
+}
+let DATA, GUARD;
+try {
+  DATA = JSON.parse(document.getElementById("dns-data").textContent);
+} catch (err) {
+  fatalBanner("Resolver data could not be parsed (data/dns-servers.json). " + err);
+  throw err;
+}
+try {
+  GUARD = JSON.parse(document.getElementById("guard-data").textContent);
+} catch (err) {
+  fatalBanner("ShortsGuard data could not be parsed (data/guard-profiles.json). " + err);
+  throw err;
+}
 let HEALTH = {};
 try { HEALTH = JSON.parse(document.getElementById("health-data").textContent) || {}; } catch { HEALTH = {}; }
 
@@ -608,12 +632,17 @@ const healthFor = host => (HEALTH.results && HEALTH.results[host]) || null;
 
 /* ---------------------------------------------------------------- theme */
 const rootEl = document.documentElement;
-const savedTheme = localStorage.getItem("theme");
+// localStorage can throw (file:// in some browsers, blocked cookies, private mode)
+const themeStore = {
+  get() { try { return localStorage.getItem("theme"); } catch { return null; } },
+  set(v) { try { localStorage.setItem("theme", v); } catch { /* ignore */ } }
+};
+const savedTheme = themeStore.get();
 if (savedTheme) rootEl.dataset.theme = savedTheme;
 else if (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches) rootEl.dataset.theme = "light";
 document.getElementById("themeToggle").addEventListener("click", () => {
   rootEl.dataset.theme = rootEl.dataset.theme === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", rootEl.dataset.theme);
+  themeStore.set(rootEl.dataset.theme);
 });
 
 /* ---------------------------------------------------------------- toast */
@@ -840,7 +869,7 @@ profilesEl.innerHTML = GUARD.profiles.map(p => `
   <article class="profile ${p.badge === "recommended" ? "recommended" : ""}">
     <h3>${escapeHtml(p.name)} <span class="badge ${p.badge === "recommended" ? "rec" : ""}">${escapeHtml(p.badge)}</span></h3>
     <p>${escapeHtml(p.tagline)}</p>
-    <p class="bn">${escapeHtml(p.tagline_bn || "")}</p>
+    <p class="bn" lang="bn">${escapeHtml(p.tagline_bn || "")}</p>
     <div class="tags">
       ${p.blocks.map(b => `<span class="tag tag-block">${escapeHtml(b)}</span>`).join("")}
       ${p.keeps.map(k => `<span class="tag tag-keep">keep: ${escapeHtml(k)}</span>`).join("")}
@@ -901,7 +930,16 @@ document.getElementById("installGuides").innerHTML = GUARD.install_guides.map(g 
   </article>`).join("");
 
 /* ---------------------------------------------------------------- dns system */
-const SYSTEM = JSON.parse(document.getElementById("system-data").textContent);
+let SYSTEM;
+try {
+  SYSTEM = JSON.parse(document.getElementById("system-data").textContent);
+} catch (err) {
+  SYSTEM = null;
+  fatalBanner("DNS System data could not be parsed (data/dns-system.json). " + err);
+}
+if (!SYSTEM) {
+  document.getElementById("sysOutput").innerHTML = '<div class="notice bad"><h3>⚠️ DNS System unavailable</h3><p><code>data/dns-system.json</code> failed to parse. Re-run <code>python scripts/build_site.py</code> with a valid JSON file.</p></div>';
+} else {
 document.getElementById("systemIntro").textContent = SYSTEM.intro.en;
 document.getElementById("systemIntroBn").textContent = SYSTEM.intro.bn;
 
@@ -986,7 +1024,7 @@ function sysRender() {
       ${p.recommended ? `<span class="badge rec">recommended</span>` : ""}
     </h3>
     <p>${escapeHtml(p.summary)}</p>
-    <p class="bn">${escapeHtml(p.summary_bn || "")}</p>
+    <p class="bn" lang="bn">${escapeHtml(p.summary_bn || "")}</p>
     <div class="tags" style="margin-top:10px">${tags}</div>
     <div class="system-values">${values}</div>
     <h4 style="margin-top:18px;font-size:.92rem">${platform.icon || ""} ${escapeHtml(platform.name)} — ${escapeHtml(platform.summary)}</h4>
@@ -1010,6 +1048,7 @@ sysPlatformsEl.addEventListener("click", e => {
 });
 
 document.addEventListener("click", async e => {
+  if (!SYSTEM) return;
   const copyBtn = e.target.closest("[data-copy-config]");
   if (copyBtn) {
     const p = SYSTEM.profiles.find(x => x.id === sysProfile) || SYSTEM.profiles[0];
@@ -1034,6 +1073,7 @@ document.addEventListener("click", async e => {
   }
 });
 sysRender();
+}
 
 /* ---------------------------------------------------------------- advisor */
 const REGION_LABEL = {
@@ -1211,7 +1251,7 @@ function runAdvisor(ev) {
     out.push(`<div class="notice good">
       <h3>✅ Reels &amp; Shorts: use ShortsGuard, not DNS</h3>
       <p>Your DNS choice below handles ads / malware / adult content. The Reels/Shorts part is handled by the page-level guard: install the userscript or the uBlock rules from the <b>ShortsGuard</b> tab. Facebook, Messenger, Instagram, YouTube and TikTok keep working.</p>
-      <p class="bn">Reels/Shorts DNS দিয়ে ব্লক করা যায় না — ShortsGuard ট্যাব থেকে userscript বা uBlock rules ইনস্টল করুন।</p>
+      <p class="bn" lang="bn">Reels/Shorts DNS দিয়ে ব্লক করা যায় না — ShortsGuard ট্যাব থেকে userscript বা uBlock rules ইনস্টল করুন।</p>
     </div>`);
   }
   if (state.social && state.keep.length) {
