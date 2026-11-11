@@ -24,6 +24,7 @@
 - [The full list (67 endpoints / 38 providers)](#-the-full-list)
 - [ShortsGuard — Reels & Shorts blocked, apps kept](#-shortsguard--reels--shorts-blocked-apps-kept)
 - [Full DNS System — one profile, every device](#-full-dns-system--one-profile-every-device)
+- [dnsctl — switch DNS on any device, with live ping & latency](#️-dnsctl--switch-dns-on-any-device-with-live-ping--latency)
 - [Smart Advisor](#-smart-advisor)
 - [Live health checks](#-live-health-checks)
 - [DoT vs DoH — which one do I need?](#-dot-vs-doh--which-one-do-i-need)
@@ -295,6 +296,51 @@ Kahf Guard also advertises DoQ (`quic://medium.kahfguard.com:853`) and DoH3 (`h3
 
 ---
 
+## 🎛️ dnsctl — switch DNS on any device, with live ping & latency
+
+[`scripts/dnsctl.py`](scripts/dnsctl.py) is the “give me the system” switch: a single cross-platform tool that (1) measures **live** latency of every protection profile, and (2) applies it to this PC / Mac / Linux box. Phone and router covered too. Switch as often as you like — no installer, no account.
+
+```bash
+python scripts/dnsctl.py status              # what is my DNS right now?
+python scripts/dnsctl.py test                # live UDP/DoT/DoH latency table
+python scripts/dnsctl.py fastest             # which profile answers fastest right now
+python scripts/dnsctl.py fastest --apply     # benchmark, then switch to the winner
+python scripts/dnsctl.py use kahfguard       # apply Kahf Guard now
+python scripts/dnsctl.py use family          # …or any other profile
+python scripts/dnsctl.py use dns.google      # …or any single endpoint from the list
+python scripts/dnsctl.py use --ips 1.1.1.1,1.0.0.1   # …or your own IPs
+python scripts/dnsctl.py watch               # continuous live latency (Ctrl+C stops)
+python scripts/dnsctl.py reset               # back to DHCP / automatic
+```
+
+Live output (example, your network will differ):
+
+```text
+Live benchmark of 5 profile(s)  (UDP/53, DoT, DoH)
+👨‍👩‍👧 Family Safe      udp=[43, 43]  avg=   43.0 ms  ███████████████████  dot= 700.0 ms (ok) doh= 198.0 ms (ok)
+🕵️ Privacy (no-log) udp=[83, 89]  avg=   85.7 ms  ███████████████      dot= 673.0 ms (ok) doh= 177.0 ms (http2)
+🕌 Kahf Guard       udp=[224, 231] avg=  227.6 ms  ██                   dot=1726.0 ms (cert) doh= 714.0 ms (http2)
+🎯 Ad Block         udp=[321, 306] avg=  313.8 ms                     dot=1653.0 ms (ok) doh= 516.0 ms (ok)
+🧸 Kids Guard       udp=[333, 334] avg=  333.5 ms                     dot=1773.0 ms (ok) doh= 392.0 ms (ok)
+```
+
+| Platform | What `use` does | Needs |
+|---|---|---|
+| Windows 10/11 | Sets DNS on every Up adapter + DoH template via `Add-DnsClientDohServerAddress` (22H2+) | Administrator (auto UAC re-launch) |
+| macOS | `networksetup -setdnsservers` on Wi-Fi / first enabled service | sudo |
+| Linux (systemd-resolved) | writes `/etc/systemd/resolved.conf.d/dnsctl.conf` (+ backup), restarts | root/sudo |
+| Android | `dnsctl.py mobile <profile>` prints the Private DNS hostname + steps (Android OS switches it, no app can) | one-time manual step |
+| iPhone / iPad | `dnsctl.py export mobileconfig <profile>` writes an installable `.mobileconfig` (encrypted DoH) | one-time install |
+| Router | `dnsctl.py router <profile>` prints AdGuard Home / Pi-hole / dnsmasq / OpenWrt upstreams (or use `system/<profile>/`) | router admin |
+
+Everything is local: no cloud, no account, no telemetry. `--dry-run` shows exactly what would change without touching anything. Undo anytime with `reset`.
+
+### dnsctl বাংলা সারাংশ
+
+একটা কমান্ডে সব ডিভাইসে DNS বদলানো: `python scripts/dnsctl.py fastest --apply` — কোন DNS এখনো সবচেয়ে কম ping, তা live মাপবে এবং দ্রুততমটা ইন্সটল করে দেবে। `use kahfguard` / `use family` দিয়ে যেকোনো সময় যেকোনোটায় switch করা যায়। PC/Laptop (Windows/macOS/Linux) সরাসরি বদলায়; Android-এ `mobile` কমান্ড Private DNS hostname দেয় (Android-এ এটা manual step); iPhone-এ `export mobileconfig` ফাইল install করতে হয়; Router-এ `router` কমান্ড AdGuard Home/Pi-hole সেটিং দেয়। `reset` দিয়ে সব আগের মতো ফিরে যায়। সব কমান্ডে `--dry-run` দিলে কিছু বদলায় না, শুধু দেখানো হয়।
+
+---
+
 ## 🤖 Smart Advisor
 
 The **Smart Advisor** tab answers seven questions and ranks the best resolver for your device, region and blocking goals, with exact setup steps. It is a **deterministic, offline, explainable rules model** — not a cloud LLM, not an upload, not tracking. Every score is computed from the data in this repo.
@@ -420,6 +466,7 @@ python scripts/export_hosts.py
 python scripts/export_hosts.py --doh
 python scripts/build_site.py
 python scripts/validate.py --strict
+python -m compileall -q scripts             # syntax check for the CLI tools too
 ```
 
 ---
@@ -461,6 +508,7 @@ python scripts/validate.py --strict
 │   ├── build_system.py           # dns-system.json → system/<profile>/ configs
 │   ├── export_hosts.py           # JSON → hostnames.txt / hostnames-doh.txt
 │   ├── build_site.py             # template + JSON → index.html
+│   ├── dnsctl.py                 # Cross-platform DNS switch + live latency monitor
 │   └── advisor.py                # CLI Smart Advisor
 ├── .github/workflows/
 │   ├── validate.yml              # CI: validate + rebuild + diff
@@ -591,7 +639,26 @@ A: It is for humans. Paste **one hostname**, not lines starting with `#`.
 
 Facebook, Messenger, YouTube, Instagram, TikTok ও WhatsApp — সবই চালু থাকবে। Reels/Shorts আলাদা করে ShortsGuard দিয়ে বন্ধ করুন।
 
-### ৪. Smart Advisor
+### ৪. dnsctl — PC/Laptop-এ এক কমান্ডে DNS switch + live ping
+
+রিপোর `scripts/dnsctl.py` দিয়ে PC/Laptop-এ যেকোনো সময় যেকোনো DNS-এ switch করা যায়, সাথে **live latency (ping)** দেখা যায়:
+
+```bash
+python scripts/dnsctl.py status        # এখন DNS কী আছে
+python scripts/dnsctl.py test          # সব প্রোফাইলের live ping (UDP/DoT/DoH)
+python scripts/dnsctl.py fastest       # কে সবচেয়ে দ্রুত — live measure করে
+python scripts/dnsctl.py fastest --apply   # দ্রুততমটা Apply করে দেয়
+python scripts/dnsctl.py use kahfguard # যেকোনো সময় যেকোনোটায় switch
+python scripts/dnsctl.py reset         # আগের মতো (DHCP) ফেরত
+```
+
+- Windows/Mac/Linux — সব একই কমান্ডে কাজ করে (Windows-এ Administrator/UAC চায়; Mac/Linux-এ sudo)।
+- Android-এ: `python scripts/dnsctl.py mobile kahfguard` → Private DNS hostname দেয়, Settings → Network & internet → Private DNS-এ বসিয়ে Save।
+- iPhone/iPad-এ: `python scripts/dnsctl.py export mobileconfig kahfguard` → `.mobileconfig` install করুন।
+- Router-এ: `python scripts/dnsctl.py router kahfguard` → AdGuard Home/Pi-hole/dnsmasq সেটিং।
+- `--dry-run` দিলে কিছু বদলায় না, শুধু দেখানো হয়। `reset`-এ সব undo।
+
+### ৫. Smart Advisor
 
 ওয়েবসাইটের **Smart Advisor** ট্যাবে আপনার ডিভাইস, অঞ্চল ও প্রয়োজন বলুন — এটি সেরা DNS এবং সেটআপ ধাপ দেখাবে। সবকিছু ব্রাউজারেই চলে; কোনো ডেটা কোথাও যায় না। চাইলে CLI-ও ব্যবহার করতে পারেন:
 
@@ -599,7 +666,7 @@ Facebook, Messenger, YouTube, Instagram, TikTok ও WhatsApp — সবই চ�
 python scripts/advisor.py --device android --region bangladesh --block malware --keep facebook,messenger,youtube,instagram,tiktok
 ```
 
-### ৫. বাংলাদেশের জন্য নোট
+### ৬. বাংলাদেশের জন্য নোট
 
 এই লিস্টে বাংলাদেশ-হোস্টেড কোনো পাবলিক এনক্রিপ্টেড রিজলভার নেই। সিঙ্গাপুর, ভারত ও গ্লোবাল anycast endpointগুলো বাংলাদেশ থেকে সবচেয়ে কম লেটেন্সি দেয় — দু-তিনটি টেস্ট করে দ্রুততমটি রাখুন।
 

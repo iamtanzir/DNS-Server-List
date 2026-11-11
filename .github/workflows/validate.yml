@@ -21,6 +21,9 @@ jobs:
       - name: Validate data files
         run: python scripts/validate.py --strict
 
+      - name: Compile-check Python tools
+        run: python -m compileall -q scripts
+
       - name: Rebuild generated artifacts
         run: |
           python scripts/build_system.py

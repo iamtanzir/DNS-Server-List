@@ -370,6 +370,17 @@ footer p{margin:4px 0}
       <p>Every profile is also generated into the repo under <code>system/&lt;profile&gt;/</code> — Windows PowerShell, macOS shell, systemd-resolved, Stubby, dnsmasq, AdGuard Home and Pi-hole. The download buttons above build the exact same file in your browser, so you can use the site offline.</p>
       <p class="bn">প্রতিটি প্রোফাইলের রেডি config ফাইল <code>system/&lt;profile&gt;/</code> ফোল্ডারে আছে। উপরের Download বাটনও একই ফাইল তৈরি করে — ইন্টারনেট ছাড়াও কাজ করবে।</p>
     </div>
+
+    <div class="notice good" style="margin-top:14px">
+      <h3>⚡️ Live switch &amp; ping — <code>scripts/dnsctl.py</code></h3>
+      <p>One command to see which profile answers fastest <b>right now</b>, and to apply it to this PC / Mac / Linux box. Phones and routers are covered too.</p>
+      <pre style="margin:10px 0 0;background:var(--code-bg,#0b0f14);border:1px solid var(--border);border-radius:8px;padding:12px;overflow:auto;font-size:.78rem;line-height:1.55">python scripts/dnsctl.py status            # current DNS
+python scripts/dnsctl.py test               # live latency (UDP/DoT/DoH)
+python scripts/dnsctl.py fastest --apply    # benchmark, then switch
+python scripts/dnsctl.py use kahfguard      # switch anytime
+python scripts/dnsctl.py reset              # back to DHCP</pre>
+      <p class="bn" style="margin-top:10px">একটা কমান্ডে live ping দেখে সবচেয়ে দ্রুত DNS বেছে নিয়ে Apply করা যায়। Android/iPhone/Router-এর জন্য <code>dnsctl.py mobile / export / router</code>। সবকিছু লোকাল — কোনো ক্লাউড বা অ্যাকাউন্ট লাগে না।</p>
+    </div>
   </div>
 </section>
 
